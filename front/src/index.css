@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.mycard {
+    width: 270px;
+    height: 500px;
+    padding: 0px;
+    border-radius: 10px;
+   overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    transition: transform 0.3s ease-in-out; 
+     @apply bg-lightblue dark:!bg-slate-500;
+  }
+  
+.usersCard{
+    width: 270px;
+    height: 450px;
+    padding: 0px;
+    border-radius: 10px;
+   overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    transition: transform 0.3s ease-in-out; 
+    padding-bottom:10px;
+    @apply bg-lightblue dark:!bg-slate-500;
+  }
+
+  .mycard:hover, .usersCard:hover {
+    transform: translateY(-5px); 
+  }
+  
+  .mycard img, .usersCard img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover; 
+  }
+  
+.usersCard img{background-color: white!important;}
+
+.mycard p, .usersCard p{
+  @apply font-normal text-gray-700 dark:text-slate-100 m-[4px] text-[15px];
+}
+
+.mycard h5{
+  @apply  text-gray-700 dark:text-slate-100 m-[4px] text-[17px] font-semibold;
+}
+
+.mycard h2, .usersCard h2{
+  @apply text-gray-700 dark:text-slate-100 ml-[4px] mt-[6px] text-xl font-bold;
+}
+
+.mycard div{
+ gap: 5px!important;
+ padding-right: 7px !important;
+ padding-left: 7px !important;
+ padding-bottom: 2px !important;
+ padding-top: 2px !important;
+background-color: lightgray;
+  overflow-y: auto;
+  overflow-x: hidden;      
+  word-wrap: break-word;  
+  white-space: normal;     
+  height:336px;
+  @apply bg-lightblue dark:bg-slate-500;
+}
+
+.usersCard div{
+ gap: 5px!important;
+ padding-right: 7px !important;
+ padding-left: 7px !important;
+ padding-bottom: 2px !important;
+ padding-top: 2px !important;
+ margin-bottom:0px!important;
+  overflow-y: auto;
+  height:336px;
+  @apply bg-lightblue dark:bg-slate-500;
+}
+
+#iconsdiv{height: 30px!important;
+overflow:hidden!important;
+gap:10px!important; 
+}
+ 
+
+  .myform{
+    @apply p-5 flex flex-col gap-4 justify-center align-middle shadow-lg rounded-xl bg-lightblue dark:bg-slate-300 w-[50%] xs:w-[88%]; 
+  }
+  
+.myform fieldset {@apply xs:flex-col;} 
+
+  .myform label{
+     background-color:lightblue!important;
+      @apply dark:!bg-slate-300;
+  }
+  
+.myform > h1{text-align:center}
+
+.myform input{@apply dark:text-black;}
+
+#textAreaDiv>textarea {@apply dark:!bg-slate-300 ;} 
+
+.myform p{@apply text-red-600 text-sm; } 
