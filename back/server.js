@@ -1,7 +1,6 @@
 const { errorhandler } = require("./utils/errorhandler");
 const express = require("express");
 const app = express();
-const path = require('path');
 const chalk = require("chalk");
 const router = require("./router/router");
 const cors = require("./middlewares/cors");
@@ -15,17 +14,7 @@ app.use(cors);
 app.use(logger);
 app.use(express.json());
 app.use(express.text());
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(router);
-
-app.use((req, res, next) => {
-    const filePath = path.join(__dirname, "public", "pageNotFound.html");
-    res.status(404).sendFile(filePath, (err) => {
-        if (err) {
-            next(err);
-        }
-    });
-});
 
 app.use((err, req, res, next) => {
     console.log("Error middleware triggered with error:", err);
