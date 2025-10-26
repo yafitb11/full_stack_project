@@ -3,7 +3,7 @@ const validateCategory = require("../validations/categoriesValidationService");
 const normalizeCategory = require("../helpers/normalizeCategory");
 const { handleJoiError } = require("../../utils/errorhandler");
 
-exports.getCategory = async () => {
+exports.getCategories = async () => {
     try {
         const categories = await find();
         return Promise.resolve(categories);

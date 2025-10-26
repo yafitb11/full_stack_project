@@ -146,5 +146,5 @@ const MyOrders = () => {
     );
 };
 
-export default MyCards;
+export default MyOrders;
 
