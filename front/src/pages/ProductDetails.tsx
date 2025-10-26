@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { TProduct } from "../types/cardType";
+import { TProduct } from "../types/types";
 import { Button, Card, Spinner } from "flowbite-react";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { toast } from "react-toastify";

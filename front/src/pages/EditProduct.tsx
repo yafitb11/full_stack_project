@@ -4,7 +4,7 @@ import { Button, Card, TextInput, Textarea, Label, Select } from "flowbite-react
 import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
 import axios from "axios";
-import { TProduct, TCategory } from "../types/cardType";
+import { TProduct, TCategory } from "../types/types";
 
 const EditProduct = () => {
     const { id } = useParams<{ id: string }>();

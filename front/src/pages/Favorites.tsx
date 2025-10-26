@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { TRootState } from "./../store/store";
-import { TProduct } from "../types/cardType";
+import { TProduct } from "../types/types";
 import useAuth from "../hooks/useAuth";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { toast } from "react-toastify";

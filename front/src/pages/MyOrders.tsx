@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Button, Card, Spinner, Badge } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { TOrder } from "../types/cardType";
+import { TOrder } from "../types/types";
 import useAuth from "../hooks/useAuth";
 import { toast } from "react-toastify";
 

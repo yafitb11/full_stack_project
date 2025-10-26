@@ -1,6 +1,5 @@
-// Export all types from a single file for easier imports
-export type { Tuser } from './userType';
-export type { TProduct, TCategory, TOrder, TCartItem } from './cardType';
+
+export type { TProduct, TCategory, TOrder, TCartItem, Tuser } from './types';
 export type { FormData } from './formData';
 
 // Additional types for the project

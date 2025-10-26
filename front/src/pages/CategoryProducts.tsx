@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { Card, Button } from "flowbite-react";
-import { TProduct, TCategory } from "../types/cardType";
+import { TProduct, TCategory } from "../types/types";
 import { FaShoppingCart } from "react-icons/fa";
 import axios from "axios";
 import useAuth from "../hooks/useAuth";

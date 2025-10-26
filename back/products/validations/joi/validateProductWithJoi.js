@@ -13,6 +13,7 @@ const validateProductWithJoi = (product) => {
                 .allow(""),
             alt: Joi.string().min(2).max(256).allow(""),
         }),
+        category: Joi.string(),
         quantityInStock: Joi.number().min(0).required(),
         price: Joi.number().min(1).required(),
         isDiscount: Joi.boolean(),

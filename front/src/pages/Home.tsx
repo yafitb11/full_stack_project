@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { TRootState } from "../store/store";
-import { TProduct } from "../types/cardType";
+import { TProduct } from "../types/types";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
@@ -46,8 +46,8 @@ const Home = () => {
         if (products) {
             return products.filter(
                 (product) =>
-                    product.name.toLowerCase().includes(search.toLowerCase()) ||
-                    product.description.toLowerCase().includes(search.toLowerCase()),
+                    product.title?.toLowerCase().includes(search.toLowerCase()) ||
+                    product.description?.toLowerCase().includes(search.toLowerCase()),
             );
         }
         return products;
@@ -140,7 +140,7 @@ const Home = () => {
                             </div>
                             <div className="p-4">
                                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                                    {product.name}
+                                    {product.title}
                                 </h3>
                                 <p className="text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
                                     {product.description}

@@ -4,7 +4,7 @@ import { Button, Card, TextInput, Textarea, Label, Select } from "flowbite-react
 import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
 import axios from "axios";
-import { TCategory } from "../types/cardType";
+import { TCategory } from "../types/types";
 
 const CreateProduct = () => {
     const [formData, setFormData] = useState({
