@@ -35,7 +35,7 @@ exports.create = async (normalizedCategory) => {
     if (DB === "MONGODB") {
         try {
             let category = new Category(normalizedCategory);
-            category = await Category.save();
+            category = await category.save();
             return Promise.resolve(category);
         } catch (error) {
             error.status = 400;
