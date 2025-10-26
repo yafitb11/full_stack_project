@@ -21,7 +21,7 @@ const useAuth = () => {
             axios.defaults.headers.common["x-auth-token"] = token;
             try {
                 const response = await axios.get(
-                    "http://localhost:3000/users/" +
+                    "http://localhost:8182/users/" +
                     parsedToken._id,
                 );
 
@@ -37,7 +37,7 @@ const useAuth = () => {
     const login = async (form: { email: string, password: string }) => {
         try {
             const token = await axios.post(
-                "http://localhost:3000/users/login",
+                "http://localhost:8182/users/login",
                 form,
             );
             localStorage.setItem("token", token.data);

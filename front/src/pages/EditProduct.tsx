@@ -26,12 +26,12 @@ const EditProduct = () => {
         const fetchData = async () => {
             try {
                 // Fetch categories
-                const categoriesResponse = await axios.get("http://localhost:3000/categories");
+                const categoriesResponse = await axios.get("http://localhost:8182/categories");
                 setCategories(categoriesResponse.data);
 
                 // Fetch product details
                 if (id) {
-                    const productResponse = await axios.get(`http://localhost:3000/products/${id}`);
+                    const productResponse = await axios.get(`http://localhost:8182/products/${id}`);
                     const product: TProduct = productResponse.data;
 
                     setFormData({
@@ -97,7 +97,7 @@ const EditProduct = () => {
                 }
             };
 
-            await axios.put(`http://localhost:3000/products/${id}`, productData);
+            await axios.put(`http://localhost:8182/products/${id}`, productData);
 
             toast.success("Product updated successfully!", { autoClose: 2000 });
             navigate(`/product/${id}`);

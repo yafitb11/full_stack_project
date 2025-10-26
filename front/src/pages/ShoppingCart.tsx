@@ -87,7 +87,7 @@ const ShoppingCart = () => {
             const token = localStorage.getItem("token");
             axios.defaults.headers.common["x-auth-token"] = token;
 
-            await axios.post("http://localhost:3000/orders", orderData);
+            await axios.post("http://localhost:8182/orders", orderData);
 
             // Clear cart after successful order
             updateCartInStorage([]);

@@ -52,7 +52,7 @@ const CreateCategory = () => {
                 }
             };
 
-            await axios.post("http://localhost:3000/categories", categoryData);
+            await axios.post("http://localhost:8182/categories", categoryData);
 
             toast.success("Category created successfully!", { autoClose: 2000 });
             navigate("/categories");

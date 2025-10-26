@@ -18,7 +18,7 @@ const ProductDetails = () => {
         const fetchProductDetails = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get(`http://localhost:3000/products/${id}`);
+                const response = await axios.get(`http://localhost:8182/products/${id}`);
                 setProduct(response.data);
             } catch (error) {
                 console.error("Error fetching product details:", error);
@@ -41,7 +41,7 @@ const ProductDetails = () => {
 
         try {
             axios.defaults.headers.common["x-auth-token"] = token;
-            await axios.patch(`http://localhost:3000/products/${id}`);
+            await axios.patch(`http://localhost:8182/products/${id}`);
 
             if (product) {
                 const isLiked = product.likes.includes(user._id);

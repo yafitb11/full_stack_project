@@ -27,7 +27,7 @@ const Favorites = () => {
         const fetchProducts = async () => {
             try {
                 setSpinner(true);
-                const response = await axios.get("http://localhost:3000/products");
+                const response = await axios.get("http://localhost:8182/products");
 
                 const likedProducts = response.data.filter((item: TProduct) => {
                     return item.likes.includes(user?._id);
@@ -59,7 +59,7 @@ const Favorites = () => {
         try {
             const token = localStorage.getItem("token");
             axios.defaults.headers.common["x-auth-token"] = token;
-            await axios.patch(`http://localhost:3000/products/${productId}`);
+            await axios.patch(`http://localhost:8182/products/${productId}`);
 
             const product = products.find((product) => product._id === productId);
             let productsArr = [...products];

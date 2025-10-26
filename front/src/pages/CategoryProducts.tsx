@@ -14,11 +14,11 @@ const CategoryProducts = () => {
         const fetchCategoryAndProducts = async () => {
             try {
                 // Fetch category details
-                const categoryResponse = await axios.get(`http://localhost:3000/categories/${categoryId}`);
+                const categoryResponse = await axios.get(`http://localhost:8182/categories/${categoryId}`);
                 setCategory(categoryResponse.data);
 
                 // Fetch all products and filter by category
-                const productsResponse = await axios.get("http://localhost:3000/products");
+                const productsResponse = await axios.get("http://localhost:8182/products");
                 const categoryProducts = productsResponse.data.filter(
                     (product: TProduct) => product.category === categoryResponse.data.name
                 );

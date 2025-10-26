@@ -24,7 +24,7 @@ const CreateProduct = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await axios.get("http://localhost:3000/categories");
+                const response = await axios.get("http://localhost:8182/categories");
                 setCategories(response.data);
 
                 // Check if category is provided in URL
@@ -85,7 +85,7 @@ const CreateProduct = () => {
                 }
             };
 
-            await axios.post("http://localhost:3000/products", productData);
+            await axios.post("http://localhost:8182/products", productData);
 
             toast.success("Product created successfully!", { autoClose: 2000 });
             navigate("/");

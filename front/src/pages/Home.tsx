@@ -28,7 +28,7 @@ const Home = () => {
         const fetchProducts = async () => {
             try {
                 setSpinner(true);
-                const response = await axios.get("http://localhost:3000/products");
+                const response = await axios.get("http://localhost:8182/products");
                 setProducts(response.data);
             } catch (error) {
                 console.error("Error fetching products:", error);
@@ -59,7 +59,7 @@ const Home = () => {
 
         try {
             axios.defaults.headers.common["x-auth-token"] = token;
-            await axios.patch(`http://localhost:3000/products/${productId}`);
+            await axios.patch(`http://localhost:8182/products/${productId}`);
 
             const product = products.find((product) => product._id === productId);
 

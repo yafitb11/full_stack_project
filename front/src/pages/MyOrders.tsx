@@ -21,7 +21,7 @@ const MyOrders = () => {
                 const token = localStorage.getItem("token");
                 axios.defaults.headers.common["x-auth-token"] = token;
 
-                const response = await axios.get("http://localhost:3000/orders/my-orders");
+                const response = await axios.get("http://localhost:8182/orders/my-orders");
                 setOrders(response.data);
             } catch (error) {
                 console.error("Error fetching orders:", error);
