@@ -21,6 +21,7 @@ import Contact from "./pages/Contact";
 import CreateProduct from "./pages/CreateProduct";
 import CreateCategory from "./pages/CreateCategory";
 import EditProduct from "./pages/EditProduct";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 function App() {
   return (
@@ -28,7 +29,10 @@ function App() {
       <Header></Header>
 
       <Routes>
-        <Route path="/" element={<Home />}></Route>
+        <Route path="/" element={<ErrorBoundary>
+          <Home />
+        </ErrorBoundary>} ></Route>
+
         <Route path="/home" element={<Home />}></Route>
 
         <Route path="/about" element={<About />}></Route>
