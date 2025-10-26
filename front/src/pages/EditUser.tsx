@@ -3,192 +3,329 @@ import { Button, FloatingLabel } from "flowbite-react";
 import { useForm } from "react-hook-form";
 import { editUserSchema } from "../validations/editUser.joi";
 import axios from "axios";
+import { FormData, Tuser } from "../types";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Tuser } from "../types/userType";
 import useAuth from "../hooks/useAuth";
+import { jwtDecode } from "jwt-decode";
+import { useDispatch } from "react-redux";
+import { userActions } from "../store/userSlice";
 
 export default function EditUser() {
     const { user, autoLogIn } = useAuth();
     { !user && autoLogIn(); }
-    const [user1, setUser1] = useState<Tuser>();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { id } = useParams<{ id: string }>();
+    const [targetUser, setTargetUser] = useState<Tuser | null>(null);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchUserDetails = async () => {
             try {
+                setLoading(true);
                 const response = await axios.get(
                     `https://monkfish-app-z9uza.ondigitalocean.app/bcard2/users/${id}`,
                 );
-
-                setUser1(response.data);
+                setTargetUser(response.data);
             } catch (error) {
                 console.error("Error fetching user details:", error);
+                toast.error("Failed to load user details");
+            } finally {
+                setLoading(false);
             }
         };
         fetchUserDetails();
     }, [id]);
 
-    const navigate = useNavigate();
-
-    const { register, handleSubmit, formState: { errors, isValid }, reset } = useForm<Tuser>({
-        mode: "onChange", resolver: joiResolver(editUserSchema),
+    const { register, handleSubmit, formState: { errors, isValid }, reset } = useForm<FormData>({
+        defaultValues: {
+            name: {
+                first: "",
+                middle: "",
+                last: "",
+            },
+            phone: 0,
+            image: {
+                url: "",
+                alt: "",
+            },
+            address: {
+                state: "",
+                country: "",
+                city: "",
+                street: "",
+                houseNumber: 0,
+                zip: 0,
+            },
+        },
+        mode: "onChange",
+        resolver: joiResolver(editUserSchema),
     });
 
     useEffect(() => {
-        if (user1) {
+        if (targetUser) {
             reset({
                 name: {
-                    first: user1.name.first,
-                    middle: user1.name.middle,
-                    last: user1.name.last,
+                    first: targetUser.name.first || "",
+                    middle: targetUser.name.middle || "",
+                    last: targetUser.name.last || "",
                 },
-                phone: user1.phone,
+                phone: targetUser.phone || 0,
                 image: {
-                    url: user1.image.url,
-                    alt: user1.image.alt,
+                    url: targetUser.image.url || "",
+                    alt: targetUser.image.alt || "",
                 },
                 address: {
-                    state: user1.address.state !== "not defined" ? user1.address.state : "",
-                    country: user1.address.country,
-                    city: user1.address.city,
-                    street: user1.address.street,
-                    houseNumber: user1.address.houseNumber,
-                    zip: user1.address.zip,
+                    state: targetUser.address.state !== "not defined" ? targetUser.address.state : "",
+                    country: targetUser.address.country || "",
+                    city: targetUser.address.city || "",
+                    street: targetUser.address.street || "",
+                    houseNumber: targetUser.address.houseNumber || 0,
+                    zip: targetUser.address.zip || 0,
                 },
             });
         }
-    }, [user1, reset]);
+    }, [targetUser, reset]);
 
-    const submitForm = async (data: Tuser) => {
-        try {
-            const token = localStorage.getItem("token");
-            axios.defaults.headers.common["x-auth-token"] = token;
-            const response = await axios.put(
-                `https://monkfish-app-z9uza.ondigitalocean.app/bcard2/users/${user1?._id}`, data);
+    const submitForm = async (data: FormData) => {
+        if (!targetUser) return;
 
-            if (response.status === 200) {
-                toast.success("editing was successful", { autoClose: 2000, });
-                navigate('/manage-users');
+        setLoading(true);
+        const token = localStorage.getItem("token");
+
+        if (token) {
+            try {
+                axios.defaults.headers.common["x-auth-token"] = token;
+
+                const response = await axios.put(
+                    `https://monkfish-app-z9uza.ondigitalocean.app/bcard2/users/${targetUser._id}`,
+                    data
+                );
+
+                if (response.status === 200) {
+                    // If editing own profile, update the user state
+                    if (targetUser._id === user?._id) {
+                        dispatch(userActions.login(response.data));
+                    }
+
+                    toast.success("User updated successfully", { autoClose: 2000 });
+                    navigate('/manage-users');
+                }
+
+            } catch (error) {
+                console.log("Error updating user:", error);
+                toast.error("Something went wrong", { autoClose: 2000 });
+            } finally {
+                setLoading(false);
             }
-
-        } catch (error) {
-            console.log("Error editing user:", error);
-            toast.error("something went wrong", { autoClose: 2000, });
         }
     };
 
+    if (loading) {
+        return (
+            <main className="flex min-h-screen flex-col items-center justify-center bg-white py-4 dark:bg-slate-600">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
+                    <p className="mt-4 text-gray-600 dark:text-gray-400">Loading...</p>
+                </div>
+            </main>
+        );
+    }
+
+    if (!targetUser) {
+        return (
+            <main className="flex min-h-screen flex-col items-center justify-center bg-white py-4 dark:bg-slate-600">
+                <div className="text-center">
+                    <h1 className="text-2xl font-bold text-gray-800 mb-4">User Not Found</h1>
+                    <Button onClick={() => navigate(-1)}>Go Back</Button>
+                </div>
+            </main>
+        );
+    }
 
     return (
         <main className="flex min-h-screen flex-col items-center justify-center bg-white py-4 dark:bg-slate-600">
-
             <form onSubmit={handleSubmit(submitForm)} className="myform">
-                <h1 className="text-2xl font-bold text-gray-800">Edit User's Details</h1>
+                <h1 className="text-2xl font-bold text-gray-800 mb-6">
+                    Edit {targetUser.name.first} {targetUser.name.last}'s Profile
+                </h1>
 
-                <fieldset className="flex gap-3 justify-center" >
+                <fieldset className="flex gap-3 justify-center">
                     <legend className="mb-1" style={{ color: "#057A55" }}>Name</legend>
                     <div>
-                        <FloatingLabel {...register("name.first")} variant="outlined" label="First Name" type="text" color={errors.name?.first ? "error" : "success"} />
+                        <FloatingLabel
+                            {...register("name.first")}
+                            variant="outlined"
+                            label="First Name"
+                            type="text"
+                            color={errors.name?.first ? "error" : "success"}
+                        />
                         {errors.name?.first && (
-                            <p>{errors.name.first.message}</p>
+                            <p className="text-red-500 text-sm mt-1">{errors.name.first.message}</p>
                         )}
                     </div>
                     <div>
-                        <FloatingLabel {...register("name.middle")} variant="outlined" label="Middle Name" type="text" color={errors.name?.middle ? "error" : "success"} />
+                        <FloatingLabel
+                            {...register("name.middle")}
+                            variant="outlined"
+                            label="Middle Name"
+                            type="text"
+                            color={errors.name?.middle ? "error" : "success"}
+                        />
                         {errors.name?.middle && (
-                            <p>{errors.name.middle.message}</p>
+                            <p className="text-red-500 text-sm mt-1">{errors.name.middle.message}</p>
                         )}
                     </div>
                     <div>
-                        <FloatingLabel {...register("name.last")} variant="outlined" label="Last Name"
-                            type="text" color={errors.name?.last ? "error" : "success"} />
+                        <FloatingLabel
+                            {...register("name.last")}
+                            variant="outlined"
+                            label="Last Name"
+                            type="text"
+                            color={errors.name?.last ? "error" : "success"}
+                        />
                         {errors.name?.last && (
-                            <p>{errors.name.last.message}</p>
+                            <p className="text-red-500 text-sm mt-1">{errors.name.last.message}</p>
                         )}
                     </div>
                 </fieldset>
 
-
-                <FloatingLabel  {...register("phone")} variant="outlined" label="Phone" type="number" color={errors.phone ? "error" : "success"}
+                <FloatingLabel
+                    {...register("phone")}
+                    variant="outlined"
+                    label="Phone"
+                    type="number"
+                    color={errors.phone ? "error" : "success"}
                 />
                 {errors.phone && (
-                    <p>{errors.phone.message}</p>
+                    <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>
                 )}
-
 
                 <fieldset className="flex gap-3 justify-center">
                     <legend className="mb-1" style={{ color: "#057A55" }}>Image</legend>
                     <div>
-                        <FloatingLabel {...register("image.url")} variant="outlined" label="url"
-                            type="text" color={errors.image?.url ? "error" : "success"} />
+                        <FloatingLabel
+                            {...register("image.url")}
+                            variant="outlined"
+                            label="Image URL"
+                            type="text"
+                            color={errors.image?.url ? "error" : "success"}
+                        />
                         {errors.image?.url && (
-                            <p>{errors.image.url.message}</p>
+                            <p className="text-red-500 text-sm mt-1">{errors.image.url.message}</p>
                         )}
                     </div>
                     <div>
-                        <FloatingLabel  {...register("image.alt")} variant="outlined" label="alt"
-                            type="text" color={errors.image?.alt ? "error" : "success"} />
+                        <FloatingLabel
+                            {...register("image.alt")}
+                            variant="outlined"
+                            label="Image Alt Text"
+                            type="text"
+                            color={errors.image?.alt ? "error" : "success"}
+                        />
                         {errors.image?.alt && (
-                            <p>{errors.image.alt.message}</p>
+                            <p className="text-red-500 text-sm mt-1">{errors.image.alt.message}</p>
                         )}
                     </div>
                 </fieldset>
-
 
                 <fieldset className="flex gap-3 flex-wrap justify-center">
                     <legend className="mb-1" style={{ color: "#057A55" }}>Address</legend>
                     <div>
-                        <FloatingLabel   {...register("address.state")} variant="outlined" label="state"
-                            type="text" color={errors.address?.state ? "error" : "success"} />
+                        <FloatingLabel
+                            {...register("address.state")}
+                            variant="outlined"
+                            label="State"
+                            type="text"
+                            color={errors.address?.state ? "error" : "success"}
+                        />
                         {errors.address?.state && (
-                            <p>{errors.address.state.message}</p>
+                            <p className="text-red-500 text-sm mt-1">{errors.address.state.message}</p>
                         )}
                     </div>
                     <div>
-                        <FloatingLabel {...register("address.country")} variant="outlined" label="country"
-                            type="text" color={errors.address?.country ? "error" : "success"} />
+                        <FloatingLabel
+                            {...register("address.country")}
+                            variant="outlined"
+                            label="Country"
+                            type="text"
+                            color={errors.address?.country ? "error" : "success"}
+                        />
                         {errors.address?.country && (
-                            <p>{errors.address.country.message}</p>
+                            <p className="text-red-500 text-sm mt-1">{errors.address.country.message}</p>
                         )}
                     </div>
                     <div>
-                        <FloatingLabel  {...register("address.city")} variant="outlined" label="city"
-                            type="text" color={errors.address?.city ? "error" : "success"}
+                        <FloatingLabel
+                            {...register("address.city")}
+                            variant="outlined"
+                            label="City"
+                            type="text"
+                            color={errors.address?.city ? "error" : "success"}
                         />
                         {errors.address?.city && (
-                            <p>{errors.address.city.message}</p>
+                            <p className="text-red-500 text-sm mt-1">{errors.address.city.message}</p>
                         )}
                     </div>
                     <div>
-                        <FloatingLabel   {...register("address.street")} variant="outlined" label="street"
-                            type="text" color={errors.address?.street ? "error" : "success"} />
+                        <FloatingLabel
+                            {...register("address.street")}
+                            variant="outlined"
+                            label="Street"
+                            type="text"
+                            color={errors.address?.street ? "error" : "success"}
+                        />
                         {errors.address?.street && (
-                            <p>{errors.address.street.message}</p>
+                            <p className="text-red-500 text-sm mt-1">{errors.address.street.message}</p>
                         )}
                     </div>
                     <div>
-                        <FloatingLabel {...register("address.houseNumber")} variant="outlined" label="houseNumber" type="text"
-                            color={errors.address?.houseNumber ? "error" : "success"} />
+                        <FloatingLabel
+                            {...register("address.houseNumber")}
+                            variant="outlined"
+                            label="House Number"
+                            type="number"
+                            color={errors.address?.houseNumber ? "error" : "success"}
+                        />
                         {errors.address?.houseNumber && (
-                            <p>{errors.address.houseNumber.message}</p>
+                            <p className="text-red-500 text-sm mt-1">{errors.address.houseNumber.message}</p>
                         )}
                     </div>
                     <div>
-                        <FloatingLabel {...register("address.zip")} variant="outlined" label="zip"
-                            type="text" color={errors.address?.zip ? "error" : "success"} />
+                        <FloatingLabel
+                            {...register("address.zip")}
+                            variant="outlined"
+                            label="ZIP Code"
+                            type="number"
+                            color={errors.address?.zip ? "error" : "success"}
+                        />
                         {errors.address?.zip && (
-                            <p>{errors.address.zip.message}</p>
+                            <p className="text-red-500 text-sm mt-1">{errors.address.zip.message}</p>
                         )}
                     </div>
                 </fieldset>
 
-                <Button type="submit" className="w-full" disabled={!isValid}>
-                    Submit
-                </Button>
+                <div className="flex gap-4 mt-6">
+                    <Button
+                        type="submit"
+                        className="flex-1"
+                        disabled={!isValid || loading}
+                        color="blue"
+                    >
+                        {loading ? "Updating..." : "Update User"}
+                    </Button>
+                    <Button
+                        type="button"
+                        color="gray"
+                        onClick={() => navigate(-1)}
+                        disabled={loading}
+                    >
+                        Cancel
+                    </Button>
+                </div>
             </form>
         </main>
     );
 }
-

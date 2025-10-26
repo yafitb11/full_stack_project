@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const Profile = () => {
     const { user, autoLogIn } = useAuth();
     const navigate = useNavigate();
-    const moveToEditProfilePage = () => { navigate('/edit-profile'); }
+    const moveToEditProfilePage = () => { navigate(`/edit-user/${user?._id}`); }
     { !user && autoLogIn(); }
 
     return (

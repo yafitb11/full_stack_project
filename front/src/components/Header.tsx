@@ -8,6 +8,7 @@ import useAuth from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { TRootState } from "../store/store";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ const Header = () => {
   const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const totalItems = useSelector((state: TRootState) => state.cartSlice.totalItems);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -59,8 +61,13 @@ const Header = () => {
             <Link to="/profile" className="text-white hover:text-cyan-700">
               <IoPersonSharp className="w-6 h-6" />
             </Link>
-            <Link to="/cart" className="text-white hover:text-cyan-700">
+            <Link to="/cart" className="text-white hover:text-cyan-700 relative">
               <IoCartSharp className="w-6 h-6" />
+              {totalItems > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  {totalItems}
+                </span>
+              )}
             </Link>
           </div>
         </div>
@@ -125,8 +132,13 @@ const Header = () => {
           <Link to="/profile" className="text-white hover:text-cyan-700">
             <IoPersonSharp className="w-6 h-6" />
           </Link>
-          <Link to="/cart" className="text-white hover:text-cyan-700">
+          <Link to="/cart" className="text-white hover:text-cyan-700 relative">
             <IoCartSharp className="w-6 h-6" />
+            {totalItems > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                {totalItems}
+              </span>
+            )}
           </Link>
         </div>
       </div>

@@ -1,14 +1,16 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button, Card, TextInput, Label } from "flowbite-react";
-import { TCartItem, TProduct } from "../types/cardType";
-import { FaTrash, FaMinus, FaPlus } from "react-icons/fa";
+import { FaTrash, FaMinus, FaPlus, FaShoppingCart } from "react-icons/fa";
 import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
+import useAddToCart from "../hooks/addToCart";
+import { useSelector, useDispatch } from "react-redux";
+import { TRootState } from "../store/store";
+import { cartActions } from "../store/cartSlice";
 import axios from "axios";
 
 const ShoppingCart = () => {
-    const [cartItems, setCartItems] = useState<TCartItem[]>([]);
     const [loading, setLoading] = useState(false);
     const [paymentDetails, setPaymentDetails] = useState({
         cardNumber: "",
@@ -17,42 +19,32 @@ const ShoppingCart = () => {
         cardholderName: ""
     });
     const { user } = useAuth();
+    const dispatch = useDispatch();
+    const cartItems = useSelector((state: TRootState) => state.cartSlice.items);
+    const totalItems = useSelector((state: TRootState) => state.cartSlice.totalItems);
+    const totalPrice = useSelector((state: TRootState) => state.cartSlice.totalPrice);
+
+    const { removeFromCart, updateQuantity, clearCart } = useAddToCart();
 
     useEffect(() => {
         // Load cart from localStorage
         const savedCart = localStorage.getItem("cart");
         if (savedCart) {
-            setCartItems(JSON.parse(savedCart));
+            try {
+                const parsedCart = JSON.parse(savedCart);
+                dispatch(cartActions.loadCartFromStorage(parsedCart));
+            } catch (error) {
+                console.error("Error loading cart from localStorage:", error);
+            }
         }
-    }, []);
+    }, [dispatch]);
 
-    const updateCartInStorage = (newCart: TCartItem[]) => {
-        setCartItems(newCart);
-        localStorage.setItem("cart", JSON.stringify(newCart));
-    };
-
-    const updateQuantity = (productId: string, newQuantity: number) => {
+    const handleQuantityChange = (productId: string, newQuantity: number) => {
         if (newQuantity <= 0) {
             removeFromCart(productId);
-            return;
+        } else {
+            updateQuantity(productId, newQuantity);
         }
-
-        const updatedCart = cartItems.map(item =>
-            item.product._id === productId
-                ? { ...item, quantity: newQuantity }
-                : item
-        );
-        updateCartInStorage(updatedCart);
-    };
-
-    const removeFromCart = (productId: string) => {
-        const updatedCart = cartItems.filter(item => item.product._id !== productId);
-        updateCartInStorage(updatedCart);
-        toast.success("Product removed from cart");
-    };
-
-    const calculateTotal = () => {
-        return cartItems.reduce((total, item) => total + (item.product.price * item.quantity), 0);
     };
 
     const handleCheckout = async () => {
@@ -80,7 +72,7 @@ const ShoppingCart = () => {
                     product: item.product._id,
                     quantity: item.quantity
                 })),
-                totalPrice: calculateTotal(),
+                totalPrice: totalPrice,
                 paymentDetails: paymentDetails
             };
 
@@ -90,7 +82,7 @@ const ShoppingCart = () => {
             await axios.post("http://localhost:8182/orders", orderData);
 
             // Clear cart after successful order
-            updateCartInStorage([]);
+            clearCart();
             toast.success("Order placed successfully!");
 
             // Reset payment form
@@ -185,7 +177,7 @@ const ShoppingCart = () => {
                                             <Button
                                                 size="sm"
                                                 color="gray"
-                                                onClick={() => updateQuantity(item.product._id, item.quantity - 1)}
+                                                onClick={() => handleQuantityChange(item.product._id, item.quantity - 1)}
                                             >
                                                 <FaMinus />
                                             </Button>
@@ -193,7 +185,7 @@ const ShoppingCart = () => {
                                             <Button
                                                 size="sm"
                                                 color="gray"
-                                                onClick={() => updateQuantity(item.product._id, item.quantity + 1)}
+                                                onClick={() => handleQuantityChange(item.product._id, item.quantity + 1)}
                                             >
                                                 <FaPlus />
                                             </Button>
@@ -225,7 +217,7 @@ const ShoppingCart = () => {
                                 <div className="space-y-2 mb-4">
                                     <div className="flex justify-between">
                                         <span>Subtotal:</span>
-                                        <span>${calculateTotal().toFixed(2)}</span>
+                                        <span>${totalPrice.toFixed(2)}</span>
                                     </div>
                                     <div className="flex justify-between">
                                         <span>Tax:</span>
@@ -233,7 +225,7 @@ const ShoppingCart = () => {
                                     </div>
                                     <div className="flex justify-between font-bold text-lg">
                                         <span>Total:</span>
-                                        <span>${calculateTotal().toFixed(2)}</span>
+                                        <span>${totalPrice.toFixed(2)}</span>
                                     </div>
                                 </div>
                             </Card>

@@ -11,6 +11,7 @@ import useAuth from "../hooks/useAuth";
 import { Pagination } from "flowbite-react";
 import { useDispatch } from "react-redux";
 import { searchActions } from "../store/searchSlice";
+import useAddToCart from "../hooks/addToCart";
 
 const Home = () => {
     const [products, setProducts] = useState<TProduct[]>([]);
@@ -20,6 +21,7 @@ const Home = () => {
     const search = useSelector((state: TRootState) => state.searchSlice.searchWord);
     const currentPage = useSelector((state: TRootState) => state.searchSlice.currentPage);
     const { user, autoLogIn } = useAuth();
+    const { addToCart } = useAddToCart();
     const token = localStorage.getItem("token");
 
     { !user && autoLogIn(); }
@@ -87,20 +89,6 @@ const Home = () => {
         }
     };
 
-    const addToCart = (product: TProduct) => {
-        if (!user) {
-            toast.error("Please login to add products to cart", { autoClose: 2000 });
-            return;
-        }
-
-        if (user.isAdmin) {
-            toast.error("Admins cannot add products to cart", { autoClose: 2000 });
-            return;
-        }
-
-        // Add to cart logic here (you'll need to implement cart state management)
-        toast.success("Product added to cart", { autoClose: 2000 });
-    };
 
     const filterByPage = () => {
         const start = (currentPage - 1) * 12;
@@ -204,5 +192,5 @@ const Home = () => {
     );
 };
 
-export default AllProducts;
+export default Home;
 

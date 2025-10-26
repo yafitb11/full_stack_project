@@ -6,12 +6,14 @@ import { Button, Card, Spinner } from "flowbite-react";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
+import useAddToCart from "../hooks/addToCart";
 
 const ProductDetails = () => {
     const [product, setProduct] = useState<TProduct | null>(null);
     const [loading, setLoading] = useState(true);
     const { id } = useParams<{ id: string }>();
     const { user } = useAuth();
+    const { addToCart } = useAddToCart();
     const token = localStorage.getItem("token");
 
     useEffect(() => {
@@ -62,19 +64,10 @@ const ProductDetails = () => {
         }
     };
 
-    const addToCart = () => {
-        if (!user) {
-            toast.error("Please login to add products to cart", { autoClose: 2000 });
-            return;
+    const handleAddToCart = () => {
+        if (product) {
+            addToCart(product);
         }
-
-        if (user.isAdmin) {
-            toast.error("Admins cannot add products to cart", { autoClose: 2000 });
-            return;
-        }
-
-        // Add to cart logic here (you'll need to implement cart state management)
-        toast.success("Product added to cart", { autoClose: 2000 });
     };
 
     if (loading) {
@@ -156,7 +149,7 @@ const ProductDetails = () => {
                             {user && !user.isAdmin && (
                                 <Button
                                     color="blue"
-                                    onClick={addToCart}
+                                    onClick={handleAddToCart}
                                     className="flex items-center space-x-2"
                                 >
                                     <FaShoppingCart />
@@ -204,4 +197,4 @@ const ProductDetails = () => {
     );
 };
 
-export default CardDetails;
+export default ProductDetails;

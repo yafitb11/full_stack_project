@@ -1,14 +1,20 @@
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { Card, Button } from "flowbite-react";
 import { TProduct, TCategory } from "../types/cardType";
+import { FaShoppingCart } from "react-icons/fa";
 import axios from "axios";
+import useAuth from "../hooks/useAuth";
+import useAddToCart from "../hooks/addToCart";
 
 const CategoryProducts = () => {
     const { categoryId } = useParams<{ categoryId: string }>();
     const [products, setProducts] = useState<TProduct[]>([]);
     const [category, setCategory] = useState<TCategory | null>(null);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
+    const { user } = useAuth();
+    const { addToCart } = useAddToCart();
 
     useEffect(() => {
         const fetchCategoryAndProducts = async () => {
@@ -92,8 +98,8 @@ const CategoryProducts = () => {
             {products.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     {products.map((product) => (
-                        <Link key={product._id} to={`/product/${product._id}`}>
-                            <Card className="h-full hover:shadow-lg transition-shadow duration-300">
+                        <Card key={product._id} className="h-full hover:shadow-lg transition-shadow duration-300">
+                            <Link to={`/product/${product._id}`}>
                                 <div className="aspect-w-16 aspect-h-9 mb-4">
                                     <img
                                         src={product.image.url}
@@ -101,24 +107,39 @@ const CategoryProducts = () => {
                                         className="w-full h-48 object-cover rounded-lg"
                                     />
                                 </div>
-                                <div className="p-4">
-                                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                            </Link>
+                            <div className="p-4">
+                                <Link to={`/product/${product._id}`}>
+                                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2 hover:text-blue-600">
                                         {product.name}
                                     </h3>
-                                    <p className="text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
-                                        {product.description}
-                                    </p>
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                                            ${product.price}
-                                        </span>
-                                        <span className="text-sm text-gray-500">
-                                            {product.likes.length} likes
-                                        </span>
-                                    </div>
+                                </Link>
+                                <p className="text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
+                                    {product.description}
+                                </p>
+                                <div className="flex justify-between items-center mb-3">
+                                    <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                                        ${product.price}
+                                    </span>
+                                    <span className="text-sm text-gray-500">
+                                        {product.likes.length} likes
+                                    </span>
                                 </div>
-                            </Card>
-                        </Link>
+                                {user && !user.isAdmin && (
+                                    <Button
+                                        color="blue"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            addToCart(product);
+                                        }}
+                                        className="w-full flex items-center justify-center space-x-2"
+                                    >
+                                        <FaShoppingCart />
+                                        <span>Add to Cart</span>
+                                    </Button>
+                                )}
+                            </div>
+                        </Card>
                     ))}
                 </div>
             ) : (

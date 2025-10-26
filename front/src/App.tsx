@@ -12,9 +12,8 @@ import Favorites from "./pages/Favorites";
 import ProductDetails from "./pages/ProductDetails";
 import ManageUsers from "./pages/ManageUsers";
 import MyOrders from "./pages/MyOrders";
-import EditProfile from "./pages/EditProfile";
-import About from "./pages/About";
 import EditUser from "./pages/EditUser";
+import About from "./pages/About";
 import Categories from "./pages/Categories";
 import CategoryProducts from "./pages/CategoryProducts";
 import ShoppingCart from "./pages/ShoppingCart";
@@ -61,10 +60,6 @@ function App() {
 
         <Route path="/all-users" element={<RouteGuard isAdmin={true}>
           <ManageUsers />
-        </RouteGuard>}></Route>
-
-        <Route path="/edit-profile" element={<RouteGuard>
-          <EditProfile />
         </RouteGuard>}></Route>
 
         <Route path="/edit-user/:id" element={<RouteGuard isAdmin={true}>
