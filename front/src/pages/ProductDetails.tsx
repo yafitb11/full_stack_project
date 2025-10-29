@@ -18,28 +18,14 @@ const ProductDetails = () => {
     const [categoryName, setCategoryName] = useState<string>("");
 
     useEffect(() => {
+        if (!id) return;
+
         const fetchProductDetails = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get(`http://localhost:8182/products/${id}`);
-                const productData = response.data;
-                console.log("Product data:", productData);
+                const { data: productData } = await axios.get(`http://localhost:8182/products/${id}`);
                 setProduct(productData);
-
-                if (productData.category_id) {
-                    const categoryId = productData.category_id.toString();
-                    console.log(categoryId);
-
-                    try {
-                        const categoryResponse = await axios.get(
-                            `http://localhost:8182/categories/${categoryId}`
-                        );
-                        setCategoryName(categoryResponse.data.title);
-                    } catch (catError) {
-                        console.error("Error fetching category name:", catError);
-                        setCategoryName("Unknown");
-                    }
-                }
+                setCategoryName(productData.category_id?.title || "Unknown");
             } catch (error) {
                 console.error("Error fetching product details:", error);
                 toast.error("Product not found", { autoClose: 2000 });

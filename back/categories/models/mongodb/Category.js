@@ -14,9 +14,9 @@ const categorieschema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    products: [String],
+    products: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
 });
 
-const Category = mongoose.model("category", categorieschema);
+const Category = mongoose.model("Category", categorieschema);
 
 module.exports = Category;

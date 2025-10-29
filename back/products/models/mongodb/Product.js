@@ -46,11 +46,11 @@ const productSchema = new mongoose.Schema({
         },
     },
     category_id: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId, ref: 'Category'
     },
     likes: [String],
 });
 
-const Product = mongoose.model("product", productSchema);
+const Product = mongoose.model("Product", productSchema);
 
 module.exports = Product;

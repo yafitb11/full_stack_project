@@ -21,6 +21,8 @@ const CategoryProducts = () => {
             try {
                 // Fetch category details
                 const categoryResponse = await axios.get(`http://localhost:8182/categories/${categoryId}`);
+                console.log(categoryResponse);
+
                 setCategory(categoryResponse.data);
 
                 // Fetch all products and filter by category

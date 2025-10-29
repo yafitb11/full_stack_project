@@ -35,7 +35,7 @@ exports.findCategoryProducts = async (categoryId) => {
 exports.findOneProduct = async (productId) => {
     if (DB === "MONGODB") {
         try {
-            const product = await Product.findById(productId);
+            const product = await Product.findById(productId).populate("category_id");
             if (!product) { throw new Error("Could not find product in database"); }
             return Promise.resolve(product);
         } catch (error) {
