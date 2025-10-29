@@ -16,7 +16,7 @@ exports.find = async () => {
     return Promise.resolve("categories Not From MONGODB");
 };
 
-exports.findOnecategory = async (categoryId) => {
+exports.findOneCategory = async (categoryId) => {
     if (DB === "MONGODB") {
         try {
             const category = await Category.findById(categoryId);
@@ -54,6 +54,21 @@ exports.remove = async (categoryId) => {
 
             removedcategory = await Category.findByIdAndDelete(categoryId);
             return Promise.resolve(`removed category: ${removedCategory}`);
+        } catch (error) {
+            error.status = 404;
+            return handleBadRequest("Mongoose", error);
+        }
+    }
+    return Promise.resolve("category Not From MONGODB");
+};
+
+
+exports.findCategoryByName = async (categoryName) => {
+    if (DB === "MONGODB") {
+        try {
+            const category = await Category.findOne({ title: categoryName });
+            if (!category) { throw new Error("Could not find category in database"); }
+            return Promise.resolve(category);
         } catch (error) {
             error.status = 404;
             return handleBadRequest("Mongoose", error);

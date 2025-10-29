@@ -8,14 +8,22 @@ const { create: createCategory } = require("../categories/models/categoriesDataA
 const { generateUserPassword } = require("../users/helpers/bcrypt");
 const chalk = require("chalk");
 const config = require('../config/configInitialData');
+const { findCategoryByName } = require("../categories/models/categoriesDataAccessService");
 
 const generateInitialProducts = async () => {
-    const previousProducts = await findPrevProducts();
-    if (previousProducts.length == 0) {
-        const { categories } = data;
-        try {
-            let category = await normalizeCategory(categories[0]);
-            category = await createCategory(category);
+    try {
+        const previousProducts = await findPrevProducts();
+
+        if (previousProducts.length == 0) {
+            const initialDataCategory = await findCategoryByName("initial-data category");
+            let category;
+            if (!initialDataCategory) {
+                const { categories } = data;
+                category = await normalizeCategory(categories[0]);
+                category = await createCategory(category);
+            } else {
+                category = initialDataCategory;
+            }
 
             const { products } = data;
 
@@ -25,12 +33,12 @@ const generateInitialProducts = async () => {
                 await createProduct(normalizedProduct);
             }));
             console.log(chalk.green("Initial products created successfully"));
-        } catch (error) {
-            return console.log(chalk.red(error.message));
-        }
 
-    } else {
-        console.log(chalk.blue("Products already exist, skipping initial data creation"));
+        } else {
+            console.log(chalk.blue("Products already exist, skipping initial data creation"));
+        }
+    } catch (error) {
+        return console.log(chalk.red(error.message));
     }
 };
 

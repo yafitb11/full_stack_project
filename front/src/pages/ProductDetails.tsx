@@ -15,13 +15,31 @@ const ProductDetails = () => {
     const { user } = useAuth();
     const { addToCart } = useAddToCart();
     const token = localStorage.getItem("token");
+    const [categoryName, setCategoryName] = useState<string>("");
 
     useEffect(() => {
         const fetchProductDetails = async () => {
             try {
                 setLoading(true);
                 const response = await axios.get(`http://localhost:8182/products/${id}`);
-                setProduct(response.data);
+                const productData = response.data;
+                console.log("Product data:", productData);
+                setProduct(productData);
+
+                if (productData.category_id) {
+                    const categoryId = productData.category_id.toString();
+                    console.log(categoryId);
+
+                    try {
+                        const categoryResponse = await axios.get(
+                            `http://localhost:8182/categories/${categoryId}`
+                        );
+                        setCategoryName(categoryResponse.data.title);
+                    } catch (catError) {
+                        console.error("Error fetching category name:", catError);
+                        setCategoryName("Unknown");
+                    }
+                }
             } catch (error) {
                 console.error("Error fetching product details:", error);
                 toast.error("Product not found", { autoClose: 2000 });
@@ -98,6 +116,7 @@ const ProductDetails = () => {
 
     const isLiked = user ? product.likes.includes(user._id) : false;
 
+
     return (
         <div className="container mx-auto px-4 py-8">
             <div className="max-w-4xl mx-auto">
@@ -115,7 +134,7 @@ const ProductDetails = () => {
                     <div className="space-y-6">
                         <div>
                             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                                {product.name}
+                                {product.title}
                             </h1>
                             <p className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-4">
                                 ${product.price}
@@ -130,7 +149,7 @@ const ProductDetails = () => {
                                 {product.likes.length} likes
                             </span>
                             <span className="text-sm text-gray-500">
-                                Category: {product.category}
+                                Category: {categoryName}
                             </span>
                         </div>
 

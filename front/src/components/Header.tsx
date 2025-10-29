@@ -103,7 +103,7 @@ const Header = () => {
                     >
                         {categories.map((category: any) => (
                             <Dropdown.Item key={category._id}>
-                                <Link to={`/categories/${category._id}`}>{category.name}</Link>
+                                <Link to={`/categories/${category._id}`}>{category.title}</Link>
                             </Dropdown.Item>
                         ))}
                     </Dropdown>
