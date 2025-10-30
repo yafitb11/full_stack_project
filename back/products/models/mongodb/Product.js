@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const imageSchema = require("../../../mongoose validation generals/Image");
 const { DEFAULT_VALIDATION } = require("../../../mongoose validation generals/urlAndDefaultValidations");
+const Category = require("../../../categories/models/mongodb/Category");
 
 const productSchema = new mongoose.Schema({
 
@@ -46,10 +47,37 @@ const productSchema = new mongoose.Schema({
         },
     },
     category_id: {
-        type: mongoose.Schema.Types.ObjectId, ref: 'Category'
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category',
+        required: true
     },
     likes: [String],
 });
+
+productSchema.post('save', async function (doc) {
+    try {
+        await Category.findByIdAndUpdate(
+            doc.category,
+            { $addToSet: { products: doc._id } }, // addToSet מונע כפילויות
+            { new: true }
+        );
+    } catch (error) {
+        console.error('Error updating category:', error);
+    }
+});
+
+productSchema.pre('findByIdAndDelete', async function () {
+    try {
+        const productId = this.getQuery()._id;
+        await Category.updateMany(
+            { products: productId },
+            { $pull: { products: productId } }
+        );
+    } catch (error) {
+        console.error('Error removing product from category:', error);
+    }
+});
+
 
 const Product = mongoose.model("Product", productSchema);
 

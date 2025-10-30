@@ -1,12 +1,14 @@
 const config = require("config");
 const ENV = config.get("NODE_ENV");
 
-const connectToDb = () => {
+const connectToDb = async () => {
     if (ENV === "development") {
-        require("./mongoDB/connectLocally");
+        const connectLocally = require("./mongoDB/connectLocally");
+        await connectLocally();
     }
     if (ENV === "production") {
-        require("./mongoDB/connectToAtlas");
+        const connectToAtlas = require("./mongoDB/connectToAtlas");
+        await connectToAtlas();
     }
 };
 

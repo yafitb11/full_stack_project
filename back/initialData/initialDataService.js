@@ -13,32 +13,28 @@ const { findCategoryByName } = require("../categories/models/categoriesDataAcces
 const generateInitialProducts = async () => {
     try {
         const previousProducts = await findPrevProducts();
-
-        if (previousProducts.length == 0) {
-            const initialDataCategory = await findCategoryByName("initial-data category");
-            let category;
-            if (!initialDataCategory) {
-                const { categories } = data;
-                category = await normalizeCategory(categories[0]);
-                category = await createCategory(category);
-            } else {
-                category = initialDataCategory;
-            }
-
-            const { products } = data;
-
-            await Promise.all(products.map(async (product) => {
-                const categoryId = category._id;
-                const normalizedProduct = await normalizeProduct(product, categoryId);
-                await createProduct(normalizedProduct);
-            }));
-            console.log(chalk.green("Initial products created successfully"));
-
-        } else {
+        if (previousProducts.length > 0) {
             console.log(chalk.blue("Products already exist, skipping initial data creation"));
+            return;
         }
+
+        const { categories, products } = data;
+
+        let category = await findCategoryByName("initial-data category");
+        if (!category) {
+            const normalizedCategory = await normalizeCategory(categories[0]);
+            category = await createCategory(normalizedCategory);
+            console.log(chalk.green(`Category "${category.title}" created`));
+        }
+
+        await Promise.all(products.map(async (product) => {
+            const normalizedProduct = await normalizeProduct(product, category._id);
+            await createProduct(normalizedProduct);
+        }));
+        console.log(chalk.green("Initial products creation completed"));
+
     } catch (error) {
-        return console.log(chalk.red(error.message));
+        console.log(chalk.red(error.message));
     }
 };
 

@@ -67,7 +67,7 @@ exports.findCategoryByName = async (categoryName) => {
     if (DB === "MONGODB") {
         try {
             const category = await Category.findOne({ title: categoryName });
-            if (!category) { throw new Error("Could not find category in database"); }
+            if (!category) { return false; }
             return Promise.resolve(category);
         } catch (error) {
             error.status = 404;

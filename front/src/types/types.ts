@@ -24,6 +24,7 @@ export type TCategory = {
         url: string,
         alt: string,
     },
+    products: [string],
     createdAt: string,
 }
 
