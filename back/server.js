@@ -23,21 +23,9 @@ app.use((err, req, res, next) => {
 })
 
 const port = config.get("PORT");
-
-const startServer = async () => {
-    try {
-        console.log(chalk.yellow("Starting server..."));
-        await connectToDb();
-        await generateInitialProducts();
-        await generateInitialUsers();
-
-        app.listen(port, () => {
-            console.log(chalk.yellow(`Server is listening on port ${port}`));
-        });
-    } catch (error) {
-        console.error(chalk.red("Failed to start server:", error));
-        process.exit(1);
-    }
-};
-
-startServer();
+app.listen(port, async () => {
+    console.log(chalk.yellow(`I'm listening to ${port}`));
+    connectToDb();
+    await generateInitialProducts();
+    await generateInitialUsers();
+})
