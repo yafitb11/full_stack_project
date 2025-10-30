@@ -3,7 +3,6 @@ import { Button, FloatingLabel } from "flowbite-react";
 import { useForm } from "react-hook-form";
 import { registerSchema } from "../validations/register.joi";
 import axios from "axios";
-import { Radio, Label } from 'flowbite-react';
 import { FormData } from "../types/formData";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -33,7 +32,6 @@ export default function Register() {
                 houseNumber: 0,
                 zip: 0,
             },
-            isBusiness: true,
         },
         mode: "onChange",
         resolver: joiResolver(registerSchema),
@@ -42,9 +40,9 @@ export default function Register() {
     const submitForm = async (data: FormData) => {
         try {
             const response = await axios.post(
-                "https://monkfish-app-z9uza.ondigitalocean.app/bcard2/users", data);
+                "http://localhost:8182/users", data);
 
-            if (response.status === 201) {
+            if (response.status === 200) {
                 toast.success("you have registered successfully", { autoClose: 2000, });
                 navigate('/signin');
             }
@@ -172,17 +170,6 @@ export default function Register() {
                         )}
                     </div>
                 </fieldset>
-
-                <div className="flex gap-3 justify-center">
-                    <p style={{ color: "#057A55" }}>Are you a business?</p>
-                    <Radio id="yes" value="true" defaultChecked
-                        {...register('isBusiness', { setValueAs: (val) => val === "true", })} />
-                    <Label htmlFor="option1" style={{ color: "#057A55" }}>yes</Label>
-
-                    <Radio id="no" value="false"
-                        {...register('isBusiness', { setValueAs: (val) => val === "true", })} />
-                    <Label htmlFor="option2" style={{ color: "#057A55" }}>no</Label>
-                </div>
 
                 <Button type="submit" className="w-full" disabled={!isValid}>
                     Submit

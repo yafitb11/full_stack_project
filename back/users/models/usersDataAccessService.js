@@ -83,22 +83,6 @@ exports.update = async (userId, normalizedUser) => {
     return Promise.resolve("Not From MONGODB");
 };
 
-exports.changeBizStatus = async (userId) => {
-    if (DB === "MONGODB") {
-        try {
-            const pipeline = [
-                { $set: { isBusiness: { $not: "$isBusiness" } } }
-            ];
-            const updatedUser = await User.findByIdAndUpdate(userId, pipeline, { new: true }).select("-password -__v");
-            if (!updatedUser) { throw new Error("Could not update this user's bizStatus because a user with this ID couldn't be found in database"); }
-            return Promise.resolve(`updated user: ${updatedUser}`);
-        } catch (error) {
-            error.status = 404;
-            return handleBadRequest("Mongoose", error);
-        }
-    }
-    return Promise.resolve("Not From MONGODB");
-};
 
 exports.remove = async (userId) => {
     if (DB === "MONGODB") {

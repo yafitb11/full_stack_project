@@ -21,5 +21,4 @@ export type FormData = {
         houseNumber: number,
         zip: number,
     },
-    isBusiness: boolean,
 };

@@ -66,20 +66,6 @@ router.put("/:id", auth, async (req, res) => {
     }
 });
 
-router.patch("/:id", auth, async (req, res) => {
-    try {
-        const id = req.params.id;
-        const { _id } = req.user;
-        if (_id !== id) {
-            return errorhandler(res, 403, "Authorization Error: Must be the registered user!");
-        }
-        const user = await changeUserBizStatus(id);
-        res.send(user);
-    } catch (error) {
-        return errorhandler(res, error.status || 500, error.message);
-    }
-});
-
 
 router.delete("/:id", auth, async (req, res) => {
     try {

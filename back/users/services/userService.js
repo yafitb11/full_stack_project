@@ -68,15 +68,6 @@ exports.updateUser = async (userId, rawUser) => {
     }
 };
 
-exports.changeUserBizStatus = async (userId) => {
-    try {
-        const user = await changeBizStatus(userId);
-        return Promise.resolve(user);
-    } catch (error) {
-        return Promise.reject(error);
-    }
-};
-
 exports.deleteUser = async (userId) => {
     try {
         const user = await remove(userId);

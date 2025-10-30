@@ -46,6 +46,5 @@ export const registerSchema = Joi.object({
             zip: Joi.number(),
         })
         .required(),
-    isBusiness: Joi.boolean().required(),
     isAdmin: Joi.boolean().allow(""),
 });

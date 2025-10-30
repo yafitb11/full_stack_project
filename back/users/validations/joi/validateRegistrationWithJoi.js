@@ -10,7 +10,6 @@ const validateRegistrationWithJoi = (user) => {
             middle: joi.string().min(2).max(256).allow(""),
             last: joi.string().min(2).max(256).required(),
         }),
-        isBusiness: joi.boolean().required(),
         phone: joi.string().ruleset.regex(/0[0-9]{1,2}\-?\s?[0-9]{3}\s?[0-9]{4}/)
             .rule({ message: "phone must be a valid israeli number" }).required(),
         email: joi.string().ruleset.regex(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)
