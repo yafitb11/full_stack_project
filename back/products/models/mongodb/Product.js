@@ -57,8 +57,8 @@ const productSchema = new mongoose.Schema({
 productSchema.post('save', async function (doc) {
     try {
         await Category.findByIdAndUpdate(
-            doc.category,
-            { $addToSet: { products: doc._id } }, // addToSet מונע כפילויות
+            doc.category_id,
+            { $addToSet: { products: doc._id } },
             { new: true }
         );
     } catch (error) {
