@@ -82,6 +82,7 @@ function App() {
           <EditProduct />
         </RouteGuard>}></Route>
 
+        <Route path="/not-found" element={<ErrorPage />} />
         <Route path="/*" element={<ErrorPage />} />
       </Routes>
 
