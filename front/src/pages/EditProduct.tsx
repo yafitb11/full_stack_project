@@ -35,7 +35,7 @@ const EditProduct = () => {
                     const product: TProduct = productResponse.data;
 
                     setFormData({
-                        name: product.name,
+                        name: product.title,
                         description: product.description,
                         price: product.price.toString(),
                         category: product.category,
@@ -217,8 +217,8 @@ const EditProduct = () => {
                             >
                                 <option value="">Select a category</option>
                                 {categories.map((category) => (
-                                    <option key={category._id} value={category.name}>
-                                        {category.name}
+                                    <option key={category._id} value={category.title}>
+                                        {category.title}
                                     </option>
                                 ))}
                             </Select>

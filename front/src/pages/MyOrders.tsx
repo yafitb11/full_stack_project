@@ -123,7 +123,7 @@ const MyOrders = () => {
                                             />
                                             <div className="flex-1">
                                                 <h5 className="font-medium text-gray-900 dark:text-white">
-                                                    {item.product.name}
+                                                    {item.product.title}
                                                 </h5>
                                                 <p className="text-gray-600 dark:text-gray-400">
                                                     ${item.product.price} × {item.quantity}

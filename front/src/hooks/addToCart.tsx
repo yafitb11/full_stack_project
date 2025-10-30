@@ -24,9 +24,9 @@ const useAddToCart = () => {
         const existingItem = cartItems.find(item => item.product._id === product._id);
 
         if (existingItem) {
-            toast.success(`Updated quantity for ${product.name}`, { autoClose: 2000 });
+            toast.success(`Updated quantity for ${product.title}`, { autoClose: 2000 });
         } else {
-            toast.success(`${product.name} added to cart`, { autoClose: 2000 });
+            toast.success(`${product.title} added to cart`, { autoClose: 2000 });
         }
 
         // Add to cart using Redux

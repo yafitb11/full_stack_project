@@ -18,7 +18,7 @@ export type TProduct = {
 
 export type TCategory = {
     _id: string,
-    name: string,
+    title: string,
     description: string,
     image: {
         url: string,

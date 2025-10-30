@@ -167,7 +167,7 @@ const ShoppingCart = () => {
                                         />
                                         <div className="flex-1">
                                             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                                                {item.product.name}
+                                                {item.product.title}
                                             </h3>
                                             <p className="text-gray-600 dark:text-gray-400">
                                                 ${item.product.price}

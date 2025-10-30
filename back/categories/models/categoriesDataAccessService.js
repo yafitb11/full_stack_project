@@ -19,7 +19,7 @@ exports.find = async () => {
 exports.findOneCategory = async (categoryId) => {
     if (DB === "MONGODB") {
         try {
-            const category = await Category.findById(categoryId);
+            const category = await Category.findById(categoryId).populate("products");;
             if (!category) { throw new Error("Could not find category in database"); }
             return Promise.resolve(category);
         } catch (error) {

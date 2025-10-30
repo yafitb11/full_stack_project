@@ -12,7 +12,7 @@ const CategoryProducts = () => {
     const [products, setProducts] = useState<TProduct[]>([]);
     const [category, setCategory] = useState<TCategory | null>(null);
     const [loading, setLoading] = useState(true);
-    const navigate = useNavigate();
+    const nav = useNavigate();
     const { user } = useAuth();
     const { addToCart } = useAddToCart();
 
@@ -73,7 +73,7 @@ const CategoryProducts = () => {
         <div className="container mx-auto px-4 py-8">
             <div className="text-center mb-8">
                 <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                    {category.name}
+                    {category.title}
                 </h1>
                 <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">
                     {category.description}
@@ -87,11 +87,11 @@ const CategoryProducts = () => {
                     {user && user.isAdmin && (
                         <Button
                             color="blue"
-                            onClick={() => nav(`/create-product?category=${category.name}`)}
+                            onClick={() => nav(`/create-product?category=${category.title}`)}
                             className="flex items-center space-x-2"
                         >
                             <span>+</span>
-                            <span>Add Product to {category.name}</span>
+                            <span>Add Product to {category.title}</span>
                         </Button>
                     )}
                 </div>
@@ -113,7 +113,7 @@ const CategoryProducts = () => {
                             <div className="p-4">
                                 <Link to={`/product/${product._id}`}>
                                     <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2 hover:text-blue-600">
-                                        {product.name}
+                                        {product.title}
                                     </h3>
                                 </Link>
                                 <p className="text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">

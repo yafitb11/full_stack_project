@@ -72,7 +72,7 @@ const Categories = () => {
                             </div>
                             <div className="p-4">
                                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                                    {category.name}
+                                    {category.title}
                                 </h3>
                                 <p className="text-gray-600 dark:text-gray-400">
                                     {category.description}
