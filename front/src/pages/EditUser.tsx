@@ -3,7 +3,8 @@ import { Button, FloatingLabel } from "flowbite-react";
 import { useForm } from "react-hook-form";
 import { editUserSchema } from "../validations/editUser.joi";
 import axios from "axios";
-import { FormData, Tuser } from "../types";
+import { FormData } from "../types/formData";
+import { Tuser } from "../types/types";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -26,7 +27,7 @@ export default function EditUser() {
             try {
                 setLoading(true);
                 const response = await axios.get(
-                    `https://monkfish-app-z9uza.ondigitalocean.app/bcard2/users/${id}`,
+                    `http://localhost:8182/users/${id}`,
                 );
                 setTargetUser(response.data);
             } catch (error) {
@@ -100,7 +101,7 @@ export default function EditUser() {
                 axios.defaults.headers.common["x-auth-token"] = token;
 
                 const response = await axios.put(
-                    `https://monkfish-app-z9uza.ondigitalocean.app/bcard2/users/${targetUser._id}`,
+                    `http://localhost:8182/users/${targetUser._id}`,
                     data
                 );
 

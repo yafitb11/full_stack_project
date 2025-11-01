@@ -66,7 +66,7 @@ function App() {
           <ManageUsers />
         </RouteGuard>}></Route>
 
-        <Route path="/edit-user/:id" element={<RouteGuard isAdmin={true}>
+        <Route path="/edit-user/:id" element={<RouteGuard allowOwnUser={true}>
           <EditUser />
         </RouteGuard>}></Route>
 

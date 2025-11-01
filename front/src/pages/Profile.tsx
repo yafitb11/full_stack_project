@@ -7,7 +7,6 @@ const Profile = () => {
     const navigate = useNavigate();
     const moveToEditProfilePage = () => { navigate(`/edit-user/${user?._id}`); }
     { !user && autoLogIn(); }
-    console.log(user);
 
     return (
         <div className="pt-2 flex flex-col items-center gap-2  bg-blue-300 dark:bg-slate-400">
