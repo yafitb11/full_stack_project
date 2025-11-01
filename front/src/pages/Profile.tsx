@@ -7,6 +7,7 @@ const Profile = () => {
     const navigate = useNavigate();
     const moveToEditProfilePage = () => { navigate(`/edit-user/${user?._id}`); }
     { !user && autoLogIn(); }
+    console.log(user);
 
     return (
         <div className="pt-2 flex flex-col items-center gap-2  bg-blue-300 dark:bg-slate-400">
@@ -19,7 +20,6 @@ const Profile = () => {
                     <p> Phone: {user.phone} </p>
                     <p> Email: {user.email} </p>
                     <p> Adress: {user.address.state} {user.address.country} {user.address.city} {user.address.street} {user.address.houseNumber}</p>
-                    <p> isBusiness: {user.isBusiness ? "yes" : "no"}</p>
                 </Card>}
 
                 <Button onClick={moveToEditProfilePage}>Edit your details</Button>

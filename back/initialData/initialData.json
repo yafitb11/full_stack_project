@@ -12,7 +12,8 @@
                 "country": "israel",
                 "city": "tel-aviv",
                 "street": "magnive",
-                "houseNumber": "5"
+                "houseNumber": "5",
+                "zip": "1234"
             },
             "image": {
                 "url": "",
@@ -28,10 +29,12 @@
             "email": "second@gmail.com",
             "password": "Second1234!",
             "address": {
+                "state": "random state",
                 "country": "israel",
                 "city": "tel-aviv",
-                "street": "magnive",
-                "houseNumber": "5"
+                "street": "renanim",
+                "houseNumber": "5",
+                "zip": "2233"
             },
             "image": {
                 "url": "",
@@ -50,8 +53,9 @@
             "address": {
                 "country": "israel",
                 "city": "tel-aviv",
-                "street": "magnive",
-                "houseNumber": "5"
+                "street": "vermiza",
+                "houseNumber": "5",
+                "zip": "1122"
             },
             "image": {
                 "url": "",

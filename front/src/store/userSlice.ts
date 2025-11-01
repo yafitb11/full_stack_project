@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Tuser } from "../types/userType";
+import { Tuser } from "../types/types";
 
 
 const initialState = {

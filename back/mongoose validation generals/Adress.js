@@ -10,7 +10,7 @@ const addressSchema = new mongoose.Schema({
     country: DEFAULT_VALIDATION,
     city: DEFAULT_VALIDATION,
     street: DEFAULT_VALIDATION,
-    housNumber: {
+    houseNumber: {
         type: Number,
         trim: true,
         minLength: 1,

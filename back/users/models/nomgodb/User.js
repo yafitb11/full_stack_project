@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const addressSchema = require("../../../mongoose validation generals/Adress");
 const imageSchema = require("../../../mongoose validation generals/Image");
-const { URL, DEFAULT_VALIDATION } = require("../../../mongoose validation generals/urlAndDefaultValidations");
 const nameSchema = require("./Name");
 
 const userSchema = new mongoose.Schema({
@@ -26,7 +25,7 @@ const userSchema = new mongoose.Schema({
         required: true,
     },
     image: imageSchema,
-    addrees: addressSchema,
+    address: addressSchema,
     isAdmin: {
         type: Boolean,
         default: false,
