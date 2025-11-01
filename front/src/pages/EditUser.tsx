@@ -90,39 +90,43 @@ export default function EditUser() {
         }
     }, [targetUser, reset]);
 
+
     const submitForm = async (data: FormData) => {
         if (!targetUser) return;
 
         setLoading(true);
         const token = localStorage.getItem("token");
 
-        if (token) {
-            try {
-                axios.defaults.headers.common["x-auth-token"] = token;
+        if (!token) {
+            toast.error("User not authenticated");
+            setLoading(false);
+            return;
+        }
 
-                const response = await axios.put(
-                    `http://localhost:8182/users/${targetUser._id}`,
-                    data
-                );
+        try {
+            axios.defaults.headers.common["x-auth-token"] = token;
 
-                if (response.status === 200) {
-                    // If editing own profile, update the user state
-                    if (targetUser._id === user?._id) {
-                        dispatch(userActions.login(response.data));
-                    }
+            const response = await axios.put(
+                `http://localhost:8182/users/${targetUser._id}`,
+                data
+            );
 
-                    toast.success("User updated successfully", { autoClose: 2000 });
-                    navigate('/manage-users');
+            if (response.status === 200) {
+                toast.success("User updated successfully", { autoClose: 2000 });
+                if (targetUser._id === user?._id) {
+                    await autoLogIn();
                 }
-
-            } catch (error) {
-                console.log("Error updating user:", error);
-                toast.error("Something went wrong", { autoClose: 2000 });
-            } finally {
-                setLoading(false);
+                navigate('/profile');
             }
+
+        } catch (error) {
+            console.error("Error updating user:", error);
+            toast.error("Something went wrong", { autoClose: 2000 });
+        } finally {
+            setLoading(false);
         }
     };
+
 
     if (loading) {
         return (

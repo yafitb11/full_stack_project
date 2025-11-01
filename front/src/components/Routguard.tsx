@@ -22,7 +22,7 @@ const RouteGuard = ({ children, isAdmin, allowOwnUser }: RouteGuardProps) => {
                 </h1>
                 <Link
                     to="/login"
-                    state={{ from: location }} // שומרים את הנתיב המקורי
+                    state={{ from: location }}
                     className="cursor-pointer font-bold text-2xl mt-4"
                 >
                     Log in
@@ -36,8 +36,8 @@ const RouteGuard = ({ children, isAdmin, allowOwnUser }: RouteGuardProps) => {
     }
 
 
-    if (allowOwnUser && id && id !== user._id && !user.isAdmin) {
-        return <Navigate to="/" replace />;
+    if (allowOwnUser && id && user._id) {
+        if (id !== user._id && !user.isAdmin) return <Navigate to="/" replace />;
     }
 
     return <>{children}</>;
