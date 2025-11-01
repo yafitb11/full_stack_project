@@ -22,8 +22,16 @@ import CreateProduct from "./pages/CreateProduct";
 import CreateCategory from "./pages/CreateCategory";
 import EditProduct from "./pages/EditProduct";
 import ErrorBoundary from "./components/ErrorBoundary";
+import { useEffect } from "react";
+import useAuth from "./hooks/useAuth";
 
 function App() {
+  const { autoLogIn } = useAuth();
+
+  useEffect(() => {
+    autoLogIn();
+  }, []);
+
   return (
     <>
       <Header></Header>

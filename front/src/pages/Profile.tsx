@@ -1,34 +1,15 @@
 import { Button, Card } from "flowbite-react";
-import { useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
-    const { user, autoLogIn } = useAuth();
+    const { user } = useAuth();
     const navigate = useNavigate();
-    const [isLoading, setIsLoading] = useState(false);
 
     const moveToEditProfilePage = () => {
         navigate(`/edit-user/${user?._id}`);
     };
 
-    useEffect(() => {
-        const loadUser = async () => {
-            setIsLoading(true);
-            await autoLogIn();
-            setIsLoading(false);
-        };
-        loadUser();
-    }, []);
-
-
-    if (isLoading) {
-        return (
-            <div className="pt-2 flex flex-col items-center gap-2 bg-blue-300 dark:bg-slate-400">
-                <h1 className="text-3xl">Loading...</h1>
-            </div>
-        );
-    }
 
     if (user) {
         return (

@@ -20,11 +20,9 @@ const Home = () => {
     const [spinner, setSpinner] = useState<boolean>(false);
     const search = useSelector((state: TRootState) => state.searchSlice.searchWord);
     const currentPage = useSelector((state: TRootState) => state.searchSlice.currentPage);
-    const { user, autoLogIn } = useAuth();
+    const { user } = useAuth();
     const { addToCart } = useAddToCart();
     const token = localStorage.getItem("token");
-
-    { !user && autoLogIn(); }
 
     useEffect(() => {
         const fetchProducts = async () => {

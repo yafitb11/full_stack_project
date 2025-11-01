@@ -9,9 +9,7 @@ import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
-import { jwtDecode } from "jwt-decode";
 import { useDispatch } from "react-redux";
-import { userActions } from "../store/userSlice";
 
 export default function EditUser() {
     const { user, autoLogIn } = useAuth();
