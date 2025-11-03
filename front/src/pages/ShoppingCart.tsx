@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button, Card, TextInput, Label } from "flowbite-react";
-import { FaTrash, FaMinus, FaPlus, FaShoppingCart } from "react-icons/fa";
+import { FaTrash, FaMinus, FaPlus } from "react-icons/fa";
 import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
 import useAddToCart from "../hooks/addToCart";
@@ -9,10 +9,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { TRootState } from "../store/store";
 import { cartActions } from "../store/cartSlice";
 import axios from "axios";
+import { PaymentDetails } from "../types/moreTypes";
 
 const ShoppingCart = () => {
     const [loading, setLoading] = useState(false);
-    const [paymentDetails, setPaymentDetails] = useState({
+    const [paymentDetails, setPaymentDetails] = useState<PaymentDetails>({
         cardNumber: "",
         expiryDate: "",
         cvv: "",
@@ -27,7 +28,6 @@ const ShoppingCart = () => {
     const { removeFromCart, updateQuantity, clearCart } = useAddToCart();
 
     useEffect(() => {
-        // Load cart from localStorage
         const savedCart = localStorage.getItem("cart");
         if (savedCart) {
             try {
@@ -58,7 +58,6 @@ const ShoppingCart = () => {
             return;
         }
 
-        // Validate payment details
         if (!paymentDetails.cardNumber || !paymentDetails.expiryDate || !paymentDetails.cvv || !paymentDetails.cardholderName) {
             toast.error("Please fill in all payment details");
             return;
@@ -72,6 +71,7 @@ const ShoppingCart = () => {
                     product: item.product._id,
                     quantity: item.quantity
                 })),
+                totalItems: totalItems,
                 totalPrice: totalPrice,
                 paymentDetails: paymentDetails
             };
@@ -81,11 +81,9 @@ const ShoppingCart = () => {
 
             await axios.post("http://localhost:8182/orders", orderData);
 
-            // Clear cart after successful order
             clearCart();
             toast.success("Order placed successfully!");
 
-            // Reset payment form
             setPaymentDetails({
                 cardNumber: "",
                 expiryDate: "",
@@ -155,7 +153,6 @@ const ShoppingCart = () => {
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                        {/* Cart Items */}
                         <div className="lg:col-span-2 space-y-4">
                             {cartItems.map((item) => (
                                 <Card key={item.product._id} className="p-4">

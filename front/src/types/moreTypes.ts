@@ -1,6 +1,4 @@
-
-export type { TProduct, TCategory, TOrder, TCartItem, Tuser } from './types';
-export type { FormData } from './formData';
+import { TCartItem } from './types';
 
 // Additional types for the project
 export interface PaymentDetails {

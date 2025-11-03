@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { TRootState } from "../store/store";
 import { toast } from "react-toastify";
 import { cartActions } from "../store/cartSlice";
-import { TProduct } from "../types";
+import { TProduct } from "../types/types";
 
 const useAddToCart = () => {
     const dispatch = useDispatch();
@@ -20,7 +20,6 @@ const useAddToCart = () => {
             return;
         }
 
-        // Check if product already exists in cart
         const existingItem = cartItems.find(item => item.product._id === product._id);
 
         if (existingItem) {
@@ -29,10 +28,9 @@ const useAddToCart = () => {
             toast.success(`${product.title} added to cart`, { autoClose: 2000 });
         }
 
-        // Add to cart using Redux
         dispatch(cartActions.addToCart(product));
 
-        // Save to localStorage for persistence
+        //add to localStorage
         const updatedCart = [...cartItems];
         const existingItemIndex = updatedCart.findIndex(item => item.product._id === product._id);
 
