@@ -4,7 +4,7 @@ const validator = config.get("VALIDATOR") || "Joi";
 
 const validateOrder = (order) => {
     if (validator === "Joi") {
-        return validateOrderWithJoi(card);
+        return validateOrderWithJoi(order);
     }
 }
 

@@ -1,10 +1,18 @@
 const generateOrderNumber = require("./generateOrderNumber");
 
-const normalizeOrder = async (rawcategory, userId) => {
+const normalizeOrder = async (rawOrder, userId) => {
+    const { cardNumber, expiryDate, cvv, cardholderName } = rawOrder.paymentDetails;
+    const paymentDetails = {
+        cardNumber: cardNumber.toString(),
+        expiryDate: new Date(expiryDate),
+        cvv: cvv.toString(),
+        cardholderName
+    };
 
     return {
-        ...rawcategory,
-        orderNumber: rawcategory.orderNumber || (await generateOrderNumber()),
+        ...rawOrder,
+        paymentDetails,
+        orderNumber: rawOrder.orderNumber || (await generateOrderNumber()),
         user_id: userId,
     };
 };

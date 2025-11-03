@@ -67,7 +67,7 @@ const ShoppingCart = () => {
 
         try {
             const orderData = {
-                products: cartItems.map(item => ({
+                items: cartItems.map(item => ({
                     product: item.product._id,
                     quantity: item.quantity
                 })),
