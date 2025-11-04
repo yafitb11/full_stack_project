@@ -95,9 +95,12 @@ const Header = () => {
                     {/* ✅ Dropdown מעוצב כמו לינק רגיל */}
                     <Dropdown
                         label={
-                            <span className="text-white hover:text-cyan-700  cursor-pointer dark:text-gray-400 dark:hover:text-white">
+                            <Link
+                                to="/categories"
+                                className="text-white hover:text-cyan-700 cursor-pointer dark:text-gray-400 dark:hover:text-white"
+                            >
                                 Categories
-                            </span>
+                            </Link>
                         }
                         inline
                     >
