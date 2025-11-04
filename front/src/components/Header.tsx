@@ -65,11 +65,11 @@ const Header = () => {
                 {/* פרופיל, עגלה, המבורגר */}
                 <div className="flex items-center gap-5">
                     <Link to="/profile" className="text-white hover:text-cyan-700">
-                        <IoPersonSharp className="w-7 h-7" /> {/* מוגדל מעט */}
+                        <IoPersonSharp className="w-7 h-7" />
                     </Link>
 
                     <Link to="/cart" className="text-white hover:text-cyan-700 relative">
-                        <IoCartSharp className="w-7 h-7" /> {/* מוגדל מעט */}
+                        <IoCartSharp className="w-7 h-7" />
                         {totalItems > 0 && (
                             <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                                 {totalItems}
@@ -127,6 +127,10 @@ const Header = () => {
                             <Navbar.Link as={Link} to={"/profile"} className="text-white hover:text-cyan-700">
                                 Profile
                             </Navbar.Link>
+                        </>)}
+
+                    {user && !user.isAdmin && (
+                        <>
                             <Navbar.Link as={Link} to={"/my-orders"} className="text-white hover:text-cyan-700">
                                 My Orders
                             </Navbar.Link>

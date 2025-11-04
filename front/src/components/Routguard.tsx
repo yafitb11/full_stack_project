@@ -21,7 +21,7 @@ const RouteGuard = ({ children, isAdmin, allowOwnUser }: RouteGuardProps) => {
                     You are not logged in, please log in.
                 </h1>
                 <Link
-                    to="/login"
+                    to="/signin"
                     state={{ from: location }}
                     className="cursor-pointer font-bold text-2xl mt-4"
                 >
