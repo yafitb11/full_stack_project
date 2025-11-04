@@ -30,13 +30,14 @@ export type TCategory = {
 
 export type TOrder = {
     _id: string,
+    orderNumber: number,
     user_id: string,
-    products: {
+    items: {
         product: TProduct,
         quantity: number
     }[],
+    totalItems: number,
     totalPrice: number,
-    status: string,
     createdAt: string,
 }
 

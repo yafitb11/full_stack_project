@@ -7,7 +7,7 @@ const DB = config.get("DB") || "MONGODB";
 exports.findMyOrders = async (userId) => {
     if (DB === "MONGODB") {
         try {
-            const myOrders = await Order.find({ user_id: userId });
+            const myOrders = await Order.find({ user_id: userId }).populate("items.product");
             if (myOrders.length === 0) { return Promise.resolve("you haven't made any orders yet"); }
             return Promise.resolve(myOrders);
         } catch (error) {
@@ -21,7 +21,7 @@ exports.findMyOrders = async (userId) => {
 exports.findOneOrder = async (orderId) => {
     if (DB === "MONGODB") {
         try {
-            const order = await Order.findById(orderId);
+            const order = await Order.findById(orderId).populate("items.product");
             if (!order) { throw new Error("Could not find order in database"); }
             return Promise.resolve(order);
         } catch (error) {

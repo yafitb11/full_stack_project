@@ -1,16 +1,15 @@
 import axios from "axios";
-import { Button, Card, Spinner, Badge } from "flowbite-react";
+import { Button, Card, Spinner } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { TOrder } from "../types/types";
 import useAuth from "../hooks/useAuth";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const MyOrders = () => {
     const [orders, setOrders] = useState<TOrder[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
-    const { user, autoLogIn } = useAuth();
-
-    { !user && autoLogIn(); }
+    const { user } = useAuth();
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -38,29 +37,20 @@ const MyOrders = () => {
         return new Date(dateString).toLocaleDateString();
     };
 
-    const getStatusColor = (status: string) => {
-        switch (status.toLowerCase()) {
-            case 'pending':
-                return 'warning';
-            case 'completed':
-                return 'success';
-            case 'cancelled':
-                return 'failure';
-            default:
-                return 'gray';
-        }
-    };
 
     if (!user) {
         return (
             <div className="container mx-auto px-4 py-8">
                 <div className="text-center">
                     <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                        Please Login
+                        Please Login to view your orders
                     </h1>
                     <p className="text-gray-600 dark:text-gray-400">
                         You need to be logged in to view your orders.
                     </p>
+                    <Link to="/signin">
+                        <Button color="blue">Login</Button>
+                    </Link>
                 </div>
             </div>
         );
@@ -94,18 +84,18 @@ const MyOrders = () => {
                                 <div className="flex justify-between items-start mb-4">
                                     <div>
                                         <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                                            Order #{order._id.slice(-8)}
+                                            Order #{order.orderNumber}
                                         </h3>
                                         <p className="text-gray-600 dark:text-gray-400">
                                             Placed on {formatDate(order.createdAt)}
                                         </p>
                                     </div>
                                     <div className="text-right">
-                                        <Badge color={getStatusColor(order.status)}>
-                                            {order.status}
-                                        </Badge>
                                         <p className="text-lg font-bold text-gray-900 dark:text-white mt-2">
-                                            ${order.totalPrice.toFixed(2)}
+                                            total items: {order.totalItems}
+                                        </p>
+                                        <p className="text-lg font-bold text-gray-900 dark:text-white mt-2">
+                                            total price: ${order.totalPrice.toFixed(2)}
                                         </p>
                                     </div>
                                 </div>
@@ -114,7 +104,7 @@ const MyOrders = () => {
                                     <h4 className="font-semibold text-gray-900 dark:text-white">
                                         Products:
                                     </h4>
-                                    {order.products.map((item, index) => (
+                                    {order.items.map((item, index) => (
                                         <div key={index} className="flex items-center space-x-4 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
                                             <img
                                                 src={item.product.image.url}
