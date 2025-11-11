@@ -22,6 +22,7 @@ export default function CreateProduct() {
         handleSubmit,
         setValue,
         watch,
+        unregister,
         formState: { errors, isValid },
     } = useForm<productFormData>({
         mode: "onChange",
@@ -35,11 +36,19 @@ export default function CreateProduct() {
             quantityInStock: 0,
             price: 0,
             isDiscount: false,
-            discountedPrice: 0,
         },
     });
 
     const isDiscounted = watch("isDiscount") === true;
+
+    useEffect(() => {
+        if (isDiscounted) {
+            register("discountedPrice");
+            setValue("discountedPrice", 0);
+        } else {
+            unregister("discountedPrice");
+        }
+    }, [isDiscounted, register, unregister, setValue]);
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -53,7 +62,7 @@ export default function CreateProduct() {
                         (cat: TCategory) => cat.title === categoryFromUrl
                     );
                     if (matchedCategory) {
-                        setValue("category_id", matchedCategory._id, { shouldValidate: true });
+                        setValue("category_id", matchedCategory._id);
                     }
                 }
             } catch (error) {
@@ -82,7 +91,9 @@ export default function CreateProduct() {
                     alt: data.image.alt || data.title,
                 },
                 isDiscount: data.isDiscount,
-                ...(data.isDiscount && { discountedPrice: data.discountedPrice }),
+                ...(data.isDiscount && data.discountedPrice && {
+                    discountedPrice: data.discountedPrice
+                }),
             };
 
             await axios.post("http://localhost:8182/products", productData);
@@ -140,25 +151,39 @@ export default function CreateProduct() {
 
                         <div>
                             <Label htmlFor="price" value="Price" />
-                            <TextInput type="number" id="price" {...register("price")} />
+                            <TextInput type="number" step="0.01" id="price" {...register("price")} />
                             {errors.price && <p className="text-red-500 text-sm mt-1">{errors.price.message}</p>}
                         </div>
 
                         <div>
-                            <Label htmlFor="category_id" value="category_id" />
-                            <select
-                                id="category_id"
-                                {...register("category_id")}
-                                className="block w-full rounded border-gray-300 p-2"
-                                disabled={!!searchParams.get("category")}
-                            >
-                                <option value="">Select a category</option>
-                                {categories.map((cat) => (
-                                    <option key={cat._id} value={cat._id}>
-                                        {cat.title}
-                                    </option>
-                                ))}
-                            </select>
+                            <Label htmlFor="category_id" value="Category" />
+                            {searchParams.get("category") ? (
+                                <div className="relative">
+                                    <div className="block w-full rounded-lg border border-gray-300 bg-gray-100 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-600 dark:text-white cursor-not-allowed">
+                                        {categories.find(cat => cat._id === watch("category_id"))?.title || "Loading..."}
+                                    </div>
+                                    <input
+                                        type="hidden"
+                                        {...register("category_id")}
+                                        value={watch("category_id")}
+                                    />
+                                </div>
+                            ) : (
+                                <select
+                                    id="category_id"
+                                    {...register("category_id")}
+                                    className="block w-full rounded-lg border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                                    value={watch("category_id")}
+                                >
+                                    <option value="" disabled>Select a category</option>
+                                    {categories.map((cat) => (
+                                        <option key={cat._id} value={cat._id}>
+                                            {cat.title}
+                                        </option>
+                                    ))}
+                                </select>
+                            )}
+
                             {errors.category_id && <p className="text-red-500 text-sm mt-1">{errors.category_id.message}</p>}
                             {searchParams.get("category") && (
                                 <p className="text-sm text-blue-600 mt-1">Category pre-selected from category page</p>
@@ -189,8 +214,8 @@ export default function CreateProduct() {
                             <div className="flex items-center gap-2">
                                 <Radio
                                     id="discountYes"
-                                    {...register("isDiscount")}
-                                    value="yes"
+                                    name="isDiscount"
+                                    value="true"
                                     onChange={() => setValue("isDiscount", true, { shouldValidate: true })}
                                     checked={watch("isDiscount") === true}
                                 />
@@ -200,8 +225,8 @@ export default function CreateProduct() {
                             <div className="flex items-center gap-2">
                                 <Radio
                                     id="discountNo"
-                                    {...register("isDiscount")}
-                                    value="no"
+                                    name="isDiscount"
+                                    value="false"
                                     onChange={() => setValue("isDiscount", false, { shouldValidate: true })}
                                     checked={watch("isDiscount") === false}
                                 />
@@ -212,7 +237,12 @@ export default function CreateProduct() {
                         {isDiscounted && (
                             <div>
                                 <Label htmlFor="discountedPrice" value="Discounted Price" />
-                                <TextInput type="number" id="discountedPrice" {...register("discountedPrice")} />
+                                <TextInput
+                                    type="number"
+                                    step="0.01"
+                                    id="discountedPrice"
+                                    {...register("discountedPrice")}
+                                />
                                 {errors.discountedPrice && <p className="text-red-500 text-sm mt-1">{errors.discountedPrice.message}</p>}
                             </div>
                         )}
