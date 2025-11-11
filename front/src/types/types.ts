@@ -17,15 +17,15 @@ export type TProduct = {
 }
 
 export type TCategory = {
-    _id: string,
+    _id?: string,
     title: string,
     description: string,
     image: {
         url: string,
         alt: string,
     },
-    products: [string],
-    createdAt: string,
+    products?: [string],
+    createdAt?: string,
 }
 
 export type TOrder = {

@@ -4,13 +4,16 @@ import { Button, Card, TextInput, Textarea, Label } from "flowbite-react";
 import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
 import axios from "axios";
+import { TCategory } from "../types/types";
 
 const CreateCategory = () => {
-    const [formData, setFormData] = useState({
-        name: "",
+    const [formData, setFormData] = useState<TCategory>({
+        title: "",
         description: "",
-        imageUrl: "",
-        imageAlt: ""
+        image: {
+            url: "",
+            alt: ""
+        }
     });
     const [loading, setLoading] = useState(false);
     const { user } = useAuth();
@@ -32,7 +35,7 @@ const CreateCategory = () => {
         }
 
         // Validation
-        if (!formData.name || !formData.description) {
+        if (!formData.title || !formData.description) {
             toast.error("Please fill in all required fields", { autoClose: 2000 });
             return;
         }
@@ -44,11 +47,11 @@ const CreateCategory = () => {
             axios.defaults.headers.common["x-auth-token"] = token;
 
             const categoryData = {
-                name: formData.name,
+                title: formData.title,
                 description: formData.description,
                 image: {
-                    url: formData.imageUrl || "https://via.placeholder.com/300x200?text=No+Image",
-                    alt: formData.imageAlt || formData.name
+                    url: formData.image.url || "",
+                    alt: formData.image.alt || formData.title
                 }
             };
 
@@ -110,20 +113,20 @@ const CreateCategory = () => {
                 <Card className="p-6">
                     <form onSubmit={handleSubmit} className="space-y-6">
                         <div>
-                            <Label htmlFor="name" value="Category Name *" />
+                            <Label htmlFor="title" value="Category Title" />
                             <TextInput
-                                id="name"
-                                name="name"
+                                id="title"
+                                name="title"
                                 type="text"
-                                placeholder="Enter category name"
-                                value={formData.name}
+                                placeholder="Enter category title"
+                                value={formData.title}
                                 onChange={handleChange}
                                 required
                             />
                         </div>
 
                         <div>
-                            <Label htmlFor="description" value="Description *" />
+                            <Label htmlFor="description" value="Description" />
                             <Textarea
                                 id="description"
                                 name="description"
@@ -142,7 +145,7 @@ const CreateCategory = () => {
                                 name="imageUrl"
                                 type="url"
                                 placeholder="https://example.com/image.jpg"
-                                value={formData.imageUrl}
+                                value={formData.image.url}
                                 onChange={handleChange}
                             />
                             <p className="text-sm text-gray-500 mt-1">
@@ -157,7 +160,7 @@ const CreateCategory = () => {
                                 name="imageAlt"
                                 type="text"
                                 placeholder="Describe the image"
-                                value={formData.imageAlt}
+                                value={formData.image.alt}
                                 onChange={handleChange}
                             />
                         </div>

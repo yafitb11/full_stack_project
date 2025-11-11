@@ -9,13 +9,13 @@ const validateCategoryWithJoi = (category) => {
         image: Joi.object().keys({
             url: Joi.string()
                 .ruleset.regex(urlRegex)
-                .rule({ message: "image card url address must be valid url" })
+                .rule({ message: "image url address must be valid url" })
                 .allow(""),
             alt: Joi.string().min(2).max(256).allow(""),
         }),
     }).unknown(false);
 
-    return schema.validate(card);
+    return schema.validate(category);
 };
 
 module.exports = validateCategoryWithJoi;
