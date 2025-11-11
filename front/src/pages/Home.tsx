@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { TRootState } from "../store/store";
 import { TProduct } from "../types/types";
-import { FaHeart, FaShoppingCart } from "react-icons/fa";
+import { FaHeart, FaShoppingCart, FaEdit, FaTrash } from "react-icons/fa";
 import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
 import { Pagination } from "flowbite-react";
@@ -87,6 +87,19 @@ const Home = () => {
         }
     };
 
+    const deleteProduct = async (productId: string) => {
+        if (window.confirm("Are you sure you want to delete this product?")) {
+            try {
+                axios.defaults.headers.common["x-auth-token"] = token;
+                await axios.delete(`http://localhost:8182/products/${productId}`);
+                setProducts(products.filter((product) => product._id !== productId));
+                toast.success("Product deleted successfully", { autoClose: 2000 });
+            } catch (error) {
+                console.log("Error deleting product:", error);
+                toast.error("Failed to delete product", { autoClose: 2000 });
+            }
+        }
+    };
 
     const filterByPage = () => {
         const start = (currentPage - 1) * 12;
@@ -167,17 +180,31 @@ const Home = () => {
                                         View Details
                                     </Button>
                                     <div className="flex space-x-2">
-                                        {user && !user.isAdmin && (
-                                            <FaHeart
-                                                className={`${isLiked ? "text-red-500" : "text-gray-500"} cursor-pointer text-xl`}
-                                                onClick={() => likeOrUnlikeProduct(product._id)}
-                                            />
+                                        {user && user.isAdmin && (
+                                            <>
+                                                <FaEdit
+                                                    className="text-green-500 cursor-pointer text-xl hover:text-green-600"
+                                                    onClick={() => nav(`/update-product/${product._id}`)}
+                                                    title="Edit product"
+                                                />
+                                                <FaTrash
+                                                    className="text-red-500 cursor-pointer text-xl hover:text-red-600"
+                                                    onClick={() => deleteProduct(product._id)}
+                                                    title="Delete product"
+                                                />
+                                            </>
                                         )}
                                         {user && !user.isAdmin && (
-                                            <FaShoppingCart
-                                                className="text-blue-500 cursor-pointer text-xl"
-                                                onClick={() => addToCart(product)}
-                                            />
+                                            <>
+                                                <FaHeart
+                                                    className={`${isLiked ? "text-red-500" : "text-gray-500"} cursor-pointer text-xl`}
+                                                    onClick={() => likeOrUnlikeProduct(product._id)}
+                                                />
+                                                <FaShoppingCart
+                                                    className="text-blue-500 cursor-pointer text-xl"
+                                                    onClick={() => addToCart(product)}
+                                                />
+                                            </>
                                         )}
                                     </div>
                                 </div>
