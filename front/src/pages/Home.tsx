@@ -140,17 +140,25 @@ const Home = () => {
                                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                                     {product.title}
                                 </h3>
+                                <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
+                                    {product.subtitle}
+                                </h3>
                                 <p className="text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
                                     {product.description}
                                 </p>
                                 <div className="flex justify-between items-center mb-4">
-                                    <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                                    <span className={`font-bold ${product.isDiscount ? "text-xl text-blue-400 dark:text-blue-300" : "text-2xl text-blue-600 dark:text-blue-400"}`}>
                                         ${product.price}
                                     </span>
                                     <span className="text-sm text-gray-500">
                                         {product.likes.length} likes
                                     </span>
                                 </div>
+                                {product.isDiscount && (
+                                    <p className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-4">
+                                        product is in discount! ${product.discountedPrice}
+                                    </p>
+                                )}
                                 <div className="flex justify-between items-center">
                                     <Button
                                         color="blue"
