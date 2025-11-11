@@ -31,7 +31,7 @@ export default function CreateProduct() {
             subtitle: "",
             description: "",
             image: { url: "", alt: "" },
-            category: "",
+            category_id: "",
             quantityInStock: 0,
             price: 0,
             isDiscount: false,
@@ -48,7 +48,14 @@ export default function CreateProduct() {
                 setCategories(response.data);
 
                 const categoryFromUrl = searchParams.get("category");
-                if (categoryFromUrl) setValue("category", categoryFromUrl);
+                if (categoryFromUrl) {
+                    const matchedCategory = response.data.find(
+                        (cat: TCategory) => cat.title === categoryFromUrl
+                    );
+                    if (matchedCategory) {
+                        setValue("category_id", matchedCategory._id, { shouldValidate: true });
+                    }
+                }
             } catch (error) {
                 console.error("Error fetching categories:", error);
             }
@@ -68,7 +75,7 @@ export default function CreateProduct() {
                 subtitle: data.subtitle,
                 description: data.description,
                 price: data.price,
-                category: data.category,
+                category_id: data.category_id,
                 quantityInStock: data.quantityInStock,
                 image: {
                     url: data.image.url || "https://via.placeholder.com/300x200?text=No+Image",
@@ -138,21 +145,21 @@ export default function CreateProduct() {
                         </div>
 
                         <div>
-                            <Label htmlFor="category" value="Category" />
+                            <Label htmlFor="category_id" value="category_id" />
                             <select
-                                id="category"
-                                {...register("category")}
+                                id="category_id"
+                                {...register("category_id")}
                                 className="block w-full rounded border-gray-300 p-2"
                                 disabled={!!searchParams.get("category")}
                             >
                                 <option value="">Select a category</option>
                                 {categories.map((cat) => (
-                                    <option key={cat._id} value={cat.title}>
+                                    <option key={cat._id} value={cat._id}>
                                         {cat.title}
                                     </option>
                                 ))}
                             </select>
-                            {errors.category && <p className="text-red-500 text-sm mt-1">{errors.category.message}</p>}
+                            {errors.category_id && <p className="text-red-500 text-sm mt-1">{errors.category_id.message}</p>}
                             {searchParams.get("category") && (
                                 <p className="text-sm text-blue-600 mt-1">Category pre-selected from category page</p>
                             )}

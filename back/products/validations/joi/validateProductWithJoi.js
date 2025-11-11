@@ -1,6 +1,7 @@
 const Joi = require("joi");
 
 const validateProductWithJoi = (product) => {
+    const urlRegex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/;
 
     const schema = Joi.object({
         title: Joi.string().min(2).max(256).required(),
@@ -17,7 +18,14 @@ const validateProductWithJoi = (product) => {
         quantityInStock: Joi.number().min(0).required(),
         price: Joi.number().min(1).required(),
         isDiscount: Joi.boolean(),
-        discountedPrice: isDiscount ? Joi.number().min(0).required() : Joi.forbidden(),
+        discountedPrice: Joi.number()
+            .min(0)
+            .less(Joi.ref('price'))
+            .when('isDiscount', {
+                is: true,
+                then: Joi.required(),
+                otherwise: Joi.forbidden()
+            }),
     }).unknown(false);
 
     return schema.validate(product);

@@ -11,7 +11,7 @@ export type TProduct = {
     price: number,
     isDiscount: boolean,
     discountedPrice: number,
-    category: string,
+    category_id: string,
     likes: string[],
     createdAt: string,
 }

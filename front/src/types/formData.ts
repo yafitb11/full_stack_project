@@ -31,7 +31,7 @@ export type productFormData = {
         url?: string;
         alt?: string;
     };
-    category?: string;
+    category_id?: string;
     quantityInStock: number;
     price: number;
     isDiscount: boolean;
