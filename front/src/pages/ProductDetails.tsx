@@ -122,12 +122,30 @@ const ProductDetails = () => {
                             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
                                 {product.title}
                             </h1>
+                            <p className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                                {product.subtitle}
+                            </p>
                             <p className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-4">
                                 ${product.price}
                             </p>
-                            <p className="text-gray-600 dark:text-gray-400 text-lg">
+                            <p className="text-gray-600 dark:text-gray-400 text-lg mb-2">
                                 {product.description}
                             </p>
+                            {user && user.isAdmin && (
+                                <p className="text-gray-600 dark:text-gray-400 text-lg mb-2">
+                                    quantity in stock: {product.quantityInStock}
+                                </p>
+                            )}
+                            {product.isDiscount && (
+                                <p className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-4">
+                                    product is in discount! ${product.discountedPrice}
+                                </p>
+                            )}
+                            {user && user.isAdmin && (
+                                <p className="text-gray-600 dark:text-gray-400 text-lg mb-2">
+                                    created at: {product.createdAt}
+                                </p>
+                            )}
                         </div>
 
                         <div className="flex items-center space-x-4">
@@ -171,13 +189,6 @@ const ProductDetails = () => {
                             </div>
                         )}
 
-                        {user && user.isAdmin && (
-                            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                                <p className="text-blue-800">
-                                    As an admin, you cannot like products or add them to cart.
-                                </p>
-                            </div>
-                        )}
 
                         <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
                             <div className="flex space-x-4">

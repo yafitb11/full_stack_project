@@ -1,25 +1,45 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Button, Card, TextInput, Textarea, Label, Select } from "flowbite-react";
+import { Button, Card, TextInput, Textarea, Label, Radio } from "flowbite-react";
 import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
 import axios from "axios";
+import { joiResolver } from "@hookform/resolvers/joi";
+import { useForm } from "react-hook-form";
+import { newProductSchema } from "../validations/newProduct.joi";
+import { productFormData } from "../types/formData";
 import { TCategory } from "../types/types";
 
-const CreateProduct = () => {
-    const [formData, setFormData] = useState({
-        name: "",
-        description: "",
-        price: "",
-        category: "",
-        imageUrl: "",
-        imageAlt: ""
-    });
+export default function CreateProduct() {
     const [categories, setCategories] = useState<TCategory[]>([]);
     const [loading, setLoading] = useState(false);
     const { user } = useAuth();
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
+
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        watch,
+        formState: { errors, isValid },
+    } = useForm<productFormData>({
+        mode: "onChange",
+        resolver: joiResolver(newProductSchema),
+        defaultValues: {
+            title: "",
+            subtitle: "",
+            description: "",
+            image: { url: "", alt: "" },
+            category: "",
+            quantityInStock: 0,
+            price: 0,
+            isDiscount: false,
+            discountedPrice: 0,
+        },
+    });
+
+    const isDiscounted = watch("isDiscount");
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -27,47 +47,16 @@ const CreateProduct = () => {
                 const response = await axios.get("http://localhost:8182/categories");
                 setCategories(response.data);
 
-                // Check if category is provided in URL
-                const categoryFromUrl = searchParams.get('category');
-                if (categoryFromUrl) {
-                    setFormData(prev => ({
-                        ...prev,
-                        category: categoryFromUrl
-                    }));
-                }
+                const categoryFromUrl = searchParams.get("category");
+                if (categoryFromUrl) setValue("category", categoryFromUrl);
             } catch (error) {
                 console.error("Error fetching categories:", error);
             }
         };
         fetchCategories();
-    }, [searchParams]);
+    }, [searchParams, setValue]);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    };
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-
-        if (!user || !user.isAdmin) {
-            toast.error("Only admins can create products", { autoClose: 2000 });
-            return;
-        }
-
-        // Validation
-        if (!formData.name || !formData.description || !formData.price || !formData.category) {
-            toast.error("Please fill in all required fields", { autoClose: 2000 });
-            return;
-        }
-
-        if (isNaN(Number(formData.price)) || Number(formData.price) <= 0) {
-            toast.error("Please enter a valid price", { autoClose: 2000 });
-            return;
-        }
-
+    const onSubmit = async (data: productFormData) => {
         setLoading(true);
 
         try {
@@ -75,21 +64,24 @@ const CreateProduct = () => {
             axios.defaults.headers.common["x-auth-token"] = token;
 
             const productData = {
-                name: formData.name,
-                description: formData.description,
-                price: Number(formData.price),
-                category: formData.category,
+                title: data.title,
+                subtitle: data.subtitle,
+                description: data.description,
+                price: data.price,
+                category: data.category,
+                quantityInStock: data.quantityInStock,
                 image: {
-                    url: formData.imageUrl || "https://via.placeholder.com/300x200?text=No+Image",
-                    alt: formData.imageAlt || formData.name
-                }
+                    url: data.image.url || "https://via.placeholder.com/300x200?text=No+Image",
+                    alt: data.image.alt || data.title,
+                },
+                isDiscount: data.isDiscount,
+                ...(data.isDiscount && { discountedPrice: data.discountedPrice }),
             };
 
             await axios.post("http://localhost:8182/products", productData);
 
             toast.success("Product created successfully!", { autoClose: 2000 });
             navigate("/");
-
         } catch (error) {
             console.error("Error creating product:", error);
             toast.error("Failed to create product. Please try again.", { autoClose: 2000 });
@@ -98,32 +90,12 @@ const CreateProduct = () => {
         }
     };
 
-    if (!user) {
+    if (!user || !user.isAdmin) {
         return (
-            <div className="container mx-auto px-4 py-8">
-                <div className="text-center">
-                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                        Please Login
-                    </h1>
-                    <p className="text-gray-600 dark:text-gray-400">
-                        You need to be logged in to create products.
-                    </p>
-                </div>
-            </div>
-        );
-    }
-
-    if (!user.isAdmin) {
-        return (
-            <div className="container mx-auto px-4 py-8">
-                <div className="text-center">
-                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                        Access Denied
-                    </h1>
-                    <p className="text-gray-600 dark:text-gray-400">
-                        Only administrators can create products.
-                    </p>
-                </div>
+            <div className="container mx-auto px-4 py-8 text-center">
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                    You must be the Admin to watch this Page!
+                </h1>
             </div>
         );
     }
@@ -135,128 +107,119 @@ const CreateProduct = () => {
                     <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
                         Create New Product
                     </h1>
-                    <p className="text-gray-600 dark:text-gray-400">
-                        Add a new product to the store
-                    </p>
+                    <p className="text-gray-600 dark:text-gray-400">Add a new product to the store</p>
                 </div>
 
                 <Card className="p-6">
-                    <form onSubmit={handleSubmit} className="space-y-6">
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+
                         <div>
-                            <Label htmlFor="name" value="Product Name *" />
-                            <TextInput
-                                id="name"
-                                name="name"
-                                type="text"
-                                placeholder="Enter product name"
-                                value={formData.name}
-                                onChange={handleChange}
-                                required
-                            />
+                            <Label htmlFor="title" value="Product Title" />
+                            <TextInput id="title" {...register("title")} />
+                            {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>}
                         </div>
 
                         <div>
-                            <Label htmlFor="description" value="Description *" />
-                            <Textarea
-                                id="description"
-                                name="description"
-                                placeholder="Enter product description"
-                                rows={4}
-                                value={formData.description}
-                                onChange={handleChange}
-                                required
-                            />
+                            <Label htmlFor="subtitle" value="Product Subtitle" />
+                            <TextInput id="subtitle" {...register("subtitle")} />
+                            {errors.subtitle && <p className="text-red-500 text-sm mt-1">{errors.subtitle.message}</p>}
                         </div>
 
                         <div>
-                            <Label htmlFor="price" value="Price *" />
-                            <TextInput
-                                id="price"
-                                name="price"
-                                type="number"
-                                step="0.01"
-                                min="0"
-                                placeholder="0.00"
-                                value={formData.price}
-                                onChange={handleChange}
-                                required
-                            />
+                            <Label htmlFor="description" value="Description" />
+                            <Textarea id="description" rows={4} {...register("description")} />
+                            {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>}
                         </div>
 
                         <div>
-                            <Label htmlFor="category" value="Category *" />
-                            <Select
+                            <Label htmlFor="price" value="Price" />
+                            <TextInput type="number" id="price" {...register("price")} />
+                            {errors.price && <p className="text-red-500 text-sm mt-1">{errors.price.message}</p>}
+                        </div>
+
+                        <div>
+                            <Label htmlFor="category" value="Category" />
+                            <select
                                 id="category"
-                                name="category"
-                                value={formData.category}
-                                onChange={handleChange}
-                                disabled={!!searchParams.get('category')}
-                                required
+                                {...register("category")}
+                                className="block w-full rounded border-gray-300 p-2"
+                                disabled={!!searchParams.get("category")}
                             >
                                 <option value="">Select a category</option>
-                                {categories.map((category) => (
-                                    <option key={category._id} value={category.title}>
-                                        {category.title}
+                                {categories.map((cat) => (
+                                    <option key={cat._id} value={cat.title}>
+                                        {cat.title}
                                     </option>
                                 ))}
-                            </Select>
-                            {searchParams.get('category') && (
-                                <p className="text-sm text-blue-600 mt-1">
-                                    Category pre-selected from category page
-                                </p>
+                            </select>
+                            {errors.category && <p className="text-red-500 text-sm mt-1">{errors.category.message}</p>}
+                            {searchParams.get("category") && (
+                                <p className="text-sm text-blue-600 mt-1">Category pre-selected from category page</p>
                             )}
                         </div>
 
                         <div>
-                            <Label htmlFor="imageUrl" value="Image URL" />
-                            <TextInput
-                                id="imageUrl"
-                                name="imageUrl"
-                                type="url"
-                                placeholder="https://example.com/image.jpg"
-                                value={formData.imageUrl}
-                                onChange={handleChange}
-                            />
-                            <p className="text-sm text-gray-500 mt-1">
-                                Leave empty to use placeholder image
-                            </p>
+                            <Label htmlFor="image.url" value="Image URL" />
+                            <TextInput id="image.url" {...register("image.url")} />
+                            {errors.image?.url && <p className="text-red-500 text-sm mt-1">{errors.image.url.message}</p>}
                         </div>
 
                         <div>
-                            <Label htmlFor="imageAlt" value="Image Alt Text" />
-                            <TextInput
-                                id="imageAlt"
-                                name="imageAlt"
-                                type="text"
-                                placeholder="Describe the image"
-                                value={formData.imageAlt}
-                                onChange={handleChange}
-                            />
+                            <Label htmlFor="image.alt" value="Image Alt Text" />
+                            <TextInput id="image.alt" {...register("image.alt")} />
+                            {errors.image?.alt && <p className="text-red-500 text-sm mt-1">{errors.image.alt.message}</p>}
                         </div>
 
+                        <div>
+                            <Label htmlFor="quantityInStock" value="Quantity in Stock" />
+                            <TextInput type="number" id="quantityInStock" {...register("quantityInStock")} />
+                            {errors.quantityInStock && <p className="text-red-500 text-sm mt-1">{errors.quantityInStock.message}</p>}
+                        </div>
+
+                        <fieldset className="flex gap-3 items-center">
+                            <legend className="mb-1 text-gray-700 dark:text-gray-200">Is there a Discount?</legend>
+
+                            <div className="flex items-center gap-2">
+                                <Radio
+                                    id="discountYes"
+                                    value="true"
+                                    {...register("isDiscount", { setValueAs: (val) => val === "true" })}
+                                />
+                                <Label htmlFor="discountYes">Yes</Label>
+                            </div>
+
+                            <div className="flex items-center gap-2">
+                                <Radio
+                                    id="discountNo"
+                                    value="false"
+                                    defaultChecked
+                                    {...register("isDiscount", { setValueAs: (val) => val === "true" })}
+                                />
+                                <Label htmlFor="discountNo">No</Label>
+                            </div>
+                        </fieldset>
+                        {errors.isDiscount && <p className="text-red-500 text-sm mt-1">{errors.isDiscount.message}</p>}
+
+                        {isDiscounted && (
+                            <div>
+                                <Label htmlFor="discountedPrice" value="Discounted Price" />
+                                <TextInput type="number" id="discountedPrice" {...register("discountedPrice")} />
+                                {errors.discountedPrice && <p className="text-red-500 text-sm mt-1">{errors.discountedPrice.message}</p>}
+                            </div>
+                        )}
+
                         <div className="flex space-x-4">
-                            <Button
-                                type="submit"
-                                color="blue"
-                                disabled={loading}
-                                className="flex-1"
-                            >
+                            <Button type="submit" color="blue" disabled={loading || !isValid} className="flex-1">
                                 {loading ? "Creating..." : "Create Product"}
                             </Button>
-                            <Button
-                                type="button"
-                                color="gray"
-                                onClick={() => navigate("/")}
-                                className="flex-1"
-                            >
+                            <Button type="button" color="gray" onClick={() => navigate("/")} className="flex-1">
                                 Cancel
                             </Button>
                         </div>
+
                     </form>
                 </Card>
             </div>
         </div>
     );
-};
-
-export default CreateProduct;
+}

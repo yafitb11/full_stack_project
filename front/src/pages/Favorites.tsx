@@ -30,7 +30,7 @@ const Favorites = () => {
                 const response = await axios.get("http://localhost:8182/products");
 
                 const likedProducts = response.data.filter((item: TProduct) => {
-                    return item.likes.includes(user?._id);
+                    return user ? item.likes.includes(user._id) : false;
                 });
                 setProducts(likedProducts);
 
@@ -100,15 +100,10 @@ const Favorites = () => {
 
     if (!user) {
         return (
-            <div className="container mx-auto px-4 py-8">
-                <div className="text-center">
-                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                        Please Login
-                    </h1>
-                    <p className="text-gray-600 dark:text-gray-400">
-                        You need to be logged in to view your favorites.
-                    </p>
-                </div>
+            <div className="container mx-auto px-4 py-8 text-center">
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                    Please Login
+                </h1>
             </div>
         );
     }
