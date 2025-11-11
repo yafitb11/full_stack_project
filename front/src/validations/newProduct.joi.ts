@@ -20,10 +20,12 @@ export const newProductSchema = Joi.object({
     quantityInStock: Joi.number().min(0).required(),
     price: Joi.number().min(1).required(),
     isDiscount: Joi.boolean(),
-    discountedPrice: Joi.number().min(0).when('isDiscount', {
-        is: true,
-        then: Joi.required(),
-        otherwise: Joi.forbidden()
-    })
+    discountedPrice: Joi.number().min(0)
+        .less(Joi.ref('price'))
+        .when('isDiscount', {
+            is: true,
+            then: Joi.required(),
+            otherwise: Joi.forbidden()
+        })
 
 });

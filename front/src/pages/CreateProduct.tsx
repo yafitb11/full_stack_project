@@ -39,7 +39,7 @@ export default function CreateProduct() {
         },
     });
 
-    const isDiscounted = watch("isDiscount");
+    const isDiscounted = watch("isDiscount") === true;
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -78,7 +78,7 @@ export default function CreateProduct() {
                 category_id: data.category_id,
                 quantityInStock: data.quantityInStock,
                 image: {
-                    url: data.image.url || "https://via.placeholder.com/300x200?text=No+Image",
+                    url: data.image.url || "",
                     alt: data.image.alt || data.title,
                 },
                 isDiscount: data.isDiscount,
@@ -189,8 +189,10 @@ export default function CreateProduct() {
                             <div className="flex items-center gap-2">
                                 <Radio
                                     id="discountYes"
-                                    value="true"
-                                    {...register("isDiscount", { setValueAs: (val) => val === "true" })}
+                                    {...register("isDiscount")}
+                                    value="yes"
+                                    onChange={() => setValue("isDiscount", true, { shouldValidate: true })}
+                                    checked={watch("isDiscount") === true}
                                 />
                                 <Label htmlFor="discountYes">Yes</Label>
                             </div>
@@ -198,14 +200,14 @@ export default function CreateProduct() {
                             <div className="flex items-center gap-2">
                                 <Radio
                                     id="discountNo"
-                                    value="false"
-                                    defaultChecked
-                                    {...register("isDiscount", { setValueAs: (val) => val === "true" })}
+                                    {...register("isDiscount")}
+                                    value="no"
+                                    onChange={() => setValue("isDiscount", false, { shouldValidate: true })}
+                                    checked={watch("isDiscount") === false}
                                 />
                                 <Label htmlFor="discountNo">No</Label>
                             </div>
                         </fieldset>
-                        {errors.isDiscount && <p className="text-red-500 text-sm mt-1">{errors.isDiscount.message}</p>}
 
                         {isDiscounted && (
                             <div>
