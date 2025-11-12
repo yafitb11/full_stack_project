@@ -28,47 +28,21 @@ const useAddToCart = () => {
             toast.success(`${product.title} added to cart`, { autoClose: 2000 });
         }
 
+        // רק עדכון Redux - localStorage יתעדכן אוטומטית
         dispatch(cartActions.addToCart(product));
-
-        //add to localStorage
-        const updatedCart = [...cartItems];
-        const existingItemIndex = updatedCart.findIndex(item => item.product._id === product._id);
-
-        if (existingItemIndex >= 0) {
-            updatedCart[existingItemIndex].quantity += 1;
-        } else {
-            updatedCart.push({ product, quantity: 1 });
-        }
-
-        localStorage.setItem("cart", JSON.stringify(updatedCart));
     };
 
     const removeFromCart = (productId: string) => {
         dispatch(cartActions.removeFromCart(productId));
-
-        // Update localStorage
-        const updatedCart = cartItems.filter(item => item.product._id !== productId);
-        localStorage.setItem("cart", JSON.stringify(updatedCart));
-
         toast.success("Product removed from cart", { autoClose: 2000 });
     };
 
     const updateQuantity = (productId: string, quantity: number) => {
         dispatch(cartActions.updateQuantity({ productId, quantity }));
-
-        // Update localStorage
-        const updatedCart = cartItems.map(item =>
-            item.product._id === productId
-                ? { ...item, quantity }
-                : item
-        ).filter(item => item.quantity > 0);
-
-        localStorage.setItem("cart", JSON.stringify(updatedCart));
     };
 
     const clearCart = () => {
         dispatch(cartActions.clearCart());
-        localStorage.removeItem("cart");
         toast.success("Cart cleared", { autoClose: 2000 });
     };
 

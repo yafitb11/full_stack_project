@@ -12,6 +12,7 @@ import { Pagination } from "flowbite-react";
 import { searchActions } from "../store/searchSlice";
 import { useDispatch } from "react-redux";
 import useLikeProduct from "../hooks/useLikeProduct";
+import useAddToCart from "../hooks/useAddToCart";
 
 const Favorites = () => {
     const [products, setProducts] = useState<TProduct[]>([]);
@@ -21,6 +22,7 @@ const Favorites = () => {
     const currentPage = useSelector((state: TRootState) => state.searchSlice.currentPage);
     const dispatch = useDispatch();
     const { user } = useAuth();
+    const { addToCart } = useAddToCart();
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -63,21 +65,6 @@ const Favorites = () => {
         if (!user) return;
         setProducts((prev) => prev.filter((p) => p._id !== productId));
         await toggleLike(productId, true);
-    };
-
-    const addToCart = (product: TProduct) => {
-        if (!user) {
-            toast.error("Please login to add products to cart", { autoClose: 2000 });
-            return;
-        }
-
-        if (user.isAdmin) {
-            toast.error("Admins cannot add products to cart", { autoClose: 2000 });
-            return;
-        }
-
-        // Add to cart logic here (you'll need to implement cart state management)
-        toast.success("Product added to cart", { autoClose: 2000 });
     };
 
     if (!user) {

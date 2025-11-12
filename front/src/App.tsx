@@ -24,13 +24,15 @@ import EditProduct from "./pages/EditProduct";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { useEffect } from "react";
 import useAuth from "./hooks/useAuth";
+import useCartSync from "./hooks/useCartSync";
 
 function App() {
   const { autoLogIn } = useAuth();
-
   useEffect(() => {
     autoLogIn();
   }, []);
+
+  useCartSync();
 
   return (
     <>
