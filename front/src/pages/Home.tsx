@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Button, Card, Spinner } from "flowbite-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { TRootState } from "../store/store";
@@ -12,6 +12,7 @@ import { Pagination } from "flowbite-react";
 import { useDispatch } from "react-redux";
 import { searchActions } from "../store/searchSlice";
 import useAddToCart from "../hooks/addToCart";
+import useLikeProduct from "../hooks/useLikeProduct";
 
 const Home = () => {
     const [products, setProducts] = useState<TProduct[]>([]);
@@ -40,51 +41,46 @@ const Home = () => {
         fetchProducts();
     }, []);
 
-    const filterProducts = () => {
-        if (products) {
-            return products.filter(
-                (product) =>
-                    product.title?.toLowerCase().includes(search.toLowerCase()) ||
-                    product.description?.toLowerCase().includes(search.toLowerCase()),
-            );
-        }
-        return products;
-    };
 
-    const likeOrUnlikeProduct = async (productId: string) => {
-        if (!user) {
-            toast.error("Please login to like products", { autoClose: 2000 });
-            return;
-        }
+    const filteredProducts = useMemo(() => {
+        if (!products) return [];
+        return products.filter(
+            (product) =>
+                product.title?.toLowerCase().includes(search.toLowerCase()) ||
+                product.description?.toLowerCase().includes(search.toLowerCase())
+        );
+    }, [products, search]);
 
-        try {
-            axios.defaults.headers.common["x-auth-token"] = token;
-            await axios.patch(`http://localhost:8182/products/${productId}`);
+    const paginatedProducts = useMemo(() => {
+        const start = (currentPage - 1) * 12;
+        const end = start + 12;
+        return filteredProducts.slice(start, end);
+    }, [filteredProducts, currentPage]);
 
-            const product = products.find((product) => product._id === productId);
+    const totalPages = Math.ceil(filteredProducts.length / 12);
 
-            if (product) {
-                const isLiked = product.likes.includes(user._id);
-                let productsArr = [...products];
 
-                if (isLiked) {
-                    product.likes = product.likes.filter((like) => like !== user._id);
-                    const productIndex = productsArr.findIndex((product) => product._id === productId);
-                    productsArr[productIndex] = product;
-                    toast.success("Product unliked successfully", { autoClose: 2000 });
-                } else {
-                    product.likes = [...product.likes, user._id];
-                    const productIndex = productsArr.findIndex((product) => product._id === productId);
-                    productsArr[productIndex] = product;
-                    toast.success("Product liked successfully", { autoClose: 2000 });
-                }
+    const { toggleLike } = useLikeProduct();
+    const handleLike = async (productId: string) => {
+        if (!user) return;
+        const product = products.find((p) => p._id === productId);
+        if (!product) return;
+        const isLiked = product.likes.includes(user._id);
 
-                setProducts(productsArr);
-            }
-        } catch (error) {
-            console.log("Error liking/unliking product:", error);
-            toast.error("Something went wrong", { autoClose: 2000 });
-        }
+        setProducts((prevProductsArr) =>
+            prevProductsArr.map((p) => {
+                if (p._id !== productId) return p;
+
+                return {
+                    ...p,
+                    likes: isLiked
+                        ? p.likes.filter((id) => id !== user._id)
+                        : [...p.likes, user._id],
+                };
+            })
+        );
+
+        await toggleLike(productId, product.likes.includes(user._id));
     };
 
     const deleteProduct = async (productId: string) => {
@@ -99,12 +95,6 @@ const Home = () => {
                 toast.error("Failed to delete product", { autoClose: 2000 });
             }
         }
-    };
-
-    const filterByPage = () => {
-        const start = (currentPage - 1) * 12;
-        const end = start + 12;
-        return filterProducts().slice(start, end);
     };
 
     return (
@@ -137,8 +127,16 @@ const Home = () => {
                 </div>
             )}
 
+            {!spinner && paginatedProducts.length === 0 && (
+                <div className="col-span-full text-center py-12">
+                    <p className="text-xl text-gray-600 dark:text-gray-400">
+                        {search ? 'No products found matching your search.' : 'No products available.'}
+                    </p>
+                </div>
+            )}
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {products && filterByPage()?.map((product) => {
+                {products && paginatedProducts.map((product) => {
                     const isLiked = user ? product.likes.includes(user._id) : false;
                     return (
                         <Card key={product._id} className="h-full hover:shadow-lg transition-shadow duration-300">
@@ -198,7 +196,7 @@ const Home = () => {
                                             <>
                                                 <FaHeart
                                                     className={`${isLiked ? "text-red-500" : "text-gray-500"} cursor-pointer text-xl`}
-                                                    onClick={() => likeOrUnlikeProduct(product._id)}
+                                                    onClick={() => handleLike(product._id)}
                                                 />
                                                 <FaShoppingCart
                                                     className="text-blue-500 cursor-pointer text-xl"
@@ -217,7 +215,7 @@ const Home = () => {
             <div className="flex overflow-x-auto sm:justify-center mt-8">
                 <Pagination
                     currentPage={currentPage}
-                    totalPages={Math.ceil(filterProducts().length / 12)}
+                    totalPages={totalPages}
                     onPageChange={(page) => dispatch(searchActions.setCurrentPage(page))}
                 />
             </div>

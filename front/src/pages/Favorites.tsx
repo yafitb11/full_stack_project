@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Button, Card, Spinner } from "flowbite-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { TRootState } from "./../store/store";
@@ -11,17 +11,16 @@ import { toast } from "react-toastify";
 import { Pagination } from "flowbite-react";
 import { searchActions } from "../store/searchSlice";
 import { useDispatch } from "react-redux";
+import useLikeProduct from "../hooks/useLikeProduct";
 
 const Favorites = () => {
     const [products, setProducts] = useState<TProduct[]>([]);
     const [spinner, setSpinner] = useState<boolean>(false);
-    const [reload, setReload] = useState<boolean>(false);
     const nav = useNavigate();
     const search = useSelector((state: TRootState) => state.searchSlice.searchWord);
     const currentPage = useSelector((state: TRootState) => state.searchSlice.currentPage);
     const dispatch = useDispatch();
-    const { user, autoLogIn } = useAuth();
-    { !user && autoLogIn(); }
+    const { user } = useAuth();
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -42,39 +41,28 @@ const Favorites = () => {
         };
 
         fetchProducts();
-    }, [user?._id, reload]);
+    }, [user?._id]);
 
-    const filterProducts = () => {
-        if (products) {
-            return products.filter(
-                (product) =>
-                    product.title.toLowerCase().includes(search.toLowerCase()) ||
-                    product.description.toLowerCase().includes(search.toLowerCase()),
-            );
-        }
-        return products;
-    };
+    const filteredProducts = useMemo(() => {
+        return products.filter(
+            (product) =>
+                product.title.toLowerCase().includes(search.toLowerCase()) ||
+                product.description.toLowerCase().includes(search.toLowerCase())
+        );
+    }, [products, search]);
 
+    const paginatedProducts = useMemo(() => {
+        const start = (currentPage - 1) * 12;
+        return filteredProducts.slice(start, start + 12);
+    }, [filteredProducts, currentPage]);
+
+    const totalPages = Math.ceil(filteredProducts.length / 12);
+
+    const { toggleLike } = useLikeProduct();
     const unlikeProduct = async (productId: string) => {
-        try {
-            const token = localStorage.getItem("token");
-            axios.defaults.headers.common["x-auth-token"] = token;
-            await axios.patch(`http://localhost:8182/products/${productId}`);
-
-            const product = products.find((product) => product._id === productId);
-            let productsArr = [...products];
-            if (product) {
-                product.likes = product.likes.filter((like) => like !== user?._id);
-                const productIndex = productsArr.findIndex((product) => product._id === productId);
-                productsArr[productIndex] = product;
-                toast.success("Product unliked successfully", { autoClose: 2000 });
-            }
-            setProducts(productsArr);
-        } catch (error) {
-            console.log("Error unliking product:", error);
-            toast.error("Something went wrong", { autoClose: 2000 });
-        }
-        setReload((reload => !reload));
+        if (!user) return;
+        setProducts((prev) => prev.filter((p) => p._id !== productId));
+        await toggleLike(productId, true);
     };
 
     const addToCart = (product: TProduct) => {
@@ -90,12 +78,6 @@ const Favorites = () => {
 
         // Add to cart logic here (you'll need to implement cart state management)
         toast.success("Product added to cart", { autoClose: 2000 });
-    };
-
-    const filterByPage = () => {
-        const start = (currentPage - 1) * 12;
-        const end = start + 12;
-        return filterProducts().slice(start, end);
     };
 
     if (!user) {
@@ -132,7 +114,7 @@ const Favorites = () => {
                 ) : (
                     <>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                            {filterByPage()?.map((product) => (
+                            {paginatedProducts.map((product) => (
                                 <Card key={product._id} className="h-full hover:shadow-lg transition-shadow duration-300">
                                     <div className="aspect-w-16 aspect-h-9 mb-4">
                                         <img
@@ -184,7 +166,7 @@ const Favorites = () => {
                         <div className="flex overflow-x-auto sm:justify-center mt-8">
                             <Pagination
                                 currentPage={currentPage}
-                                totalPages={Math.ceil(filterProducts().length / 12)}
+                                totalPages={totalPages}
                                 onPageChange={(page) => dispatch(searchActions.setCurrentPage(page))}
                             />
                         </div>

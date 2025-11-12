@@ -2,11 +2,12 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { TProduct } from "../types/types";
-import { Button, Card, Spinner } from "flowbite-react";
+import { Button, Spinner } from "flowbite-react";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
 import useAddToCart from "../hooks/addToCart";
+import useLikeProduct from "../hooks/useLikeProduct";
 
 const ProductDetails = () => {
     const [product, setProduct] = useState<TProduct | null>(null);
@@ -14,7 +15,6 @@ const ProductDetails = () => {
     const { id } = useParams<{ id: string }>();
     const { user } = useAuth();
     const { addToCart } = useAddToCart();
-    const token = localStorage.getItem("token");
     const [categoryName, setCategoryName] = useState<string>("");
 
     useEffect(() => {
@@ -39,32 +39,24 @@ const ProductDetails = () => {
         }
     }, [id]);
 
-    const likeOrUnlikeProduct = async () => {
+    const { toggleLike } = useLikeProduct();
+    const handleLike = async () => {
         if (!user) {
             toast.error("Please login to like products", { autoClose: 2000 });
             return;
         }
+        if (product) {
+            const isLiked = product.likes.includes(user._id);
+            const newLikedState = await toggleLike(product._id, isLiked);
 
-        try {
-            axios.defaults.headers.common["x-auth-token"] = token;
-            await axios.patch(`http://localhost:8182/products/${id}`);
-
-            if (product) {
-                const isLiked = product.likes.includes(user._id);
-
-                if (isLiked) {
-                    product.likes = product.likes.filter((like) => like !== user._id);
-                    toast.success("Product unliked successfully", { autoClose: 2000 });
-                } else {
-                    product.likes = [...product.likes, user._id];
-                    toast.success("Product liked successfully", { autoClose: 2000 });
-                }
-
-                setProduct({ ...product });
-            }
-        } catch (error) {
-            console.log("Error liking/unliking product:", error);
-            toast.error("Something went wrong", { autoClose: 2000 });
+            if (newLikedState !== null) {
+                setProduct({
+                    ...product,
+                    likes: newLikedState
+                        ? [...product.likes, user._id]
+                        : product.likes.filter((id) => id !== user._id),
+                })
+            };
         }
     };
 
@@ -107,7 +99,6 @@ const ProductDetails = () => {
         <div className="container mx-auto px-4 py-8">
             <div className="max-w-4xl mx-auto">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    {/* Product Image */}
                     <div className="aspect-w-16 aspect-h-9">
                         <img
                             src={product.image.url}
@@ -160,7 +151,7 @@ const ProductDetails = () => {
                             {user && !user.isAdmin && (
                                 <Button
                                     color={isLiked ? "failure" : "gray"}
-                                    onClick={likeOrUnlikeProduct}
+                                    onClick={handleLike}
                                     className="flex items-center space-x-2"
                                 >
                                     <FaHeart className={isLiked ? "text-white" : "text-gray-500"} />
@@ -197,11 +188,13 @@ const ProductDetails = () => {
                                     </Button>
                                 </Link>
                                 {user && user.isAdmin && (
-                                    <Link to={`/edit-product/${product._id}`}>
-                                        <Button color="blue">
-                                            Edit Product
-                                        </Button>
-                                    </Link>
+                                    <>
+                                        <Link to={`/edit-product/${product._id}`}>
+                                            <Button color="blue">
+                                                Delete Product
+                                            </Button>
+                                        </Link>
+                                    </>
                                 )}
                             </div>
                         </div>

@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { Card, Button, Spinner } from "flowbite-react";
 import { TProduct, TCategory } from "../types/types";
-import { FaShoppingCart } from "react-icons/fa";
+import { FaHeart, FaShoppingCart, FaEdit, FaTrash } from "react-icons/fa";
 import axios from "axios";
 import useAuth from "../hooks/useAuth";
 import useAddToCart from "../hooks/addToCart";
+import useLikeProduct from "../hooks/useLikeProduct";
+import { toast } from "react-toastify";
 
 const CategoryProducts = () => {
     const { categoryId } = useParams<{ categoryId: string }>();
@@ -15,6 +17,8 @@ const CategoryProducts = () => {
     const nav = useNavigate();
     const { user } = useAuth();
     const { addToCart } = useAddToCart();
+    const { toggleLike } = useLikeProduct();
+    const token = localStorage.getItem("token");
 
     useEffect(() => {
         const fetchCategoryAndProducts = async () => {
@@ -37,6 +41,42 @@ const CategoryProducts = () => {
 
         if (categoryId) fetchCategoryAndProducts();
     }, [categoryId, nav]);
+
+    const handleLike = async (productId: string) => {
+        if (!user) return;
+        const product = products.find((p) => p._id === productId);
+        if (!product) return;
+        const isLiked = product.likes.includes(user._id);
+
+        setProducts((prevProductsArr) =>
+            prevProductsArr.map((p) => {
+                if (p._id !== productId) return p;
+
+                return {
+                    ...p,
+                    likes: isLiked
+                        ? p.likes.filter((id) => id !== user._id)
+                        : [...p.likes, user._id],
+                };
+            })
+        );
+
+        await toggleLike(productId, product.likes.includes(user._id));
+    };
+
+    const deleteProduct = async (productId: string) => {
+        if (window.confirm("Are you sure you want to delete this product?")) {
+            try {
+                axios.defaults.headers.common["x-auth-token"] = token;
+                await axios.delete(`http://localhost:8182/products/${productId}`);
+                setProducts(products.filter((product) => product._id !== productId));
+                toast.success("Product deleted successfully", { autoClose: 2000 });
+            } catch (error) {
+                console.log("Error deleting product:", error);
+                toast.error("Failed to delete product", { autoClose: 2000 });
+            }
+        }
+    };
 
     if (spinner) {
         return (
@@ -79,9 +119,10 @@ const CategoryProducts = () => {
 
                 {products.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                        {products.map((product) => (
-                            <Card key={product._id} className="h-full hover:shadow-lg transition-shadow duration-300">
-                                <Link to={`/product/${product._id}`}>
+                        {products.map((product) => {
+                            const isLiked = user ? product.likes.includes(user._id) : false;
+                            return (
+                                <Card key={product._id} className="h-full hover:shadow-lg transition-shadow duration-300">
                                     <div className="aspect-w-16 aspect-h-9 mb-4">
                                         <img
                                             src={product.image.url}
@@ -89,40 +130,69 @@ const CategoryProducts = () => {
                                             className="w-full h-48 object-cover rounded-lg"
                                         />
                                     </div>
-                                </Link>
-                                <div className="p-4">
-                                    <Link to={`/product/${product._id}`}>
-                                        <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2 hover:text-blue-600">
+                                    <div className="p-4">
+                                        <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                                             {product.title}
                                         </h3>
-                                    </Link>
-                                    <p className="text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
-                                        {product.description}
-                                    </p>
-                                    <div className="flex justify-between items-center mb-3">
-                                        <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                                            ${product.price}
-                                        </span>
-                                        <span className="text-sm text-gray-500">
-                                            {product.likes.length} likes
-                                        </span>
+                                        <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
+                                            {product.subtitle}
+                                        </h3>
+                                        <p className="text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
+                                            {product.description}
+                                        </p>
+                                        <div className="flex justify-between items-center mb-4">
+                                            <span className={`font-bold ${product.isDiscount ? "text-xl text-blue-400 dark:text-blue-300" : "text-2xl text-blue-600 dark:text-blue-400"}`}>
+                                                ${product.price}
+                                            </span>
+                                            <span className="text-sm text-gray-500">
+                                                {product.likes.length} likes
+                                            </span>
+                                        </div>
+                                        {product.isDiscount && (
+                                            <p className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-4">
+                                                product is in discount! ${product.discountedPrice}
+                                            </p>
+                                        )}
+                                        <div className="flex justify-between items-center">
+                                            <Button
+                                                color="blue"
+                                                onClick={() => nav(`/product/${product._id}`)}
+                                            >
+                                                View Details
+                                            </Button>
+                                            <div className="flex space-x-2">
+                                                {user && user.isAdmin && (
+                                                    <>
+                                                        <FaEdit
+                                                            className="text-green-500 cursor-pointer text-xl hover:text-green-600"
+                                                            onClick={() => nav(`/update-product/${product._id}`)}
+                                                            title="Edit product"
+                                                        />
+                                                        <FaTrash
+                                                            className="text-red-500 cursor-pointer text-xl hover:text-red-600"
+                                                            onClick={() => deleteProduct(product._id)}
+                                                            title="Delete product"
+                                                        />
+                                                    </>
+                                                )}
+                                                {user && !user.isAdmin && (
+                                                    <>
+                                                        <FaHeart
+                                                            className={`${isLiked ? "text-red-500" : "text-gray-500"} cursor-pointer text-xl`}
+                                                            onClick={() => handleLike(product._id)}
+                                                        />
+                                                        <FaShoppingCart
+                                                            className="text-blue-500 cursor-pointer text-xl"
+                                                            onClick={() => addToCart(product)}
+                                                        />
+                                                    </>
+                                                )}
+                                            </div>
+                                        </div>
                                     </div>
-                                    {user && !user.isAdmin && (
-                                        <Button
-                                            color="blue"
-                                            onClick={(e) => {
-                                                e.preventDefault();
-                                                addToCart(product);
-                                            }}
-                                            className="w-full flex items-center justify-center space-x-2"
-                                        >
-                                            <FaShoppingCart />
-                                            <span>Add to Cart</span>
-                                        </Button>
-                                    )}
-                                </div>
-                            </Card>
-                        ))}
+                                </Card>
+                            );
+                        })}
                     </div>
                 ) : (
                     <div className="text-center py-12">
