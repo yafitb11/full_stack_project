@@ -6,7 +6,7 @@ import { Button, Spinner } from "flowbite-react";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
-import useAddToCart from "../hooks/addToCart";
+import useAddToCart from "../hooks/useAddToCart";
 import useLikeProduct from "../hooks/useLikeProduct";
 
 const ProductDetails = () => {

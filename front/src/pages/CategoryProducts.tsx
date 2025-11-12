@@ -5,7 +5,7 @@ import { TProduct, TCategory } from "../types/types";
 import { FaHeart, FaShoppingCart, FaEdit, FaTrash } from "react-icons/fa";
 import axios from "axios";
 import useAuth from "../hooks/useAuth";
-import useAddToCart from "../hooks/addToCart";
+import useAddToCart from "../hooks/useAddToCart";
 import useLikeProduct from "../hooks/useLikeProduct";
 import { toast } from "react-toastify";
 

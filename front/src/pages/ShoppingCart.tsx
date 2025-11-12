@@ -4,7 +4,7 @@ import { Button, Card, TextInput, Label } from "flowbite-react";
 import { FaTrash, FaMinus, FaPlus } from "react-icons/fa";
 import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
-import useAddToCart from "../hooks/addToCart";
+import useAddToCart from "../hooks/useAddToCart";
 import { useSelector, useDispatch } from "react-redux";
 import { TRootState } from "../store/store";
 import { cartActions } from "../store/cartSlice";

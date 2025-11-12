@@ -11,7 +11,7 @@ import useAuth from "../hooks/useAuth";
 import { Pagination } from "flowbite-react";
 import { useDispatch } from "react-redux";
 import { searchActions } from "../store/searchSlice";
-import useAddToCart from "../hooks/addToCart";
+import useAddToCart from "../hooks/useAddToCart";
 import useLikeProduct from "../hooks/useLikeProduct";
 
 const Home = () => {
