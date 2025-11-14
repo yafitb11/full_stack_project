@@ -8,6 +8,8 @@ const productSchema = new mongoose.Schema({
     title: DEFAULT_VALIDATION,
     subtitle: {
         ...DEFAULT_VALIDATION,
+        minLength: 0,
+        default: "",
         required: false,
     },
     description: {
