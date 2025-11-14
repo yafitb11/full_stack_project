@@ -155,7 +155,7 @@ const CategoryProducts = () => {
                                                     <>
                                                         <FaEdit
                                                             className="text-green-500 cursor-pointer text-xl hover:text-green-600"
-                                                            onClick={() => nav(`/update-product/${product._id}`)}
+                                                            onClick={() => nav(`/edit-product/${product._id}`)}
                                                             title="Edit product"
                                                         />
                                                         <FaTrash

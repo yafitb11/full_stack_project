@@ -5,7 +5,7 @@ const validateUpdatedProductWithJoi = (updatedProduct) => {
 
     const schema = Joi.object({
         title: Joi.string().min(2).max(256),
-        subtitle: Joi.string().min(2).max(256),
+        subtitle: Joi.string().min(2).max(256).allow(""),
         description: Joi.string().min(2).max(1024),
         image: Joi.object().keys({
             url: Joi.string()

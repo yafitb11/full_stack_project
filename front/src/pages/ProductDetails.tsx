@@ -17,6 +17,7 @@ const ProductDetails = () => {
     const { user } = useAuth();
     const { addToCart } = useAddToCart();
     const [categoryName, setCategoryName] = useState<string>("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (!id) return;
@@ -67,10 +68,10 @@ const ProductDetails = () => {
         }
     };
 
-    const nav = useNavigate();
+
     const handleDeleteProduct = async (productId: string) => {
         deleteProduct(productId);
-        nav(-1);
+        navigate(-1);
     };
 
     if (loading) {
@@ -189,18 +190,14 @@ const ProductDetails = () => {
 
                         <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
                             <div className="flex space-x-4">
-                                <Link to="/">
-                                    <Button color="gray" outline>
-                                        ← Back to Products
-                                    </Button>
-                                </Link>
+                                <Button color="gray" outline onClick={() => navigate(-1)}>
+                                    ← Back to Products
+                                </Button>
                                 {user && user.isAdmin && (
                                     <>
-                                        <Link to={`/edit-product/${product._id}`}>
-                                            <Button color="blue">
-                                                Edit Product
-                                            </Button>
-                                        </Link>
+                                        <Button color="blue" onClick={() => navigate(`/edit-product/${product._id}`)}>
+                                            Edit Product
+                                        </Button>
                                         <Button color="blue" onClick={() => handleDeleteProduct(product._id)}>
                                             Delete Product
                                         </Button>
