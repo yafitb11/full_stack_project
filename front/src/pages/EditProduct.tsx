@@ -1,85 +1,76 @@
-import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { Button, Card, TextInput, Textarea, Label, Select } from "flowbite-react";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { Button, Card, TextInput, Textarea, Label, Radio } from "flowbite-react";
 import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
 import axios from "axios";
-import { TProduct, TCategory } from "../types/types";
+import { joiResolver } from "@hookform/resolvers/joi";
+import { useForm } from "react-hook-form";
+import { newProductSchema } from "../validations/newProduct.joi";
+import { productFormData } from "../types/formData";
+import { TProduct } from "../types/types";
 
-const EditProduct = () => {
-    const { id } = useParams<{ id: string }>();
-    const [formData, setFormData] = useState({
-        name: "",
-        description: "",
-        price: "",
-        category: "",
-        imageUrl: "",
-        imageAlt: ""
-    });
-    const [categories, setCategories] = useState<TCategory[]>([]);
+export default function EditProduct() {
     const [loading, setLoading] = useState(false);
-    const [productLoading, setProductLoading] = useState(true);
     const { user } = useAuth();
     const navigate = useNavigate();
-
+    const [product, setProduct] = useState<TProduct>();
+    const { id } = useParams<{ id: string }>();
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchProductDetails = async () => {
             try {
-                // Fetch categories
-                const categoriesResponse = await axios.get("http://localhost:8182/categories");
-                setCategories(categoriesResponse.data);
+                const response = await axios.get(
+                    `http://localhost:8182/products/${id}`,
+                );
 
-                // Fetch product details
-                if (id) {
-                    const productResponse = await axios.get(`http://localhost:8182/products/${id}`);
-                    const product: TProduct = productResponse.data;
-
-                    setFormData({
-                        name: product.title,
-                        description: product.description,
-                        price: product.price.toString(),
-                        category: product.category,
-                        imageUrl: product.image.url,
-                        imageAlt: product.image.alt
-                    });
-                }
+                setProduct(response.data);
             } catch (error) {
-                console.error("Error fetching data:", error);
-                toast.error("Failed to load product data", { autoClose: 2000 });
-            } finally {
-                setProductLoading(false);
+                console.error("Error fetching product details:", error);
             }
         };
-
-        fetchData();
+        fetchProductDetails();
     }, [id]);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    };
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        watch,
+        unregister,
+        formState: { errors, isValid },
+        reset,
+    } = useForm<productFormData>({
+        mode: "onChange",
+        resolver: joiResolver(newProductSchema),
+    });
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-
-        if (!user || !user.isAdmin) {
-            toast.error("Only admins can edit products", { autoClose: 2000 });
-            return;
+    useEffect(() => {
+        if (product) {
+            reset({
+                title: product?.title,
+                subtitle: product?.subtitle,
+                description: product?.description,
+                image: { url: product?.image.url, alt: product?.image.alt },
+                quantityInStock: product?.quantityInStock,
+                price: product?.price,
+                isDiscount: product?.isDiscount ?? false,
+            });
         }
+    }, [product, reset]);
 
-        // Validation
-        if (!formData.name || !formData.description || !formData.price || !formData.category) {
-            toast.error("Please fill in all required fields", { autoClose: 2000 });
-            return;
+    const isDiscounted = watch("isDiscount") === true;
+
+    useEffect(() => {
+        if (isDiscounted) {
+            register("discountedPrice");
+            setValue("discountedPrice", product?.discountedPrice);
+        } else {
+            unregister("discountedPrice");
         }
+    }, [isDiscounted, register, unregister, setValue, product]);
 
-        if (isNaN(Number(formData.price)) || Number(formData.price) <= 0) {
-            toast.error("Please enter a valid price", { autoClose: 2000 });
-            return;
-        }
 
+    const onSubmit = async (data: productFormData) => {
         setLoading(true);
 
         try {
@@ -87,66 +78,39 @@ const EditProduct = () => {
             axios.defaults.headers.common["x-auth-token"] = token;
 
             const productData = {
-                name: formData.name,
-                description: formData.description,
-                price: Number(formData.price),
-                category: formData.category,
+                title: data.title,
+                subtitle: data.subtitle,
+                description: data.description,
+                price: data.price,
+                quantityInStock: data.quantityInStock,
                 image: {
-                    url: formData.imageUrl || "https://via.placeholder.com/300x200?text=No+Image",
-                    alt: formData.imageAlt || formData.name
-                }
+                    url: data.image.url || "",
+                    alt: data.image.alt || data.title,
+                },
+                isDiscount: data.isDiscount,
+                ...(data.isDiscount && data.discountedPrice && {
+                    discountedPrice: data.discountedPrice
+                }),
             };
 
-            await axios.put(`http://localhost:8182/products/${id}`, productData);
+            await axios.put(`http://localhost:8182/products/${product?._id}`, productData);
 
             toast.success("Product updated successfully!", { autoClose: 2000 });
-            navigate(`/product/${id}`);
-
+            navigate(-1);
         } catch (error) {
-            console.error("Error updating product:", error);
-            toast.error("Failed to update product. Please try again.", { autoClose: 2000 });
+            console.error("Error editing product:", error);
+            toast.error("Failed to edit product. Please try again.", { autoClose: 2000 });
         } finally {
             setLoading(false);
         }
     };
 
-    if (!user) {
+    if (!user || !user.isAdmin) {
         return (
-            <div className="container mx-auto px-4 py-8">
-                <div className="text-center">
-                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                        Please Login
-                    </h1>
-                    <p className="text-gray-600 dark:text-gray-400">
-                        You need to be logged in to edit products.
-                    </p>
-                </div>
-            </div>
-        );
-    }
-
-    if (!user.isAdmin) {
-        return (
-            <div className="container mx-auto px-4 py-8">
-                <div className="text-center">
-                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                        Access Denied
-                    </h1>
-                    <p className="text-gray-600 dark:text-gray-400">
-                        Only administrators can edit products.
-                    </p>
-                </div>
-            </div>
-        );
-    }
-
-    if (productLoading) {
-        return (
-            <div className="container mx-auto px-4 py-8">
-                <div className="text-center">
-                    <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900 mx-auto"></div>
-                    <p className="mt-4 text-gray-600">Loading product data...</p>
-                </div>
+            <div className="container mx-auto px-4 py-8 text-center">
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                    You must be the Admin to watch this Page!
+                </h1>
             </div>
         );
     }
@@ -158,122 +122,107 @@ const EditProduct = () => {
                     <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
                         Edit Product
                     </h1>
-                    <p className="text-gray-600 dark:text-gray-400">
-                        Update product information
-                    </p>
+                    <p className="text-gray-600 dark:text-gray-400">Add a new product to the store</p>
                 </div>
 
                 <Card className="p-6">
-                    <form onSubmit={handleSubmit} className="space-y-6">
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+
                         <div>
-                            <Label htmlFor="name" value="Product Name *" />
-                            <TextInput
-                                id="name"
-                                name="name"
-                                type="text"
-                                placeholder="Enter product name"
-                                value={formData.name}
-                                onChange={handleChange}
-                                required
-                            />
+                            <Label htmlFor="title" value="Product Title" />
+                            <TextInput id="title" {...register("title")} />
+                            {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>}
                         </div>
 
                         <div>
-                            <Label htmlFor="description" value="Description *" />
-                            <Textarea
-                                id="description"
-                                name="description"
-                                placeholder="Enter product description"
-                                rows={4}
-                                value={formData.description}
-                                onChange={handleChange}
-                                required
-                            />
+                            <Label htmlFor="subtitle" value="Product Subtitle" />
+                            <TextInput id="subtitle" {...register("subtitle")} />
+                            {errors.subtitle && <p className="text-red-500 text-sm mt-1">{errors.subtitle.message}</p>}
                         </div>
 
                         <div>
-                            <Label htmlFor="price" value="Price *" />
-                            <TextInput
-                                id="price"
-                                name="price"
-                                type="number"
-                                step="0.01"
-                                min="0"
-                                placeholder="0.00"
-                                value={formData.price}
-                                onChange={handleChange}
-                                required
-                            />
+                            <Label htmlFor="description" value="Description" />
+                            <Textarea id="description" rows={4} {...register("description")} />
+                            {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>}
                         </div>
 
                         <div>
-                            <Label htmlFor="category" value="Category *" />
-                            <Select
-                                id="category"
-                                name="category"
-                                value={formData.category}
-                                onChange={handleChange}
-                                required
-                            >
-                                <option value="">Select a category</option>
-                                {categories.map((category) => (
-                                    <option key={category._id} value={category.title}>
-                                        {category.title}
-                                    </option>
-                                ))}
-                            </Select>
+                            <Label htmlFor="price" value="Price" />
+                            <TextInput type="number" step="0.01" id="price" {...register("price")} />
+                            {errors.price && <p className="text-red-500 text-sm mt-1">{errors.price.message}</p>}
                         </div>
 
                         <div>
-                            <Label htmlFor="imageUrl" value="Image URL" />
-                            <TextInput
-                                id="imageUrl"
-                                name="imageUrl"
-                                type="url"
-                                placeholder="https://example.com/image.jpg"
-                                value={formData.imageUrl}
-                                onChange={handleChange}
-                            />
-                            <p className="text-sm text-gray-500 mt-1">
-                                Leave empty to use placeholder image
-                            </p>
+                            <Label htmlFor="image.url" value="Image URL" />
+                            <TextInput id="image.url" {...register("image.url")} />
+                            {errors.image?.url && <p className="text-red-500 text-sm mt-1">{errors.image.url.message}</p>}
                         </div>
 
                         <div>
-                            <Label htmlFor="imageAlt" value="Image Alt Text" />
-                            <TextInput
-                                id="imageAlt"
-                                name="imageAlt"
-                                type="text"
-                                placeholder="Describe the image"
-                                value={formData.imageAlt}
-                                onChange={handleChange}
-                            />
+                            <Label htmlFor="image.alt" value="Image Alt Text" />
+                            <TextInput id="image.alt" {...register("image.alt")} />
+                            {errors.image?.alt && <p className="text-red-500 text-sm mt-1">{errors.image.alt.message}</p>}
                         </div>
+
+                        <div>
+                            <Label htmlFor="quantityInStock" value="Quantity in Stock" />
+                            <TextInput type="number" id="quantityInStock" {...register("quantityInStock")} />
+                            {errors.quantityInStock && <p className="text-red-500 text-sm mt-1">{errors.quantityInStock.message}</p>}
+                        </div>
+
+                        <fieldset className="flex gap-3 items-center">
+                            <legend className="mb-1 text-gray-700 dark:text-gray-200">Is there a Discount?</legend>
+
+                            <div className="flex items-center gap-2">
+                                <Radio
+                                    id="discountYes"
+                                    name="isDiscount"
+                                    value="true"
+                                    onChange={() => setValue("isDiscount", true, { shouldValidate: true })}
+                                    checked={watch("isDiscount") === true}
+                                />
+                                <Label htmlFor="discountYes">Yes</Label>
+                            </div>
+
+                            <div className="flex items-center gap-2">
+                                <Radio
+                                    id="discountNo"
+                                    name="isDiscount"
+                                    value="false"
+                                    onChange={() => setValue("isDiscount", false, { shouldValidate: true })}
+                                    checked={watch("isDiscount") === false}
+                                />
+                                <Label htmlFor="discountNo">No</Label>
+                            </div>
+                        </fieldset>
+
+                        {isDiscounted && (
+                            <div>
+                                <Label htmlFor="discountedPrice" value="Discounted Price" />
+                                <TextInput
+                                    type="number"
+                                    step="0.01"
+                                    id="discountedPrice"
+                                    {...register("discountedPrice")}
+                                />
+                                {errors.discountedPrice && <p className="text-red-500 text-sm mt-1">{errors.discountedPrice.message}</p>}
+                            </div>
+                        )}
 
                         <div className="flex space-x-4">
-                            <Button
-                                type="submit"
-                                color="blue"
-                                disabled={loading}
-                                className="flex-1"
-                            >
-                                {loading ? "Updating..." : "Update Product"}
+                            <Button type="submit" color="blue" disabled={loading || !isValid} className="flex-1">
+                                {loading ? "Loading..." : "Edit Product"}
                             </Button>
-                            <Button
-                                type="button"
-                                color="gray"
-                                onClick={() => navigate(`/product/${id}`)}
-                                className="flex-1"
-                            >
+                            <Button type="button" color="gray" onClick={() => {
+                                navigate(-1);
+                            }} className="flex-1">
                                 Cancel
                             </Button>
                         </div>
+
                     </form>
                 </Card>
             </div>
         </div>
     );
-};
-
-export default EditProduct;
+}
