@@ -18,7 +18,6 @@ const CategoryProducts = () => {
     const { user } = useAuth();
     const { addToCart } = useAddToCart();
     const { toggleLike } = useLikeProduct();
-    const token = localStorage.getItem("token");
 
     useEffect(() => {
         const fetchCategoryAndProducts = async () => {

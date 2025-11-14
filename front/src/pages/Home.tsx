@@ -23,7 +23,6 @@ const Home = () => {
     const currentPage = useSelector((state: TRootState) => state.searchSlice.currentPage);
     const { user } = useAuth();
     const { addToCart } = useAddToCart();
-    const token = localStorage.getItem("token");
 
     useEffect(() => {
         const fetchProducts = async () => {
