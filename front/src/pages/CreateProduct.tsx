@@ -99,11 +99,7 @@ export default function CreateProduct() {
             await axios.post("http://localhost:8182/products", productData);
 
             toast.success("Product created successfully!", { autoClose: 2000 });
-            const categoryId = watch("category_id");
-            if (searchParams.get("category") && categoryId) {
-                navigate(`/categories/${categoryId}`);
-            } else { navigate("/"); }
-
+            navigate(-1);
         } catch (error) {
             console.error("Error creating product:", error);
             toast.error("Failed to create product. Please try again.", { autoClose: 2000 });
@@ -256,10 +252,7 @@ export default function CreateProduct() {
                                 {loading ? "Creating..." : "Create Product"}
                             </Button>
                             <Button type="button" color="gray" onClick={() => {
-                                const categoryId = watch("category_id");
-                                if (searchParams.get("category") && categoryId) {
-                                    navigate(`/categories/${categoryId}`);
-                                } else { navigate("/"); }
+                                navigate(-1);
                             }} className="flex-1">
                                 Cancel
                             </Button>

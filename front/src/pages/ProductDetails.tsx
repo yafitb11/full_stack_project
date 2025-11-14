@@ -70,7 +70,7 @@ const ProductDetails = () => {
     const nav = useNavigate();
     const handleDeleteProduct = async (productId: string) => {
         deleteProduct(productId);
-        nav("/")
+        nav(-1);
     };
 
     if (loading) {
