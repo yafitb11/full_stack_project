@@ -4,15 +4,15 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { TRootState } from "../store/store";
-import { TProduct } from "../types/types";
+import { TProduct, TCategory } from "../types/types";
 import { FaHeart, FaShoppingCart, FaEdit, FaTrash } from "react-icons/fa";
-import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
 import { Pagination } from "flowbite-react";
 import { useDispatch } from "react-redux";
 import { searchActions } from "../store/searchSlice";
 import useAddToCart from "../hooks/useAddToCart";
 import useLikeProduct from "../hooks/useLikeProduct";
+import deleteProduct from "../hooks/useDeleteProduct";
 
 const Home = () => {
     const [products, setProducts] = useState<TProduct[]>([]);
@@ -83,19 +83,11 @@ const Home = () => {
         await toggleLike(productId, product.likes.includes(user._id));
     };
 
-    const deleteProduct = async (productId: string) => {
-        if (window.confirm("Are you sure you want to delete this product?")) {
-            try {
-                axios.defaults.headers.common["x-auth-token"] = token;
-                await axios.delete(`http://localhost:8182/products/${productId}`);
-                setProducts(products.filter((product) => product._id !== productId));
-                toast.success("Product deleted successfully", { autoClose: 2000 });
-            } catch (error) {
-                console.log("Error deleting product:", error);
-                toast.error("Failed to delete product", { autoClose: 2000 });
-            }
-        }
+    const handleDeleteProduct = async (productId: string) => {
+        deleteProduct(productId);
+        setProducts(products.filter((product) => product._id !== productId));
     };
+
 
     return (
         <div className="container mx-auto px-4 py-8">
@@ -148,6 +140,9 @@ const Home = () => {
                                 />
                             </div>
                             <div className="p-4">
+                                <p className="text-gray-800 dark:text-gray-400 mb-3 line-clamp-2">
+                                    {(product.category_id as TCategory)?.title}
+                                </p>
                                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                                     {product.title}
                                 </h3>
@@ -157,6 +152,7 @@ const Home = () => {
                                 <p className="text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
                                     {product.description}
                                 </p>
+
                                 <div className="flex justify-between items-center mb-4">
                                     <span className={`font-bold ${product.isDiscount ? "text-xl text-blue-400 dark:text-blue-300" : "text-2xl text-blue-600 dark:text-blue-400"}`}>
                                         ${product.price}
@@ -187,7 +183,7 @@ const Home = () => {
                                                 />
                                                 <FaTrash
                                                     className="text-red-500 cursor-pointer text-xl hover:text-red-600"
-                                                    onClick={() => deleteProduct(product._id)}
+                                                    onClick={() => handleDeleteProduct(product._id)}
                                                     title="Delete product"
                                                 />
                                             </>

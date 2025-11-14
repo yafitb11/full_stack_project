@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { TProduct } from "../types/types";
 import { Button, Spinner } from "flowbite-react";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
 import useAddToCart from "../hooks/useAddToCart";
 import useLikeProduct from "../hooks/useLikeProduct";
+import deleteProduct from "../hooks/useDeleteProduct";
 
 const ProductDetails = () => {
     const [product, setProduct] = useState<TProduct | null>(null);
@@ -64,6 +65,12 @@ const ProductDetails = () => {
         if (product) {
             addToCart(product);
         }
+    };
+
+    const nav = useNavigate();
+    const handleDeleteProduct = async (productId: string) => {
+        deleteProduct(productId);
+        nav("/")
     };
 
     if (loading) {
@@ -191,9 +198,12 @@ const ProductDetails = () => {
                                     <>
                                         <Link to={`/edit-product/${product._id}`}>
                                             <Button color="blue">
-                                                Delete Product
+                                                Edit Product
                                             </Button>
                                         </Link>
+                                        <Button color="blue" onClick={() => handleDeleteProduct(product._id)}>
+                                            Delete Product
+                                        </Button>
                                     </>
                                 )}
                             </div>

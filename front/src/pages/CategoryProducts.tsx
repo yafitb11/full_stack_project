@@ -7,7 +7,7 @@ import axios from "axios";
 import useAuth from "../hooks/useAuth";
 import useAddToCart from "../hooks/useAddToCart";
 import useLikeProduct from "../hooks/useLikeProduct";
-import { toast } from "react-toastify";
+import deleteProduct from "../hooks/useDeleteProduct";
 
 const CategoryProducts = () => {
     const { categoryId } = useParams<{ categoryId: string }>();
@@ -64,18 +64,9 @@ const CategoryProducts = () => {
         await toggleLike(productId, product.likes.includes(user._id));
     };
 
-    const deleteProduct = async (productId: string) => {
-        if (window.confirm("Are you sure you want to delete this product?")) {
-            try {
-                axios.defaults.headers.common["x-auth-token"] = token;
-                await axios.delete(`http://localhost:8182/products/${productId}`);
-                setProducts(products.filter((product) => product._id !== productId));
-                toast.success("Product deleted successfully", { autoClose: 2000 });
-            } catch (error) {
-                console.log("Error deleting product:", error);
-                toast.error("Failed to delete product", { autoClose: 2000 });
-            }
-        }
+    const handleDeleteProduct = async (productId: string) => {
+        deleteProduct(productId);
+        setProducts(products.filter((product) => product._id !== productId));
     };
 
     if (spinner) {
@@ -170,7 +161,7 @@ const CategoryProducts = () => {
                                                         />
                                                         <FaTrash
                                                             className="text-red-500 cursor-pointer text-xl hover:text-red-600"
-                                                            onClick={() => deleteProduct(product._id)}
+                                                            onClick={() => handleDeleteProduct(product._id)}
                                                             title="Delete product"
                                                         />
                                                     </>

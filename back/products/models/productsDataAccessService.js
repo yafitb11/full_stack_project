@@ -6,7 +6,7 @@ const DB = config.get("DB") || "MONGODB";
 exports.find = async () => {
     if (DB === "MONGODB") {
         try {
-            const products = await Product.find();
+            const products = await Product.find().populate("category_id");
             return Promise.resolve(products);
         } catch (error) {
             error.status = 404;

@@ -11,7 +11,7 @@ export type TProduct = {
     price: number,
     isDiscount: boolean,
     discountedPrice: number,
-    category_id: string,
+    category_id: string | TCategory,
     likes: string[],
     createdAt: string,
 }
