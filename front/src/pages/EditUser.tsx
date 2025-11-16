@@ -74,7 +74,7 @@ export default function EditUser() {
                     alt: targetUser.image.alt,
                 },
                 address: {
-                    state: targetUser.address.state !== "not defined" ? targetUser.address.state : "",
+                    state: targetUser.address.state || "",
                     country: targetUser.address.country,
                     city: targetUser.address.city,
                     street: targetUser.address.street,

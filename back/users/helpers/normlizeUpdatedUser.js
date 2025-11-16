@@ -20,7 +20,7 @@ const normalizeUpdatedUser = (updatedUser) => {
     if (updatedUser.address) {
         normalizedUser.address = {
             ...updatedUser.address,
-            state: updatedUser.address.state || "not defined",
+            state: updatedUser.address.state || "",
 
         };
     }

@@ -15,7 +15,7 @@ const normalizeUser = (rawUser) => {
 
     const address = {
         ...rawUser.address,
-        state: rawUser.address.state || "not defined"
+        state: rawUser.address.state || ""
     };
 
     return {

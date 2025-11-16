@@ -4,7 +4,7 @@ const { DEFAULT_VALIDATION } = require("./urlAndDefaultValidations");
 const addressSchema = new mongoose.Schema({
     state: {
         type: String,
-        minLength: 2,
+        minLength: 0,
         required: false,
     },
     country: DEFAULT_VALIDATION,
