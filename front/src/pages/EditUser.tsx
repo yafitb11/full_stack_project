@@ -9,12 +9,9 @@ import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
-import { useDispatch } from "react-redux";
 
 export default function EditUser() {
     const { user, autoLogIn } = useAuth();
-    { !user && autoLogIn(); }
-    const dispatch = useDispatch();
     const navigate = useNavigate();
     const { id } = useParams<{ id: string }>();
     const [targetUser, setTargetUser] = useState<Tuser | null>(null);
@@ -39,26 +36,6 @@ export default function EditUser() {
     }, [id]);
 
     const { register, handleSubmit, formState: { errors, isValid }, reset } = useForm<FormData>({
-        defaultValues: {
-            name: {
-                first: "",
-                middle: "",
-                last: "",
-            },
-            phone: 0,
-            image: {
-                url: "",
-                alt: "",
-            },
-            address: {
-                state: "",
-                country: "",
-                city: "",
-                street: "",
-                houseNumber: 0,
-                zip: 0,
-            },
-        },
         mode: "onChange",
         resolver: joiResolver(editUserSchema),
     });
@@ -114,7 +91,7 @@ export default function EditUser() {
                 if (targetUser._id === user?._id) {
                     await autoLogIn();
                 }
-                navigate('/profile');
+                navigate(-1);
             }
 
         } catch (error) {

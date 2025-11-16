@@ -2,13 +2,12 @@ import axios from "axios";
 import { Card, Spinner } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { Tuser } from "../types/userType";
+import { Tuser } from "../types/types";
 import { useSelector } from "react-redux";
 import { TRootState } from "../store/store";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { Pagination } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
 import { useDispatch } from "react-redux";
 import { searchActions } from "../store/searchSlice";
 
@@ -20,9 +19,6 @@ const ManageUsers = () => {
     const search = useSelector((state: TRootState) => state.searchSlice.searchWord);
     const currentPage = useSelector((state: TRootState) => state.searchSlice.currentPage);
     const [reload, setReload] = useState<boolean>(false);
-    const { user, autoLogIn } = useAuth();
-
-    { !user && autoLogIn(); }
 
     const token = localStorage.getItem("token");
     useEffect(() => {
@@ -30,7 +26,7 @@ const ManageUsers = () => {
             try {
                 setspiner(true)
                 axios.defaults.headers.common["x-auth-token"] = token;
-                const response = await axios.get("https://monkfish-app-z9uza.ondigitalocean.app/bcard2/users",);
+                const response = await axios.get("http://localhost:8182/users",);
                 setUsers(response.data);
 
             } catch (error) {
@@ -66,7 +62,7 @@ const ManageUsers = () => {
         try {
             axios.defaults.headers.common["x-auth-token"] = token;
             const response = await axios.delete(
-                `https://monkfish-app-z9uza.ondigitalocean.app/bcard2/users/${id}`);
+                `http://localhost:8182/users/${id}`);
 
             if (response.status === 200) {
                 toast.success("User deleted successfully", { autoClose: 2000, });
@@ -79,21 +75,7 @@ const ManageUsers = () => {
         setReload((reload => !reload));
     };
 
-    const changeBussinessStatus = async (id: string) => {
-        try {
-            axios.defaults.headers.common["x-auth-token"] = token;
-            const response = await axios.patch(
-                `https://monkfish-app-z9uza.ondigitalocean.app/bcard2/users/${id}`);
 
-            if (response.status === 200) {
-                toast.success("Bussiness Status changed successfully", { autoClose: 2000, });
-            }
-        } catch (error) {
-            console.error("Error changing status:", error);
-            toast.error("something went wrong", { autoClose: 2000, });
-        }
-        setReload((reload => !reload));
-    }
 
     return (
         <div className="flex flex-col items-center justify-start gap-2 bg-blue-300 dark:bg-slate-400">
@@ -109,13 +91,11 @@ const ManageUsers = () => {
                                 <p> Phone: {user.phone} </p>
                                 <p> Email: {user.email} </p>
                                 <p> Adress: {user.address.state} {user.address.country} {user.address.city} {user.address.street} {user.address.houseNumber}</p>
-                                <p> isBusiness: {user.isBusiness ? "yes" : "no"}</p>
                                 <p> isAdmin: {user.isAdmin ? "yes" : "no"}</p>
                             </div>
                             <div className="flex justify-center" id="iconsdiv">
                                 <MdEdit className="cursor-pointer text-2xl dark:hover:text-white" onClick={() => navigate("/edit-user/" + user._id)}></MdEdit>
                                 <MdDelete className="cursor-pointer text-2xl dark:hover:text-white" onClick={() => { deleteUser(user._id) }}></MdDelete>
-                                <button className="font-bold cursor-pointer dark:hover:text-white" onClick={() => { changeBussinessStatus(user._id) }}>isBis</button>
                             </div>
                         </Card>
                     );

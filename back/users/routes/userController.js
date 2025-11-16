@@ -55,9 +55,9 @@ router.post("/login", async (req, res) => {
 router.put("/:id", auth, async (req, res) => {
     try {
         const id = req.params.id;
-        const { _id } = req.user;
-        if (_id !== id) {
-            return errorhandler(res, 403, "Authorization Error: Must be the registered user!");
+        const { _id, isAdmin } = req.user;
+        if (_id !== id && !isAdmin) {
+            return errorhandler(res, 403, "Authorization Error: Must be the registered  or Admin!");
         }
         const user = await updateUser(id, req.body);
         res.send(user);
