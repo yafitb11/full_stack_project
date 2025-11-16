@@ -40,6 +40,15 @@ export default function EditProduct() {
         formState: { errors, isValid },
         reset,
     } = useForm<productFormData>({
+        defaultValues: {
+            title: "",
+            subtitle: "",
+            description: "",
+            image: { url: "", alt: "" },
+            quantityInStock: 0,
+            price: 0,
+            isDiscount: false,
+        },
         mode: "onChange",
         resolver: joiResolver(newProductSchema),
     });
@@ -48,7 +57,7 @@ export default function EditProduct() {
         if (product) {
             reset({
                 title: product?.title,
-                subtitle: product?.subtitle,
+                subtitle: product?.subtitle || "",
                 description: product?.description,
                 image: { url: product?.image.url, alt: product?.image.alt },
                 quantityInStock: product?.quantityInStock,

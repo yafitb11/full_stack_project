@@ -36,6 +36,26 @@ export default function EditUser() {
     }, [id]);
 
     const { register, handleSubmit, formState: { errors, isValid }, reset } = useForm<FormData>({
+        defaultValues: {
+            name: {
+                first: "",
+                middle: "",
+                last: "",
+            },
+            phone: 0,
+            image: {
+                url: "",
+                alt: "",
+            },
+            address: {
+                state: "",
+                country: "",
+                city: "",
+                street: "",
+                houseNumber: 0,
+                zip: 0,
+            },
+        },
         mode: "onChange",
         resolver: joiResolver(editUserSchema),
     });
@@ -44,22 +64,22 @@ export default function EditUser() {
         if (targetUser) {
             reset({
                 name: {
-                    first: targetUser.name.first || "",
+                    first: targetUser.name.first,
                     middle: targetUser.name.middle || "",
-                    last: targetUser.name.last || "",
+                    last: targetUser.name.last,
                 },
-                phone: targetUser.phone || 0,
+                phone: targetUser.phone,
                 image: {
-                    url: targetUser.image.url || "",
-                    alt: targetUser.image.alt || "",
+                    url: targetUser.image.url,
+                    alt: targetUser.image.alt,
                 },
                 address: {
                     state: targetUser.address.state !== "not defined" ? targetUser.address.state : "",
-                    country: targetUser.address.country || "",
-                    city: targetUser.address.city || "",
-                    street: targetUser.address.street || "",
-                    houseNumber: targetUser.address.houseNumber || 0,
-                    zip: targetUser.address.zip || 0,
+                    country: targetUser.address.country,
+                    city: targetUser.address.city,
+                    street: targetUser.address.street,
+                    houseNumber: targetUser.address.houseNumber,
+                    zip: targetUser.address.zip,
                 },
             });
         }
