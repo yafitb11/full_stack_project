@@ -1,6 +1,6 @@
 
 
-export type FormData = {
+export type TUserFormData = {
     name: {
         first: string,
         middle?: string,
@@ -23,7 +23,7 @@ export type FormData = {
     },
 };
 
-export type productFormData = {
+export type TProductFormData = {
     title: string;
     subtitle?: string;
     description: string;
@@ -37,3 +37,12 @@ export type productFormData = {
     isDiscount: boolean;
     discountedPrice?: number;
 };
+
+export type TCategoryFormData = {
+    title: string,
+    description: string,
+    image: {
+        url: string,
+        alt: string,
+    },
+}

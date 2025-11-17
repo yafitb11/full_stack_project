@@ -3,7 +3,7 @@ import { Button, Card, Label, TextInput } from "flowbite-react";
 import { useForm } from "react-hook-form";
 import { editUserSchema } from "../validations/editUser.joi";
 import axios from "axios";
-import { FormData } from "../types/formData";
+import { TUserFormData } from "../types/formData";
 import { Tuser } from "../types/types";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
@@ -35,7 +35,7 @@ export default function EditUser() {
         fetchUserDetails();
     }, [id]);
 
-    const { register, handleSubmit, formState: { errors, isValid }, reset } = useForm<FormData>({
+    const { register, handleSubmit, formState: { errors, isValid }, reset } = useForm<TUserFormData>({
         defaultValues: {
             name: {
                 first: "",
@@ -86,7 +86,7 @@ export default function EditUser() {
     }, [targetUser, reset]);
 
 
-    const submitForm = async (data: FormData) => {
+    const submitForm = async (data: TUserFormData) => {
         if (!targetUser) return;
 
         setLoading(true);

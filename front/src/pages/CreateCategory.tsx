@@ -4,10 +4,10 @@ import { Button, Card, TextInput, Textarea, Label } from "flowbite-react";
 import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
 import axios from "axios";
-import { TCategory } from "../types/types";
+import { TCategoryFormData } from "../types/formData";
 
 const CreateCategory = () => {
-    const [formData, setFormData] = useState<TCategory>({
+    const [formData, setFormData] = useState<TCategoryFormData>({
         title: "",
         description: "",
         image: {

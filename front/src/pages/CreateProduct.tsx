@@ -7,7 +7,7 @@ import axios from "axios";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { useForm } from "react-hook-form";
 import { newProductSchema } from "../validations/newProduct.joi";
-import { productFormData } from "../types/formData";
+import { TProductFormData } from "../types/formData";
 import { TCategory } from "../types/types";
 
 export default function CreateProduct() {
@@ -24,7 +24,7 @@ export default function CreateProduct() {
         watch,
         unregister,
         formState: { errors, isValid },
-    } = useForm<productFormData>({
+    } = useForm<TProductFormData>({
         mode: "onChange",
         resolver: joiResolver(newProductSchema),
         defaultValues: {
@@ -72,7 +72,7 @@ export default function CreateProduct() {
         fetchCategories();
     }, [searchParams, setValue]);
 
-    const onSubmit = async (data: productFormData) => {
+    const onSubmit = async (data: TProductFormData) => {
         setLoading(true);
 
         try {

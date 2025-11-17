@@ -130,6 +130,7 @@ const CategoryProducts = () => {
                                         <p className="text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
                                             {product.description}
                                         </p>
+
                                         <div className="flex justify-between items-center mb-4">
                                             <span className={`font-bold ${product.isDiscount ? "text-xl text-blue-400 dark:text-blue-300" : "text-2xl text-blue-600 dark:text-blue-400"}`}>
                                                 ${product.price}
@@ -150,7 +151,7 @@ const CategoryProducts = () => {
                                             >
                                                 View Details
                                             </Button>
-                                            <div className="flex space-x-2">
+                                            <div className="buttonsDiv">
                                                 {user && user.isAdmin && (
                                                     <>
                                                         <FaEdit

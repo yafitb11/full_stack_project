@@ -4,6 +4,8 @@ import { Card, Button } from "flowbite-react";
 import { TCategory } from "../types/types";
 import axios from "axios";
 import useAuth from "../hooks/useAuth";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 const Categories = () => {
     const [categories, setCategories] = useState<TCategory[]>([]);
@@ -25,6 +27,23 @@ const Categories = () => {
         fetchCategories();
     }, []);
 
+    const deleteCategory = async (categoryId: string) => {
+        const token = localStorage.getItem("token");
+
+        if (window.confirm("Are you sure you want to delete this category?")) {
+            try {
+                axios.defaults.headers.common["x-auth-token"] = token;
+                await axios.delete(`http://localhost:8182/categories/${categoryId}`);
+                toast.success("Category deleted successfully", { autoClose: 2000 });
+            } catch (error) {
+                console.log("Error deleting category:", error);
+                toast.error("Failed to delete category", { autoClose: 2000 });
+            }
+        }
+        setCategories(categories.filter((category) => category._id !== categoryId));
+    };
+
+
     if (loading) {
         return (
             <div className="container mx-auto px-4 py-8">
@@ -37,12 +56,12 @@ const Categories = () => {
     }
 
     return (
-        <div className="container mx-auto px-4 py-8">
-            <div className="text-center mb-8">
-                <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+        <div className="formPageDiv">
+            <div className="formTitleDiv">
+                <h1 className="!text-4xl ">
                     Product Categories
                 </h1>
-                <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">
+                <p className="text-lg mb-6">
                     Browse our wide selection of product categories
                 </p>
                 {user && user.isAdmin && (
@@ -77,6 +96,30 @@ const Categories = () => {
                                 <p className="text-gray-600 dark:text-gray-400">
                                     {category.description}
                                 </p>
+                            </div>
+                            <div className="flex justify-between items-center">
+                                <Button
+                                    color="blue"
+                                    onClick={() => navigate(`/categories/${category._id}`)}
+                                >
+                                    View Products
+                                </Button>
+                                <div className="buttonsDiv">
+                                    {user && user.isAdmin && (
+                                        <>
+                                            <FaEdit
+                                                className="text-green-500 cursor-pointer text-xl hover:text-green-600"
+                                                onClick={() => navigate(`/edit-product/${category._id}`)}
+                                                title="Edit product"
+                                            />
+                                            <FaTrash
+                                                className="text-red-500 cursor-pointer text-xl hover:text-red-600"
+                                                onClick={() => deleteCategory(category._id)}
+                                                title="Delete product"
+                                            />
+                                        </>
+                                    )}
+                                </div>
                             </div>
                         </Card>
                     </Link>

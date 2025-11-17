@@ -3,14 +3,14 @@ import { Button, Card, Label, TextInput } from "flowbite-react";
 import { useForm } from "react-hook-form";
 import { registerSchema } from "../validations/register.joi";
 import axios from "axios";
-import { FormData } from "../types/formData";
+import { TUserFormData } from "../types/formData";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 export default function Register() {
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors, isValid },
-    } = useForm<FormData>({
+    } = useForm<TUserFormData>({
         defaultValues: {
             name: {
                 first: "",
@@ -37,7 +37,7 @@ export default function Register() {
         resolver: joiResolver(registerSchema),
     });
 
-    const submitForm = async (data: FormData) => {
+    const submitForm = async (data: TUserFormData) => {
         try {
             const response = await axios.post(
                 "http://localhost:8182/users", data);

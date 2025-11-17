@@ -7,7 +7,7 @@ import axios from "axios";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { useForm } from "react-hook-form";
 import { newProductSchema } from "../validations/newProduct.joi";
-import { productFormData } from "../types/formData";
+import { TProductFormData } from "../types/formData";
 import { TProduct } from "../types/types";
 
 export default function EditProduct() {
@@ -39,7 +39,7 @@ export default function EditProduct() {
         unregister,
         formState: { errors, isValid },
         reset,
-    } = useForm<productFormData>({
+    } = useForm<TProductFormData>({
         defaultValues: {
             title: "",
             subtitle: "",
@@ -79,7 +79,7 @@ export default function EditProduct() {
     }, [isDiscounted, register, unregister, setValue, product]);
 
 
-    const onSubmit = async (data: productFormData) => {
+    const onSubmit = async (data: TProductFormData) => {
         setLoading(true);
 
         try {

@@ -124,25 +124,4 @@ gap:10px!important;
   @apply flex space-x-4 !mt-11;
 }
 
-/*
-  .myform{
-    @apply p-5 flex flex-col gap-4 justify-center align-middle shadow-lg rounded-xl bg-lightblue dark:bg-slate-300 w-[50%] xs:w-[88%]; 
-  }
-  
-.myform fieldset {@apply xs:flex-col;} 
-
-  .myform label{
-     background-color:lightblue!important;
-      @apply dark:!bg-slate-300;
-  }
-  
-.myform > h1{text-align:center}
-
-.myform input{@apply dark:text-black;}
-
-#textAreaDiv>textarea {@apply dark:!bg-slate-300 ;} 
-
-.myform p{@apply text-red-600 text-sm; } 
-
-*/
 

@@ -7,7 +7,6 @@ import { TRootState } from "./../store/store";
 import { TProduct } from "../types/types";
 import useAuth from "../hooks/useAuth";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
-import { toast } from "react-toastify";
 import { Pagination } from "flowbite-react";
 import { searchActions } from "../store/searchSlice";
 import { useDispatch } from "react-redux";
