@@ -1,5 +1,5 @@
 import { joiResolver } from "@hookform/resolvers/joi";
-import { Button, FloatingLabel } from "flowbite-react";
+import { Button, Card, Label, TextInput } from "flowbite-react";
 import { useForm } from "react-hook-form";
 import { SignInJoiSchema } from "../validations/SigninSchema.joi";
 import useAuth from "../hooks/useAuth";
@@ -21,34 +21,65 @@ export default function SignIn() {
     const { login } = useAuth();
 
 
-    return (<div className="flex min-h-[87vh] flex-col items-center justify-center bg-white dark:bg-slate-600">
-        <form className="myform sm:!w-[65%] md:!w-[40%] lg:!w-[38%] xl:!w-[36%]" onSubmit={handleSubmit(login)} >
-            <h1 className="text-2xl font-bold text-gray-800">Sign In</h1>
-            <FloatingLabel
-                type="email"
-                variant="outlined"
-                label="Email"
-                {...register("email")}
-                color={errors["email"] ? "error" : "success"}
-            />
-            <span className="text-sm text-red-600">{errors["email"]?.message}</span>
+    return (
+        <div className="formPageDiv">
+            <div className="max-w-[32rem] mx-auto">
 
-            <FloatingLabel
-                type="password"
-                variant="outlined"
-                label="Password"
-                {...register("password")}
-                color={errors["password"] ? "error" : "success"}
-            />
-            <span className="text-sm text-red-600">
-                {errors["password"]?.message}
-            </span>
+                {/* Title */}
+                <div className="formTitleDiv">
+                    <h1>Sign In</h1>
+                    <p>Access your account</p>
+                </div>
 
-            <Button type="submit" disabled={!isValid}>
-                Sign In
-            </Button>
-        </form>
-    </div>
+                <Card className="formCard">
+                    <form onSubmit={handleSubmit(login)} className="space-y-6">
+
+                        {/* EMAIL */}
+                        <div>
+                            <Label htmlFor="email" value="Email" />
+                            <TextInput
+                                id="email"
+                                type="email"
+                                {...register("email")}
+                            />
+                            {errors.email && (
+                                <p className="text-red-500 text-sm mt-1">
+                                    {errors.email.message}
+                                </p>
+                            )}
+                        </div>
+
+                        {/* PASSWORD */}
+                        <div>
+                            <Label htmlFor="password" value="Password" />
+                            <TextInput
+                                id="password"
+                                type="password"
+                                {...register("password")}
+                            />
+                            {errors.password && (
+                                <p className="text-red-500 text-sm mt-1">
+                                    {errors.password.message}
+                                </p>
+                            )}
+                        </div>
+
+                        {/* BUTTONS */}
+                        <div id="buttonsDiv">
+                            <Button
+                                type="submit"
+                                color="blue"
+                                className="flex-1"
+                                disabled={!isValid}
+                            >
+                                Sign In
+                            </Button>
+                        </div>
+                    </form>
+                </Card>
+            </div>
+        </div>
     );
+
 }
 

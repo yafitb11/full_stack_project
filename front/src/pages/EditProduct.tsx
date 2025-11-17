@@ -134,7 +134,7 @@ export default function EditProduct() {
                     <p className="text-gray-600 dark:text-gray-400">Add a new product to the store</p>
                 </div>
 
-                <Card className="p-6">
+                <Card className="formCard">
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
 
                         <div>
@@ -218,7 +218,7 @@ export default function EditProduct() {
                             </div>
                         )}
 
-                        <div className="flex space-x-4">
+                        <div className="buttonsDiv">
                             <Button type="submit" color="blue" disabled={loading || !isValid} className="flex-1">
                                 {loading ? "Loading..." : "Edit Product"}
                             </Button>

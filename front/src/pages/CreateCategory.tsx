@@ -70,7 +70,7 @@ const CreateCategory = () => {
 
     if (!user) {
         return (
-            <div className="container mx-auto px-4 py-8">
+            <div className="formPageDiv">
                 <div className="text-center">
                     <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
                         Please Login
@@ -85,7 +85,7 @@ const CreateCategory = () => {
 
     if (!user.isAdmin) {
         return (
-            <div className="container mx-auto px-4 py-8">
+            <div className="formPageDiv">
                 <div className="text-center">
                     <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
                         Access Denied
@@ -99,18 +99,18 @@ const CreateCategory = () => {
     }
 
     return (
-        <div className="container mx-auto px-4 py-8">
-            <div className="max-w-2xl mx-auto">
-                <div className="text-center mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+        <div className="formPageDiv">
+            <div className="formSecondDiv">
+                <div className="formTitleDiv">
+                    <h1>
                         Create New Category
                     </h1>
-                    <p className="text-gray-600 dark:text-gray-400">
+                    <p>
                         Add a new product category to the store
                     </p>
                 </div>
 
-                <Card className="p-6">
+                <Card className="formCard">
                     <form onSubmit={handleSubmit} className="space-y-6">
                         <div>
                             <Label htmlFor="title" value="Category Title" />
@@ -165,7 +165,7 @@ const CreateCategory = () => {
                             />
                         </div>
 
-                        <div className="flex space-x-4">
+                        <div className="buttonsDiv">
                             <Button
                                 type="submit"
                                 color="blue"

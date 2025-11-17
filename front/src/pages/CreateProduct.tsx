@@ -119,16 +119,16 @@ export default function CreateProduct() {
     }
 
     return (
-        <div className="container mx-auto px-4 py-8">
-            <div className="max-w-2xl mx-auto">
-                <div className="text-center mb-8">
+        <div className="formPageDiv">
+            <div className="formSecondDiv">
+                <div className="formTitleDiv">
                     <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
                         Create New Product
                     </h1>
                     <p className="text-gray-600 dark:text-gray-400">Add a new product to the store</p>
                 </div>
 
-                <Card className="p-6">
+                <Card className="formCard">
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
 
                         <div>
@@ -247,7 +247,7 @@ export default function CreateProduct() {
                             </div>
                         )}
 
-                        <div className="flex space-x-4">
+                        <div className="buttonsDiv">
                             <Button type="submit" color="blue" disabled={loading || !isValid} className="flex-1">
                                 {loading ? "Creating..." : "Create Product"}
                             </Button>
