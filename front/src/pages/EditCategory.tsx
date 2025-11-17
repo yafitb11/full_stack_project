@@ -8,6 +8,7 @@ import { joiResolver } from "@hookform/resolvers/joi";
 import { useForm } from "react-hook-form";
 import { TCategory } from "../types/types";
 import { newCategorySchema } from "../validations/newCategory";
+import { TCategoryFormData } from "../types/formData";
 
 export default function EditCategory() {
     const [category, setCategory] = useState<TCategory>();
@@ -36,7 +37,7 @@ export default function EditCategory() {
         handleSubmit,
         reset,
         formState: { errors, isValid }
-    } = useForm<TCategory>({
+    } = useForm<TCategoryFormData>({
         defaultValues: {
             title: "",
             description: "",
@@ -60,7 +61,7 @@ export default function EditCategory() {
     }, [category, reset]);
 
 
-    const onSubmit = async (data: TCategory) => {
+    const onSubmit = async (data: TCategoryFormData) => {
         setLoading(true);
 
         try {

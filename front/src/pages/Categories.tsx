@@ -35,12 +35,13 @@ const Categories = () => {
                 axios.defaults.headers.common["x-auth-token"] = token;
                 await axios.delete(`http://localhost:8182/categories/${categoryId}`);
                 toast.success("Category deleted successfully", { autoClose: 2000 });
+                setCategories(prev => prev.filter(category => category._id !== categoryId));
             } catch (error) {
                 console.log("Error deleting category:", error);
                 toast.error("Failed to delete category", { autoClose: 2000 });
             }
         }
-        setCategories(categories.filter((category) => category._id !== categoryId));
+
     };
 
 
@@ -109,7 +110,7 @@ const Categories = () => {
                                         <>
                                             <FaEdit
                                                 className="text-green-500 cursor-pointer text-xl hover:text-green-600"
-                                                onClick={() => navigate(`/edit-product/${category._id}`)}
+                                                onClick={() => navigate(`/edit-category/${category._id}`)}
                                                 title="Edit product"
                                             />
                                             <FaTrash

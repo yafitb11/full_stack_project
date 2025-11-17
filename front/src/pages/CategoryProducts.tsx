@@ -64,8 +64,10 @@ const CategoryProducts = () => {
     };
 
     const handleDeleteProduct = async (productId: string) => {
-        deleteProduct(productId);
-        setProducts(products.filter((product) => product._id !== productId));
+        const success = await deleteProduct(productId);
+        if (success) {
+            setProducts((prev) => prev.filter((product) => product._id !== productId));
+        }
     };
 
     if (spinner) {
