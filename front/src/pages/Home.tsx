@@ -131,16 +131,19 @@ const Home = () => {
                 {products && paginatedProducts.map((product) => {
                     const isLiked = user ? product.likes.includes(user._id) : false;
                     return (
-                        <Card key={product._id} className="h-full hover:shadow-lg transition-shadow duration-300">
-                            <div className="aspect-w-16 aspect-h-9 mb-4">
+                        <Card key={product._id} className="flex flex-col h-full hover:shadow-lg transition-shadow duration-300">
+                            {/* Image Section - Fixed Position */}
+                            <div className="flex-shrink-0 aspect-w-16 aspect-h-9 mb-4">
                                 <img
                                     src={product.image.url}
                                     alt={product.image.alt}
                                     className="w-full h-48 object-cover rounded-lg"
                                 />
                             </div>
-                            <div className="p-4">
-                                <p className="text-gray-800 dark:text-gray-400 mb-3 line-clamp-2">
+                            
+                            {/* Text Section - Flexible with Scroll */}
+                            <div className="flex-1 overflow-y-auto min-h-0 p-4">
+                                <p className="text-gray-800 dark:text-gray-400 mb-3">
                                     {(product.category_id as TCategory)?.title}
                                 </p>
                                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
@@ -149,7 +152,7 @@ const Home = () => {
                                 <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
                                     {product.subtitle}
                                 </h3>
-                                <p className="text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
+                                <p className="text-gray-600 dark:text-gray-400 mb-3">
                                     {product.description}
                                 </p>
 
@@ -166,41 +169,43 @@ const Home = () => {
                                         product is in discount! ${product.discountedPrice}
                                     </p>
                                 )}
-                                <div className="flex justify-between items-center">
-                                    <Button
-                                        color="blue"
-                                        onClick={() => nav(`/product/${product._id}`)}
-                                    >
-                                        View Details
-                                    </Button>
-                                    <div className="flex space-x-2">
-                                        {user && user.isAdmin && (
-                                            <>
-                                                <FaEdit
-                                                    className="text-green-500 cursor-pointer text-xl hover:text-green-600"
-                                                    onClick={() => nav(`/edit-product/${product._id}`)}
-                                                    title="Edit product"
-                                                />
-                                                <FaTrash
-                                                    className="text-red-500 cursor-pointer text-xl hover:text-red-600"
-                                                    onClick={() => handleDeleteProduct(product._id)}
-                                                    title="Delete product"
-                                                />
-                                            </>
-                                        )}
-                                        {user && !user.isAdmin && (
-                                            <>
-                                                <FaHeart
-                                                    className={`${isLiked ? "text-red-500" : "text-gray-500"} cursor-pointer text-xl`}
-                                                    onClick={() => handleLike(product._id)}
-                                                />
-                                                <FaShoppingCart
-                                                    className="text-blue-500 cursor-pointer text-xl"
-                                                    onClick={() => addToCart(product)}
-                                                />
-                                            </>
-                                        )}
-                                    </div>
+                            </div>
+                            
+                            {/* Buttons Section - Fixed Position */}
+                            <div className="flex-shrink-0 flex justify-between items-center p-4 pt-0">
+                                <Button
+                                    color="blue"
+                                    onClick={() => nav(`/product/${product._id}`)}
+                                >
+                                    View Details
+                                </Button>
+                                <div className="flex space-x-2">
+                                    {user && user.isAdmin && (
+                                        <>
+                                            <FaEdit
+                                                className="text-green-500 cursor-pointer text-xl hover:text-green-600"
+                                                onClick={() => nav(`/edit-product/${product._id}`)}
+                                                title="Edit product"
+                                            />
+                                            <FaTrash
+                                                className="text-red-500 cursor-pointer text-xl hover:text-red-600"
+                                                onClick={() => handleDeleteProduct(product._id)}
+                                                title="Delete product"
+                                            />
+                                        </>
+                                    )}
+                                    {user && !user.isAdmin && (
+                                        <>
+                                            <FaHeart
+                                                className={`${isLiked ? "text-red-500" : "text-gray-500"} cursor-pointer text-xl`}
+                                                onClick={() => handleLike(product._id)}
+                                            />
+                                            <FaShoppingCart
+                                                className="text-blue-500 cursor-pointer text-xl"
+                                                onClick={() => addToCart(product)}
+                                            />
+                                        </>
+                                    )}
                                 </div>
                             </div>
                         </Card>

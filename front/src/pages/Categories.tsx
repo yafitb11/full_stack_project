@@ -81,15 +81,18 @@ const Categories = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {categories.map((category) => (
-                    <Card key={category._id} className="h-full hover:shadow-lg transition-shadow duration-300">
-                        <div className="aspect-w-16 aspect-h-9 mb-4">
+                    <Card key={category._id} className="flex flex-col h-full hover:shadow-lg transition-shadow duration-300">
+                        {/* Image Section - Fixed Position */}
+                        <div className="flex-shrink-0 aspect-w-16 aspect-h-9 mb-4">
                             <img
                                 src={category.image.url}
                                 alt={category.image.alt}
                                 className="w-full h-48 object-cover rounded-lg"
                             />
                         </div>
-                        <div className="p-4">
+                        
+                        {/* Text Section - Flexible with Scroll */}
+                        <div className="flex-1 overflow-y-auto min-h-0 p-4">
                             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                                 {category.title}
                             </h3>
@@ -97,7 +100,9 @@ const Categories = () => {
                                 {category.description}
                             </p>
                         </div>
-                        <div className="flex justify-between items-center">
+                        
+                        {/* Buttons Section - Fixed Position */}
+                        <div className="flex-shrink-0 flex justify-between items-center p-4 pt-0">
                             <Button
                                 color="blue"
                                 onClick={() => navigate(`/categories/${category._id}`)}
