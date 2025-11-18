@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { getCategories, getOneCategory, createCategory, deleteCategory } = require("../services/categoryService");
+const { getCategories, getOneCategory, createCategory, updateCategory, deleteCategory } = require("../services/categoryService");
 const { errorhandler } = require("../../utils/errorhandler");
 const { auth } = require("../../auth/authService");
 
@@ -37,6 +37,25 @@ router.post("/", auth, async (req, res) => {
     }
 });
 
+
+router.put("/:id", auth, async (req, res) => {
+    try {
+        const categoryId = req.params.id;
+        const category1 = await getOneCategory(categoryId);
+        if (!category1) {
+            return errorhandler(res, 404, "category not found");
+        }
+
+        const { isAdmin } = req.user;
+        if (!isAdmin) {
+            return errorhandler(res, 403, "Authorization Error: Must be the Admin!");
+        }
+        const category = await updateCategory(categoryId, req.body);
+        res.send(category);
+    } catch (error) {
+        return errorhandler(res, error.status || 500, error.message);
+    }
+});
 
 router.delete("/:id", auth, async (req, res) => {
     try {

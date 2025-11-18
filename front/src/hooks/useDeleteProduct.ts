@@ -12,9 +12,11 @@ const deleteProduct = async (productId: string) => {
         axios.defaults.headers.common["x-auth-token"] = token;
         await axios.delete(`http://localhost:8182/products/${productId}`);
         toast.success("Product deleted successfully", { autoClose: 2000 });
+        return true;
     } catch (error) {
         console.log("Error deleting product:", error);
         toast.error("Failed to delete product", { autoClose: 2000 });
+        return false;
     }
 
 };

@@ -283,7 +283,7 @@ export default function EditUser() {
                         </fieldset>
 
                         {/* BUTTONS */}
-                        <div id="buttonsDiv">
+                        <div className="buttonsDiv">
                             <Button
                                 type="submit"
                                 color="blue"

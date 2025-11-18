@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Card, Button } from "flowbite-react";
 import { TCategory } from "../types/types";
 import axios from "axios";
@@ -81,49 +81,47 @@ const Categories = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {categories.map((category) => (
-                    <Link key={category._id} to={`/categories/${category._id}`}>
-                        <Card className="h-full hover:shadow-lg transition-shadow duration-300">
-                            <div className="aspect-w-16 aspect-h-9 mb-4">
-                                <img
-                                    src={category.image.url}
-                                    alt={category.image.alt}
-                                    className="w-full h-48 object-cover rounded-lg"
-                                />
+                    <Card key={category._id} className="h-full hover:shadow-lg transition-shadow duration-300">
+                        <div className="aspect-w-16 aspect-h-9 mb-4">
+                            <img
+                                src={category.image.url}
+                                alt={category.image.alt}
+                                className="w-full h-48 object-cover rounded-lg"
+                            />
+                        </div>
+                        <div className="p-4">
+                            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                                {category.title}
+                            </h3>
+                            <p className="text-gray-600 dark:text-gray-400">
+                                {category.description}
+                            </p>
+                        </div>
+                        <div className="flex justify-between items-center">
+                            <Button
+                                color="blue"
+                                onClick={() => navigate(`/categories/${category._id}`)}
+                            >
+                                View Products
+                            </Button>
+                            <div className="buttonsDiv">
+                                {user && user.isAdmin && (
+                                    <>
+                                        <FaEdit
+                                            className="text-green-500 cursor-pointer text-xl hover:text-green-600"
+                                            onClick={() => navigate(`/edit-category/${category._id}`)}
+                                            title="Edit product"
+                                        />
+                                        <FaTrash
+                                            className="text-red-500 cursor-pointer text-xl hover:text-red-600"
+                                            onClick={() => deleteCategory(category._id)}
+                                            title="Delete product"
+                                        />
+                                    </>
+                                )}
                             </div>
-                            <div className="p-4">
-                                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                                    {category.title}
-                                </h3>
-                                <p className="text-gray-600 dark:text-gray-400">
-                                    {category.description}
-                                </p>
-                            </div>
-                            <div className="flex justify-between items-center">
-                                <Button
-                                    color="blue"
-                                    onClick={() => navigate(`/categories/${category._id}`)}
-                                >
-                                    View Products
-                                </Button>
-                                <div className="buttonsDiv">
-                                    {user && user.isAdmin && (
-                                        <>
-                                            <FaEdit
-                                                className="text-green-500 cursor-pointer text-xl hover:text-green-600"
-                                                onClick={() => navigate(`/edit-category/${category._id}`)}
-                                                title="Edit product"
-                                            />
-                                            <FaTrash
-                                                className="text-red-500 cursor-pointer text-xl hover:text-red-600"
-                                                onClick={() => deleteCategory(category._id)}
-                                                title="Delete product"
-                                            />
-                                        </>
-                                    )}
-                                </div>
-                            </div>
-                        </Card>
-                    </Link>
+                        </div>
+                    </Card>
                 ))}
             </div>
 

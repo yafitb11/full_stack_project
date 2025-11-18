@@ -46,6 +46,20 @@ exports.create = async (normalizedCategory) => {
 };
 
 
+exports.update = async (categoryId, normalizedCategory) => {
+    if (DB === "MONGODB") {
+        try {
+            const updatedCategory = await Category.findByIdAndUpdate(categoryId, normalizedCategory, { new: true });
+            if (!updatedCategory) { throw new Error("Could not update this category because a category with this ID couldn't be found in database"); }
+            return Promise.resolve(`updated category: ${updatedCategory}`);
+        } catch (error) {
+            error.status = 404;
+            return handleBadRequest("Mongoose", error);
+        }
+    }
+    return Promise.resolve("category Not From MONGODB");
+};
+
 exports.remove = async (categoryId) => {
     if (DB === "MONGODB") {
         try {
