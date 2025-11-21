@@ -48,7 +48,7 @@ const Categories = () => {
 
     if (loading) {
         return (
-            <div className="container mx-auto px-4 py-8">
+            <div className="pageDiv">
                 <div className="text-center">
                     <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900 mx-auto"></div>
                     <p className="mt-4 text-gray-600">Loading categories...</p>
@@ -59,15 +59,15 @@ const Categories = () => {
 
     return (
         <div className="pageDiv">
-            <div className="formTitleDiv">
-                <h1 className="!text-4xl ">
+            <div className="pageTextAndButtonsDiv">
+                <h1>
                     Product Categories
                 </h1>
-                <p className="text-lg mb-6">
+                <p>
                     Browse our wide selection of product categories
                 </p>
                 {user && user.isAdmin && (
-                    <div className="flex justify-center">
+                    <div className="pageAdminButtonsDiv">
                         <Button
                             color="blue"
                             onClick={() => navigate("/create-category")}
@@ -80,21 +80,18 @@ const Categories = () => {
                 )}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="pageCardsDiv">
                 {categories.map((category) => (
-                    <Card key={category._id} className="flex flex-col h-full hover:shadow-lg transition-shadow duration-300">
-                        {/* Image Section - Fixed Position */}
-                        <div className="flex-shrink-0 aspect-w-16 aspect-h-9 mb-4">
+                    <Card key={category._id} className="mycard">
+                        <div className="imageDiv">
                             <img
                                 src={category.image.url}
                                 alt={category.image.alt}
-                                className="w-full h-48 object-cover rounded-lg"
                             />
                         </div>
 
-                        {/* Text Section - Flexible with Scroll */}
-                        <div className="flex-1 overflow-y-auto min-h-0 p-4">
-                            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                        <div className="textDiv !px-8">
+                            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mt-2 mb-2">
                                 {category.title}
                             </h3>
                             <p className="text-gray-600 dark:text-gray-400">
@@ -102,26 +99,25 @@ const Categories = () => {
                             </p>
                         </div>
 
-                        {/* Buttons Section - Fixed Position */}
-                        <div className="flex-shrink-0 flex justify-between items-center p-4 pt-0">
+                        <div className="cardButtonsDiv">
                             <Button
                                 color="blue"
                                 onClick={() => navigate(`/categories/${category._id}`)}
                             >
                                 View Products
                             </Button>
-                            <div className="buttonsDiv">
+                            <div className="flex space-x-2">
                                 {user && user.isAdmin && (
                                     <>
                                         <MdEdit
-                                            className="text-green-500 cursor-pointer text-xl hover:text-green-600"
+                                            className="text-black cursor-pointer text-2xl hover:text-green-500"
                                             onClick={() => navigate(`/edit-category/${category._id}`)}
-                                            title="Edit product"
+                                            title="Edit category"
                                         />
                                         <FaTrash
-                                            className="text-red-500 cursor-pointer text-xl hover:text-red-600"
+                                            className="text-black cursor-pointer text-xl hover:text-red-600"
                                             onClick={() => deleteCategory(category._id)}
-                                            title="Delete product"
+                                            title="Delete category"
                                         />
                                     </>
                                 )}

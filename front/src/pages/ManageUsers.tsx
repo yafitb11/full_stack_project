@@ -94,30 +94,29 @@ const ManageUsers = () => {
                 {users && filterByPage()?.map((user) => {
                     return (
                         <Card key={user._id} className="mycard">
-                            <div className="imageDiv aspect-w-16 aspect-h-9">
+                            <div className="imageDiv">
                                 <img
                                     src={user.image.url}
                                     alt={`${user.name.first} ${user.name.last}`}
-                                    className="w-full h-48 object-cover rounded-lg"
                                 />
                             </div>
                             <div className="textDiv">
-                                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mt-2 mb-2">
                                     {user.name.first} {user.name.middle} {user.name.last}
                                 </h3>
-                                <p className="text-gray-600 dark:text-gray-300 mb-1">ID: {user._id}</p>
-                                <p className="text-gray-600 dark:text-gray-300 mb-1">Phone: {user.phone}</p>
-                                <p className="text-gray-600 dark:text-gray-300 mb-1">Email: {user.email}</p>
-                                <p className="text-gray-600 dark:text-gray-300 mb-1">
+                                <p className="text-gray-600 dark:text-gray-300">ID: {user._id}</p>
+                                <p className="text-gray-600 dark:text-gray-300">Phone: {user.phone}</p>
+                                <p className="text-gray-600 dark:text-gray-300">Email: {user.email}</p>
+                                <p className="text-gray-600 dark:text-gray-300">
                                     Address: {user.address.state} {user.address.country} {user.address.city} {user.address.street} {user.address.houseNumber}
                                 </p>
-                                <p className="text-gray-600 dark:text-gray-300 mb-1">Role: {user.isAdmin ? "Admin" : "User"}</p>
+                                <p className="text-gray-600 dark:text-gray-300">Role: {user.isAdmin ? "Admin" : "User"}</p>
                             </div>
                             <div className="cardButtonsDiv">
                                 <Button color="blue" onClick={() => navigate(`/edit-user/${user._id}`)}>
                                     Edit User
                                 </Button>
-                                <div className="buttonsDiv">
+                                <div className="flex space-x-2">
                                     <MdEdit
                                         className="text-black cursor-pointer text-2xl hover:text-green-500"
                                         onClick={() => navigate(`/edit-user/${user._id}`)}

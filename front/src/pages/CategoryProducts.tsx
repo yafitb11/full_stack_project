@@ -131,26 +131,25 @@ const CategoryProducts = () => {
                         const isLiked = user ? product.likes.includes(user._id) : false;
                         return (
                             <Card key={product._id} className="mycard">
-                                <div className="imageDiv aspect-w-16 aspect-h-9">
+                                <div className="imageDiv">
                                     <img
                                         src={product.image.url}
                                         alt={product.image.alt}
-                                        className="w-full h-48 object-cover rounded-lg"
                                     />
                                 </div>
 
                                 <div className="textDiv">
-                                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mt-2">
                                         {product.title}
                                     </h3>
-                                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
+                                    <h3 className="font-semibold text-gray-900 dark:text-white">
                                         {product.subtitle}
                                     </h3>
-                                    <p className="text-gray-600 dark:text-gray-400 mb-3">
+                                    <p className="text-gray-600 dark:text-gray-400 mt-1">
                                         {product.description}
                                     </p>
 
-                                    <div className="flex justify-between items-center mb-4">
+                                    <div>
                                         <span className={`font-bold ${product.isDiscount ? "text-xl text-blue-400 dark:text-blue-300" : "text-2xl text-blue-600 dark:text-blue-400"}`}>
                                             ${product.price}
                                         </span>
@@ -159,8 +158,8 @@ const CategoryProducts = () => {
                                         </span>
                                     </div>
                                     {product.isDiscount && (
-                                        <p className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-4">
-                                            product is in discount! ${product.discountedPrice}
+                                        <p className="text-xl font-bold text-blue-600 mt-2 dark:text-blue-400">
+                                            Now in discount ${product.discountedPrice} !
                                         </p>
                                     )}
                                 </div>
@@ -172,7 +171,7 @@ const CategoryProducts = () => {
                                     >
                                         View Details
                                     </Button>
-                                    <div className="buttonsDiv">
+                                    <div className="flex space-x-2">
                                         {user && user.isAdmin && (
                                             <>
                                                 <MdEdit

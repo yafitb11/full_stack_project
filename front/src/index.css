@@ -36,17 +36,17 @@
   @apply flex gap-0 p-0;
    flex: unset;
 }
-.imageDiv{@apply flex-shrink-0 overflow-hidden rounded-t-lg min-h-0 h-48 w-full;}
+.imageDiv{@apply flex-shrink-0 overflow-hidden rounded-t-lg min-h-0 h-[180px] w-full mb-2;}
 .imageDiv>img{
   @apply w-full h-full object-cover;
 }
-.textDiv{@apply flex-1 overflow-y-auto min-h-0 p-5 pb-0 pt-2;}
+.textDiv{@apply flex-1 overflow-y-auto min-h-0 px-6 py-0;}
 .textDiv>h3{}
 .textDiv>div{
   @apply flex justify-between items-center mt-3;
 }
 
-.cardButtonsDiv{@apply flex-shrink-0 flex justify-between items-center m-5;}
+.cardButtonsDiv{@apply flex-shrink-0 flex justify-center gap-11 items-center m-5 mt-4;}
 /*
 .mycard {
     width: 270px;

@@ -152,7 +152,7 @@ const Home = () => {
                                 <h3 className="font-semibold text-gray-900 dark:text-white">
                                     {product.subtitle}
                                 </h3>
-                                <p className="text-gray-600 dark:text-gray-400">
+                                <p className="text-gray-600 dark:text-gray-400 mt-1">
                                     {product.description}
                                 </p>
 
