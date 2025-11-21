@@ -55,7 +55,7 @@ export default function Register() {
 
 
     return (
-        <div className="formPageDiv">
+        <div className="pageDiv">
             <div className="formSecondDiv">
 
                 {/* Title */}

@@ -70,7 +70,7 @@ const CreateCategory = () => {
 
     if (!user) {
         return (
-            <div className="formPageDiv">
+            <div className="pageDiv">
                 <div className="text-center">
                     <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
                         Please Login
@@ -85,7 +85,7 @@ const CreateCategory = () => {
 
     if (!user.isAdmin) {
         return (
-            <div className="formPageDiv">
+            <div className="pageDiv">
                 <div className="text-center">
                     <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
                         Access Denied
@@ -99,7 +99,7 @@ const CreateCategory = () => {
     }
 
     return (
-        <div className="formPageDiv">
+        <div className="pageDiv">
             <div className="formSecondDiv">
                 <div className="formTitleDiv">
                     <h1>

@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { TRootState } from "../store/store";
 import { TProduct, TCategory } from "../types/types";
-import { FaHeart, FaShoppingCart, FaEdit, FaTrash } from "react-icons/fa";
+import { FaHeart, FaShoppingCart, FaTrash } from "react-icons/fa";
+import { MdEdit } from "react-icons/md";
 import useAuth from "../hooks/useAuth";
 import { Pagination } from "flowbite-react";
 import { useDispatch } from "react-redux";
@@ -90,16 +91,16 @@ const Home = () => {
     };
 
     return (
-        <div className="container mx-auto px-4 py-8">
-            <div className="text-center mb-8">
-                <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+        <div className="pageDiv">
+            <div className="pageTextAndButtonsDiv">
+                <h1>
                     Welcome to E-Shop
                 </h1>
-                <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">
+                <p>
                     Discover amazing products at great prices
                 </p>
                 {user && user.isAdmin && (
-                    <div className="flex justify-center">
+                    <div className="pageAdminButtonsDiv">
                         <Button
                             color="blue"
                             onClick={() => nav("/create-product")}
@@ -127,36 +128,35 @@ const Home = () => {
                 </div>
             )}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="pageCardsDiv">
                 {products && paginatedProducts.map((product) => {
                     const isLiked = user ? product.likes.includes(user._id) : false;
                     return (
-                        <Card key={product._id} className="flex flex-col h-full hover:shadow-lg transition-shadow duration-300">
+                        <Card key={product._id} className="mycard" >
                             {/* Image Section - Fixed Position */}
-                            <div className="flex-shrink-0 aspect-w-16 aspect-h-9 mb-4">
+                            <div className="imageDiv">
                                 <img
                                     src={product.image.url}
                                     alt={product.image.alt}
-                                    className="w-full h-48 object-cover rounded-lg"
                                 />
                             </div>
-                            
+
                             {/* Text Section - Flexible with Scroll */}
-                            <div className="flex-1 overflow-y-auto min-h-0 p-4">
+                            <div className="textDiv">
                                 <p className="text-gray-800 dark:text-gray-400 mb-3">
                                     {(product.category_id as TCategory)?.title}
                                 </p>
-                                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
                                     {product.title}
                                 </h3>
-                                <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
+                                <h3 className="font-semibold text-gray-900 dark:text-white">
                                     {product.subtitle}
                                 </h3>
-                                <p className="text-gray-600 dark:text-gray-400 mb-3">
+                                <p className="text-gray-600 dark:text-gray-400">
                                     {product.description}
                                 </p>
 
-                                <div className="flex justify-between items-center mb-4">
+                                <div>
                                     <span className={`font-bold ${product.isDiscount ? "text-xl text-blue-400 dark:text-blue-300" : "text-2xl text-blue-600 dark:text-blue-400"}`}>
                                         ${product.price}
                                     </span>
@@ -164,15 +164,16 @@ const Home = () => {
                                         {product.likes.length} likes
                                     </span>
                                 </div>
+
                                 {product.isDiscount && (
-                                    <p className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-4">
-                                        product is in discount! ${product.discountedPrice}
+                                    <p className="text-xl font-bold text-blue-600 mt-2 dark:text-blue-400">
+                                        Now in discount ${product.discountedPrice} !
                                     </p>
                                 )}
                             </div>
-                            
+
                             {/* Buttons Section - Fixed Position */}
-                            <div className="flex-shrink-0 flex justify-between items-center p-4 pt-0">
+                            <div className="cardButtonsDiv">
                                 <Button
                                     color="blue"
                                     onClick={() => nav(`/product/${product._id}`)}
@@ -182,13 +183,13 @@ const Home = () => {
                                 <div className="flex space-x-2">
                                     {user && user.isAdmin && (
                                         <>
-                                            <FaEdit
-                                                className="text-green-500 cursor-pointer text-xl hover:text-green-600"
+                                            <MdEdit
+                                                className="text-black cursor-pointer text-2xl hover:text-green-500"
                                                 onClick={() => nav(`/edit-product/${product._id}`)}
                                                 title="Edit product"
                                             />
                                             <FaTrash
-                                                className="text-red-500 cursor-pointer text-xl hover:text-red-600"
+                                                className="text-black cursor-pointer text-xl hover:text-red-600"
                                                 onClick={() => handleDeleteProduct(product._id)}
                                                 title="Delete product"
                                             />

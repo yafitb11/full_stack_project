@@ -4,7 +4,8 @@ import { Card, Button } from "flowbite-react";
 import { TCategory } from "../types/types";
 import axios from "axios";
 import useAuth from "../hooks/useAuth";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
+import { MdEdit } from "react-icons/md";
 import { toast } from "react-toastify";
 
 const Categories = () => {
@@ -57,7 +58,7 @@ const Categories = () => {
     }
 
     return (
-        <div className="formPageDiv">
+        <div className="pageDiv">
             <div className="formTitleDiv">
                 <h1 className="!text-4xl ">
                     Product Categories
@@ -90,7 +91,7 @@ const Categories = () => {
                                 className="w-full h-48 object-cover rounded-lg"
                             />
                         </div>
-                        
+
                         {/* Text Section - Flexible with Scroll */}
                         <div className="flex-1 overflow-y-auto min-h-0 p-4">
                             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
@@ -100,7 +101,7 @@ const Categories = () => {
                                 {category.description}
                             </p>
                         </div>
-                        
+
                         {/* Buttons Section - Fixed Position */}
                         <div className="flex-shrink-0 flex justify-between items-center p-4 pt-0">
                             <Button
@@ -112,7 +113,7 @@ const Categories = () => {
                             <div className="buttonsDiv">
                                 {user && user.isAdmin && (
                                     <>
-                                        <FaEdit
+                                        <MdEdit
                                             className="text-green-500 cursor-pointer text-xl hover:text-green-600"
                                             onClick={() => navigate(`/edit-category/${category._id}`)}
                                             title="Edit product"

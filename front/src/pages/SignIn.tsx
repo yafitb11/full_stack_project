@@ -22,7 +22,7 @@ export default function SignIn() {
 
 
     return (
-        <div className="formPageDiv">
+        <div className="pageDiv">
             <div className="max-w-[32rem] mx-auto">
 
                 {/* Title */}

@@ -107,7 +107,7 @@ export default function EditCategory() {
 
 
     return (
-        <div className="formPageDiv">
+        <div className="pageDiv">
             <div className="formSecondDiv">
 
                 <div className="formTitleDiv">

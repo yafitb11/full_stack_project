@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Card, Spinner } from "flowbite-react";
+import { Card, Spinner, Button } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Tuser } from "../types/types";
@@ -78,37 +78,66 @@ const ManageUsers = () => {
 
 
     return (
-        <div className="flex flex-col items-center justify-start gap-2 bg-blue-300 dark:bg-slate-400">
-            <h1 className="text-3xl m-3">All Users</h1>
+        <div className="pageDiv">
+            <div className="pageTextAndButtonsDiv">
+                <h1>All Users</h1>
+                <p>Review and manage every registered user in the system</p>
+            </div>
 
-            <div className="w-[100%] flex gap-6 flex-wrap p-5 justify-center  bg-blue-100 dark:bg-slate-800">
+            {spiner && (
+                <div className="text-center w-full mb-6">
+                    <Spinner color="purple" aria-label="Purple spinner example" />
+                </div>
+            )}
+
+            <div className="pageCardsDiv">
                 {users && filterByPage()?.map((user) => {
                     return (
-                        <Card key={user._id} id={user._id} className="usersCard" imgSrc={user.image.url}>
-                            <div>
-                                <h2>{user.name.first} {user.name.middle} {user.name.last}</h2>
-                                <p>ID: {user._id}</p>
-                                <p> Phone: {user.phone} </p>
-                                <p> Email: {user.email} </p>
-                                <p> Adress: {user.address.state} {user.address.country} {user.address.city} {user.address.street} {user.address.houseNumber}</p>
-                                <p> isAdmin: {user.isAdmin ? "yes" : "no"}</p>
+                        <Card key={user._id} className="mycard">
+                            <div className="imageDiv aspect-w-16 aspect-h-9">
+                                <img
+                                    src={user.image.url}
+                                    alt={`${user.name.first} ${user.name.last}`}
+                                    className="w-full h-48 object-cover rounded-lg"
+                                />
                             </div>
-                            <div className="flex justify-center" id="iconsdiv">
-                                <MdEdit className="cursor-pointer text-2xl dark:hover:text-white" onClick={() => navigate("/edit-user/" + user._id)}></MdEdit>
-                                <MdDelete className="cursor-pointer text-2xl dark:hover:text-white" onClick={() => { deleteUser(user._id) }}></MdDelete>
+                            <div className="textDiv">
+                                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                                    {user.name.first} {user.name.middle} {user.name.last}
+                                </h3>
+                                <p className="text-gray-600 dark:text-gray-300 mb-1">ID: {user._id}</p>
+                                <p className="text-gray-600 dark:text-gray-300 mb-1">Phone: {user.phone}</p>
+                                <p className="text-gray-600 dark:text-gray-300 mb-1">Email: {user.email}</p>
+                                <p className="text-gray-600 dark:text-gray-300 mb-1">
+                                    Address: {user.address.state} {user.address.country} {user.address.city} {user.address.street} {user.address.houseNumber}
+                                </p>
+                                <p className="text-gray-600 dark:text-gray-300 mb-1">Role: {user.isAdmin ? "Admin" : "User"}</p>
+                            </div>
+                            <div className="cardButtonsDiv">
+                                <Button color="blue" onClick={() => navigate(`/edit-user/${user._id}`)}>
+                                    Edit User
+                                </Button>
+                                <div className="buttonsDiv">
+                                    <MdEdit
+                                        className="text-black cursor-pointer text-2xl hover:text-green-500"
+                                        onClick={() => navigate(`/edit-user/${user._id}`)}
+                                        title="Edit user"
+                                    />
+                                    <MdDelete
+                                        className="text-black cursor-pointer text-2xl hover:text-red-600"
+                                        onClick={() => { deleteUser(user._id) }}
+                                        title="Delete user"
+                                    />
+                                </div>
                             </div>
                         </Card>
                     );
                 })}
             </div>
 
-            {spiner && (
-                <Spinner color="purple" aria-label="Purple spinner example" />
-            )}
-            <div className="flex overflow-x-auto sm:justify-center mb-3">
+            <div className="flex overflow-x-auto sm:justify-center mt-8">
                 <Pagination currentPage={currentPage} totalPages={Math.ceil(filterUsers().length / 12)} onPageChange={(page) => dispatch(searchActions.setCurrentPage(page))} />
             </div>
-
         </div>
     );
 };

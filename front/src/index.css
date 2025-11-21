@@ -2,7 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
+.pageDiv{
+  @apply container mx-auto px-4 py-8;
+}
 
+.pageTextAndButtonsDiv{
+  @apply text-center mb-8;
+}
+
+.pageTextAndButtonsDiv>h1{
+  @apply text-4xl font-bold text-gray-900 dark:text-gray-900 mb-4;
+}
+
+.pageTextAndButtonsDiv>p{
+  @apply text-lg text-gray-600 dark:text-gray-400 mb-6;
+}
+
+.pageAdminButtonsDiv{
+  @apply flex justify-center;
+}
+
+.pageCardsDiv{
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6;
+}
+
+
+/*cards*/
+
+.mycard{
+  @apply flex flex-col h-full max-h-[532px] hover:shadow-lg transition-shadow duration-300 !p-0;
+}
+.mycard>div{
+  @apply flex gap-0 p-0;
+   flex: unset;
+}
+.imageDiv{@apply flex-shrink-0 overflow-hidden rounded-t-lg min-h-0 h-48 w-full;}
+.imageDiv>img{
+  @apply w-full h-full object-cover;
+}
+.textDiv{@apply flex-1 overflow-y-auto min-h-0 p-5 pb-0 pt-2;}
+.textDiv>h3{}
+.textDiv>div{
+  @apply flex justify-between items-center mt-3;
+}
+
+.cardButtonsDiv{@apply flex-shrink-0 flex justify-between items-center m-5;}
+/*
 .mycard {
     width: 270px;
     height: 500px;
@@ -13,7 +58,7 @@
     transition: transform 0.3s ease-in-out; 
      @apply bg-lightblue dark:!bg-slate-500;
   }
-  
+  */
 .usersCard{
     width: 270px;
     height: 450px;
@@ -26,11 +71,11 @@
     @apply bg-lightblue dark:!bg-slate-500;
   }
 
-  .mycard:hover, .usersCard:hover {
+   .usersCard:hover {
     transform: translateY(-5px); 
   }
   
-  .mycard img, .usersCard img {
+  .usersCard img {
     width: 100%;
     height: 150px;
     object-fit: cover; 
@@ -38,10 +83,10 @@
   
 .usersCard img{background-color: white!important;}
 
-.mycard p, .usersCard p{
+ .usersCard p{
   @apply font-normal text-gray-700 dark:text-slate-100 m-[4px] text-[15px];
 }
-
+/*
 .mycard h5{
   @apply  text-gray-700 dark:text-slate-100 m-[4px] text-[17px] font-semibold;
 }
@@ -64,7 +109,7 @@ background-color: lightgray;
   height:336px;
   @apply bg-lightblue dark:bg-slate-500;
 }
-
+*/
 .usersCard div{
  gap: 5px!important;
  padding-right: 7px !important;
@@ -82,9 +127,8 @@ overflow:hidden!important;
 gap:10px!important; 
 }
  
-.formPageDiv{
-  @apply container mx-auto px-4 py-8;
-}
+
+/*form*/
 
 .formSecondDiv{
   @apply max-w-2xl mx-auto;
