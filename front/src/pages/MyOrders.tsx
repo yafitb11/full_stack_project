@@ -21,7 +21,7 @@ const MyOrders = () => {
                 axios.defaults.headers.common["x-auth-token"] = token;
 
                 const response = await axios.get("http://localhost:8182/orders/my-orders");
-                setOrders(response.data);
+                setOrders(Array.isArray(response.data) ? response.data : []);
             } catch (error) {
                 console.error("Error fetching orders:", error);
                 toast.error("Failed to fetch orders", { autoClose: 2000 });
@@ -57,8 +57,8 @@ const MyOrders = () => {
     }
 
     return (
-        <div className="container mx-auto px-4 py-8">
-            <div className="max-w-6xl mx-auto">
+        <div className="pageDiv">
+            <div className="pageTextAndButtonsDiv">
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
                     My Orders
                 </h1>
@@ -68,9 +68,9 @@ const MyOrders = () => {
                         <Spinner color="purple" aria-label="Loading orders" />
                         <p className="mt-4 text-gray-600">Loading orders...</p>
                     </div>
-                ) : orders.length === 0 ? (
-                    <div className="text-center py-12">
-                        <p className="text-gray-600 dark:text-gray-400 text-lg mb-6">
+                ) : (!orders || !Array.isArray(orders) || orders.length === 0) ? (
+                    <div className="text-center w-[60%] py-[75px] m-auto">
+                        <p className="text-gray-600 dark:text-gray-400 text-lg mb-16">
                             You haven't placed any orders yet.
                         </p>
                         <Button color="blue" href="/">

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Card, Spinner, Button } from "flowbite-react";
+import { Card, Spinner } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Tuser } from "../types/types";
@@ -113,9 +113,6 @@ const ManageUsers = () => {
                                 <p className="text-gray-600 dark:text-gray-300">Role: {user.isAdmin ? "Admin" : "User"}</p>
                             </div>
                             <div className="cardButtonsDiv">
-                                <Button color="blue" onClick={() => navigate(`/edit-user/${user._id}`)}>
-                                    Edit User
-                                </Button>
                                 <div className="flex space-x-2">
                                     <MdEdit
                                         className="text-black cursor-pointer text-2xl hover:text-green-500"

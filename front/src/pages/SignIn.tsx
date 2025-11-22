@@ -65,7 +65,7 @@ export default function SignIn() {
                         </div>
 
                         {/* BUTTONS */}
-                        <div id="buttonsDiv">
+                        <div className="buttonsDiv">
                             <Button
                                 type="submit"
                                 color="blue"

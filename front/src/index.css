@@ -22,10 +22,13 @@
   @apply flex justify-center;
 }
 
+
 .pageCardsDiv{
-  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6;
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-center;
+  
 }
 
+/*   xl:w-[23%] lg:w-[30%] md:w-[45%] w-[90%] h-[700px] */
 
 /*cards*/
 
@@ -40,13 +43,13 @@
 .imageDiv>img{
   @apply w-full h-full object-cover;
 }
-.textDiv{@apply flex-1 overflow-y-auto min-h-0 px-6 py-0;}
+.textDiv{@apply flex-1 overflow-y-auto overflow-x-hidden min-h-0 px-6 py-0 break-words;}
 .textDiv>h3{}
 .textDiv>div{
   @apply flex justify-between items-center mt-3;
 }
 
-.cardButtonsDiv{@apply flex-shrink-0 flex justify-center gap-11 items-center m-5 mt-4;}
+.cardButtonsDiv{@apply flex-shrink-0 flex justify-center gap-11 items-center m-5;}
 /*
 .mycard {
     width: 270px;

@@ -6,13 +6,26 @@ export const editUserSchema = Joi.object({
             first: Joi.string().min(2).max(256).required(),
             middle: Joi.string().min(2).max(256).allow(""),
             last: Joi.string().min(2).max(256).required(),
-        })
-        .required(),
+        }),
 
     phone: Joi.string()
-        .ruleset.regex(/0[0-9]{1,2}-?\s?[0-9]{3}\s?[0-9]{4}/)
-        .rule({ message: 'user "phone" mast be a valid phone number' })
-        .required(),
+        .ruleset.regex(/^0[0-9\s-]*$/)
+        .rule({ message: 'user "phone" must start with 0 and contain only digits, spaces, and hyphens' })
+        .custom((value, helpers) => {
+            const digitsOnly = value.replace(/\D/g, '');
+            const digitCount = digitsOnly.length;
+            if (digitsOnly[0] !== '0') {
+                return helpers.error('string.phoneStart');
+            }
+            if (digitCount < 9 || digitCount > 10) {
+                return helpers.error('string.phoneLength');
+            }
+            return value;
+        })
+        .messages({
+            'string.phoneStart': 'user "phone" must start with 0',
+            'string.phoneLength': 'user "phone" must contain 9-10 digits',
+        }),
 
     image: Joi.object()
         .keys({
@@ -23,16 +36,15 @@ export const editUserSchema = Joi.object({
                 .rule({ message: "user image mast be a valid url" })
                 .allow(""),
             alt: Joi.string().min(2).max(256).allow(""),
-        })
-        .required(),
+        }),
+
     address: Joi.object()
         .keys({
             state: Joi.string().allow(""),
             country: Joi.string().required(),
             city: Joi.string().required(),
             street: Joi.string().required(),
-            houseNumber: Joi.number().required(),
-            zip: Joi.number(),
-        })
-        .required(),
+            houseNumber: Joi.number().greater(0).required(),
+            zip: Joi.number().min(1000).allow(0),
+        }),
 });

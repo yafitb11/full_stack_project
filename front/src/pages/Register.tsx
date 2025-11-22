@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Register() {
     const navigate = useNavigate();
-    const { register, handleSubmit, formState: { errors, isValid },
+    const { register, handleSubmit, formState: { errors, isValid }, watch
     } = useForm<TUserFormData>({
         defaultValues: {
             name: {
@@ -17,7 +17,7 @@ export default function Register() {
                 middle: "",
                 last: ""
             },
-            phone: 0,
+            phone: "",
             email: "",
             password: "",
             image: {
@@ -34,8 +34,12 @@ export default function Register() {
             },
         },
         mode: "onChange",
+        reValidateMode: "onChange",
         resolver: joiResolver(registerSchema),
     });
+
+    // Watch all form values to ensure validation updates properly
+    watch();
 
     const submitForm = async (data: TUserFormData) => {
         try {
@@ -103,7 +107,7 @@ export default function Register() {
                         {/* PHONE */}
                         <div>
                             <Label htmlFor="phone" value="Phone Number" />
-                            <TextInput id="phone" type="number" {...register("phone")} />
+                            <TextInput id="phone" type="text" {...register("phone")} />
                             {errors.phone && (
                                 <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>
                             )}
@@ -210,7 +214,7 @@ export default function Register() {
                         </fieldset>
 
                         {/* BUTTONS */}
-                        <div id="buttonsDiv">
+                        <div className="buttonsDiv">
                             <Button
                                 type="submit"
                                 color="blue"

@@ -10,15 +10,32 @@ export const registerSchema = Joi.object({
         .required(),
 
     phone: Joi.string()
-        .ruleset.regex(/0[0-9]{1,2}-?\s?[0-9]{3}\s?[0-9]{4}/)
-        .rule({ message: 'user "phone" mast be a valid phone number' })
+        .ruleset.regex(/^0[0-9\s-]*$/)
+        .rule({ message: 'user "phone" must start with 0 and contain only digits, spaces, and hyphens' })
+        .custom((value, helpers) => {
+            const digitsOnly = value.replace(/\D/g, '');
+            const digitCount = digitsOnly.length;
+            if (digitsOnly[0] !== '0') {
+                return helpers.error('string.phoneStart');
+            }
+            if (digitCount < 9 || digitCount > 10) {
+                return helpers.error('string.phoneLength');
+            }
+            return value;
+        })
+        .messages({
+            'string.phoneStart': 'user "phone" must start with 0',
+            'string.phoneLength': 'user "phone" must contain 9-10 digits',
+        })
         .required(),
     email: Joi.string()
         .email({ tlds: { allow: false } })
         .required(),
     password: Joi.string()
+        .min(9)
+        .max(20)
         .ruleset.regex(
-            /((?=.*\d{1})(?=.*[A-Z]{1})(?=.*[a-z]{1})(?=.*[!@#$%^&*-]{1}).{7,20})/
+            /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*-]).+$/
         )
         .rule({
             message:
@@ -42,8 +59,8 @@ export const registerSchema = Joi.object({
             country: Joi.string().required(),
             city: Joi.string().required(),
             street: Joi.string().required(),
-            houseNumber: Joi.number().required(),
-            zip: Joi.number(),
+            houseNumber: Joi.number().greater(0).required(),
+            zip: Joi.number().min(1000).allow(0),
         })
         .required(),
     isAdmin: Joi.boolean().allow(""),
