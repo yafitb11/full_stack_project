@@ -66,7 +66,7 @@ exports.remove = async (categoryId) => {
             let removedCategory = await Category.findById(categoryId);
             if (!removedCategory) { throw new Error("Could not delete this category because a category with this ID couldn't be found in database"); }
 
-            removedcategory = await Category.findByIdAndDelete(categoryId);
+            removedCategory = await Category.findByIdAndDelete(categoryId);
             return Promise.resolve(`removed category: ${removedCategory}`);
         } catch (error) {
             error.status = 404;

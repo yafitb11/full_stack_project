@@ -40,9 +40,9 @@ const Contact = () => {
     };
 
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className="pageDiv">
             <div className="max-w-6xl mx-auto">
-                <div className="text-center mb-12">
+                <div className="pageTextAndButtonsDiv">
                     <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
                         Contact Us
                     </h1>
