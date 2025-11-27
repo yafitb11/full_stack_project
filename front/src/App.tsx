@@ -26,6 +26,7 @@ import { useEffect } from "react";
 import useAuth from "./hooks/useAuth";
 import useCartSync from "./hooks/useCartSync";
 import EditCategory from "./pages/EditCategory";
+import ContactMessages from "./pages/ContactMessages";
 
 function App() {
   const { autoLogIn } = useAuth();
@@ -95,6 +96,10 @@ function App() {
 
         <Route path="/edit-category/:id" element={<RouteGuard isAdmin={true}>
           <EditCategory />
+        </RouteGuard>}></Route>
+
+        <Route path="/contactmessages" element={<RouteGuard isAdmin={true}>
+          <ContactMessages />
         </RouteGuard>}></Route>
 
         <Route path="/not-found" element={<ErrorPage />} />

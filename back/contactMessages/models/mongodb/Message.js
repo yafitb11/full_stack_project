@@ -20,7 +20,7 @@ const messageSchema = new mongoose.Schema({
         trim: false,
         lowercase: false,
     },
-    description: {
+    message: {
         ...DEFAULT_VALIDATION,
         trim: false,
         lowercase: false,

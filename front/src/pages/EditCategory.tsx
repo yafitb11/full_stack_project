@@ -7,7 +7,7 @@ import axios from "axios";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { useForm } from "react-hook-form";
 import { TCategory } from "../types/types";
-import { newCategorySchema } from "../validations/newCategory";
+import { newCategorySchema } from "../validations/newCategory.joi";
 import { TCategoryFormData } from "../types/formData";
 
 export default function EditCategory() {

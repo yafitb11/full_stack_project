@@ -4,6 +4,7 @@ const productController = require("../products/routes/productController");
 const userController = require("../users/routes/userController");
 const orderController = require("../orders/routes/orderController");
 const categoryController = require("../categories/routes/categoryController");
+const contactMessageController = require("../contactMessages/routes/contactMessageController");
 const { errorhandler } = require("../utils/errorhandler");
 
 
@@ -11,6 +12,7 @@ router.use("/products", productController);
 router.use("/users", userController);
 router.use("/orders", orderController);
 router.use("/categories", categoryController);
+router.use("/contactMessages", contactMessageController);
 router.use((req, res) => { errorhandler(res, 404, "page not found") });
 
 module.exports = router;

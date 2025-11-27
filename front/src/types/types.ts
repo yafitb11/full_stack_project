@@ -71,3 +71,13 @@ export type Tuser = {
     isAdmin: boolean;
     createdAt: string;
 }
+
+
+export type TContactMessage = {
+    _id: string;
+    fullName: string;
+    email: string;
+    subject: string;
+    message: string;
+    createdAt: string;
+};

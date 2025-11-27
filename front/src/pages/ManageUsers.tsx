@@ -10,8 +10,10 @@ import { Pagination } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { searchActions } from "../store/searchSlice";
+import useAuth from "../hooks/useAuth";
 
 const ManageUsers = () => {
+    const { user } = useAuth();
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [users, setUsers] = useState<Tuser[]>([]);
@@ -75,7 +77,15 @@ const ManageUsers = () => {
         setReload((reload => !reload));
     };
 
-
+    if (!user || !user.isAdmin) {
+        return (
+            <div className="container mx-auto px-4 py-8 text-center">
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                    You must be the Admin to watch this Page!
+                </h1>
+            </div>
+        );
+    }
 
     return (
         <div className="pageDiv">

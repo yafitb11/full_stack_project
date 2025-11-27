@@ -141,18 +141,26 @@ const Header = () => {
                     )}
 
                     {user && user.isAdmin && (
-                        <Navbar.Link as={Link} to={"/all-users"} className="text-white hover:text-cyan-700">
-                            All Users
-                        </Navbar.Link>
+                        <>
+                            <Navbar.Link as={Link} to={"/all-users"} className="text-white hover:text-cyan-700">
+                                All Users
+                            </Navbar.Link>
+
+                            <Navbar.Link as={Link} to={"/contactmessages"} className="text-white hover:text-cyan-700">
+                                Contact Messages
+                            </Navbar.Link>
+                        </>
                     )}
 
                     <Navbar.Link as={Link} to={"/about"} className="text-white hover:text-cyan-700">
                         About
                     </Navbar.Link>
 
-                    <Navbar.Link as={Link} to={"/contact"} className="text-white hover:text-cyan-700">
-                        Contact
-                    </Navbar.Link>
+                    {!user?.isAdmin && (
+                        <Navbar.Link as={Link} to={"/contact"} className="text-white hover:text-cyan-700">
+                            Contact
+                        </Navbar.Link>
+                    )}
 
                     {user && (
                         <Navbar.Link

@@ -4,39 +4,36 @@ import { Button, Card, TextInput, Textarea, Label } from "flowbite-react";
 import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
 import axios from "axios";
+import { useForm } from "react-hook-form";
+import { joiResolver } from "@hookform/resolvers/joi";
+import { newCategorySchema } from "../validations/newCategory.joi";
 import { TCategoryFormData } from "../types/formData";
 
 const CreateCategory = () => {
-    const [formData, setFormData] = useState<TCategoryFormData>({
-        title: "",
-        description: "",
-        image: {
-            url: "",
-            alt: ""
-        }
-    });
-    const [loading, setLoading] = useState(false);
     const { user } = useAuth();
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    };
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-
-        if (!user || !user.isAdmin) {
-            toast.error("Only admins can create categories", { autoClose: 2000 });
-            return;
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isValid },
+    } = useForm<TCategoryFormData>({
+        mode: "onChange",
+        resolver: joiResolver(newCategorySchema),
+        defaultValues: {
+            title: "",
+            description: "",
+            image: {
+                url: "",
+                alt: ""
+            }
         }
+    });
 
-        // Validation
-        if (!formData.title || !formData.description) {
-            toast.error("Please fill in all required fields", { autoClose: 2000 });
+    const onSubmit = async (formData: TCategoryFormData) => {
+        if (!user?.isAdmin) {
+            toast.error("Only admins can create categories");
             return;
         }
 
@@ -59,10 +56,9 @@ const CreateCategory = () => {
 
             toast.success("Category created successfully!", { autoClose: 2000 });
             navigate("/categories");
-
         } catch (error) {
             console.error("Error creating category:", error);
-            toast.error("Failed to create category. Please try again.", { autoClose: 2000 });
+            toast.error("Failed to create category. Please try again.");
         } finally {
             setLoading(false);
         }
@@ -72,12 +68,8 @@ const CreateCategory = () => {
         return (
             <div className="pageDiv">
                 <div className="text-center">
-                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                        Please Login
-                    </h1>
-                    <p className="text-gray-600 dark:text-gray-400">
-                        You need to be logged in to create categories.
-                    </p>
+                    <h1 className="text-2xl font-bold">Please Login</h1>
+                    <p>You need to be logged in to create categories.</p>
                 </div>
             </div>
         );
@@ -87,12 +79,8 @@ const CreateCategory = () => {
         return (
             <div className="pageDiv">
                 <div className="text-center">
-                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                        Access Denied
-                    </h1>
-                    <p className="text-gray-600 dark:text-gray-400">
-                        Only administrators can create categories.
-                    </p>
+                    <h1 className="text-2xl font-bold">Access Denied</h1>
+                    <p>Only administrators can create categories.</p>
                 </div>
             </div>
         );
@@ -102,87 +90,69 @@ const CreateCategory = () => {
         <div className="pageDiv">
             <div className="formSecondDiv">
                 <div className="formTitleDiv">
-                    <h1>
-                        Create New Category
-                    </h1>
-                    <p>
-                        Add a new product category to the store
-                    </p>
+                    <h1>Create a New Category</h1>
+                    <p>Add a new products category to the store</p>
                 </div>
 
                 <Card className="formCard">
-                    <form onSubmit={handleSubmit} className="space-y-6">
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+
+                        {/* Title */}
                         <div>
                             <Label htmlFor="title" value="Category Title" />
-                            <TextInput
-                                id="title"
-                                name="title"
-                                type="text"
-                                placeholder="Enter category title"
-                                value={formData.title}
-                                onChange={handleChange}
-                                required
-                            />
+                            <TextInput id="title" {...register("title")} />
+                            {errors.title && (
+                                <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>
+                            )}
                         </div>
 
+                        {/* Description */}
                         <div>
                             <Label htmlFor="description" value="Description" />
-                            <Textarea
-                                id="description"
-                                name="description"
-                                placeholder="Enter category description"
-                                rows={4}
-                                value={formData.description}
-                                onChange={handleChange}
-                                required
-                            />
+                            <Textarea id="description" rows={4} {...register("description")} />
+                            {errors.description && (
+                                <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
+                            )}
                         </div>
 
+                        {/* Image URL */}
                         <div>
-                            <Label htmlFor="imageUrl" value="Image URL" />
-                            <TextInput
-                                id="imageUrl"
-                                name="imageUrl"
-                                type="url"
-                                placeholder="https://example.com/image.jpg"
-                                value={formData.image.url}
-                                onChange={handleChange}
-                            />
-                            <p className="text-sm text-gray-500 mt-1">
-                                Leave empty to use placeholder image
-                            </p>
+                            <Label htmlFor="image.url" value="Image URL" />
+                            <TextInput id="image.url" {...register("image.url")} />
+                            {errors.image?.url && (
+                                <p className="text-red-500 text-sm mt-1">{errors.image.url.message}</p>
+                            )}
                         </div>
 
+                        {/* Image Alt */}
                         <div>
-                            <Label htmlFor="imageAlt" value="Image Alt Text" />
-                            <TextInput
-                                id="imageAlt"
-                                name="imageAlt"
-                                type="text"
-                                placeholder="Describe the image"
-                                value={formData.image.alt}
-                                onChange={handleChange}
-                            />
+                            <Label htmlFor="image.alt" value="Image Alt Text" />
+                            <TextInput id="image.alt" {...register("image.alt")} />
+                            {errors.image?.alt && (
+                                <p className="text-red-500 text-sm mt-1">{errors.image.alt.message}</p>
+                            )}
                         </div>
 
                         <div className="buttonsDiv">
                             <Button
                                 type="submit"
                                 color="blue"
-                                disabled={loading}
+                                disabled={loading || !isValid}
                                 className="flex-1"
                             >
                                 {loading ? "Creating..." : "Create Category"}
                             </Button>
+
                             <Button
                                 type="button"
                                 color="gray"
-                                onClick={() => navigate("/categories")}
                                 className="flex-1"
+                                onClick={() => navigate("/categories")}
                             >
                                 Cancel
                             </Button>
                         </div>
+
                     </form>
                 </Card>
             </div>

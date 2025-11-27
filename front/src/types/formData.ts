@@ -46,3 +46,10 @@ export type TCategoryFormData = {
         alt: string,
     },
 }
+
+export type TContactFormData = {
+    fullName: string;
+    email: string;
+    subject: string;
+    message: string;
+};
