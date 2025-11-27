@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Card, Spinner } from "flowbite-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import { Tuser } from "../types/types";
 import { useSelector } from "react-redux";
@@ -40,25 +40,23 @@ const ManageUsers = () => {
     }, [reload]);
 
 
-    const filterUsers = () => {
-        if (users) {
-            return users.filter(
-                (user) =>
-                    user.name.first.toLowerCase().includes(search.toLowerCase()) ||
-                    user.name.middle?.toLowerCase().includes(search.toLowerCase()) ||
-                    user.name.last.toLowerCase().includes(search.toLowerCase()) ||
-                    user._id.toLowerCase().includes(search.toLowerCase()),
-            );
-        }
-        return users;
-    }
+    const filteredUsers = useMemo(() => {
+        if (!users) return [];
 
+        const searchLower = search.toLowerCase();
 
-    const filterByPage = () => {
+        return users.filter((u) =>
+            u.name.first.toLowerCase().includes(searchLower) ||
+            u.name.middle?.toLowerCase().includes(searchLower) ||
+            u.name.last.toLowerCase().includes(searchLower) ||
+            u._id.toLowerCase().includes(searchLower)
+        );
+    }, [users, search]);
+
+    const pagedUsers = useMemo(() => {
         const start = (currentPage - 1) * 12;
-        const end = start + 12;
-        return filterUsers().slice(start, end);
-    }
+        return filteredUsers.slice(start, start + 12);
+    }, [filteredUsers, currentPage]);
 
     const deleteUser = async (id: string) => {
         try {
@@ -101,7 +99,7 @@ const ManageUsers = () => {
             )}
 
             <div className="pageCardsDiv">
-                {users && filterByPage()?.map((user) => {
+                {pagedUsers.map((user) => {
                     return (
                         <Card key={user._id} className="mycard">
                             <div className="imageDiv">
@@ -142,7 +140,7 @@ const ManageUsers = () => {
             </div>
 
             <div className="flex overflow-x-auto sm:justify-center mt-8">
-                <Pagination currentPage={currentPage} totalPages={Math.ceil(filterUsers().length / 12)} onPageChange={(page) => dispatch(searchActions.setCurrentPage(page))} />
+                <Pagination currentPage={currentPage} totalPages={Math.ceil(filteredUsers.length / 12)} onPageChange={(page) => dispatch(searchActions.setCurrentPage(page))} />
             </div>
         </div>
     );
