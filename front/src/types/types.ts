@@ -53,7 +53,7 @@ export type Tuser = {
         middle?: string;
         last: string;
     },
-    phone: number;
+    phone: string;
     email: string;
     password: string;
     image: {

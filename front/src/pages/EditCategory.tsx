@@ -119,7 +119,7 @@ export default function EditCategory() {
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
 
                         <div>
-                            <Label htmlFor="title" value="Category Title" />
+                            <Label htmlFor="title" value="*Category Title" />
                             <TextInput id="title" {...register("title")} />
                             {errors.title && (
                                 <p className="text-red-500 text-sm mt-1">

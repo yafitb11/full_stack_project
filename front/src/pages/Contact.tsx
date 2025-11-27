@@ -131,7 +131,7 @@ const Contact = () => {
 
                                 {/* Full Name */}
                                 <div>
-                                    <Label htmlFor="name" value="Full Name" />
+                                    <Label htmlFor="name" value="*Full Name" />
                                     <TextInput id="name" {...register("fullName")} />
                                     {errors.fullName && (
                                         <p className="text-red-500 text-sm mt-1">{errors.fullName.message}</p>
@@ -140,7 +140,7 @@ const Contact = () => {
 
                                 {/* Email */}
                                 <div>
-                                    <Label htmlFor="email" value="Email Address" />
+                                    <Label htmlFor="email" value="*Email Address" />
                                     <TextInput id="email" type="email" {...register("email")} />
                                     {errors.email && (
                                         <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
@@ -149,7 +149,7 @@ const Contact = () => {
 
                                 {/* Subject */}
                                 <div>
-                                    <Label htmlFor="subject" value="Subject" />
+                                    <Label htmlFor="subject" value="*Subject" />
                                     <TextInput id="subject" {...register("subject")} />
                                     {errors.subject && (
                                         <p className="text-red-500 text-sm mt-1">{errors.subject.message}</p>
@@ -158,7 +158,7 @@ const Contact = () => {
 
                                 {/* Message */}
                                 <div>
-                                    <Label htmlFor="message" value="Message" />
+                                    <Label htmlFor="message" value="*Message" />
                                     <Textarea id="message" rows={5} {...register("message")} />
                                     {errors.message && (
                                         <p className="text-red-500 text-sm mt-1">{errors.message.message}</p>

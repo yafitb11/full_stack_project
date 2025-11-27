@@ -138,7 +138,7 @@ export default function EditProduct() {
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
 
                         <div>
-                            <Label htmlFor="title" value="Product Title" />
+                            <Label htmlFor="title" value="*Product Title" />
                             <TextInput id="title" {...register("title")} />
                             {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>}
                         </div>
@@ -150,13 +150,13 @@ export default function EditProduct() {
                         </div>
 
                         <div>
-                            <Label htmlFor="description" value="Description" />
+                            <Label htmlFor="description" value="*Description" />
                             <Textarea id="description" rows={4} {...register("description")} />
                             {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>}
                         </div>
 
                         <div>
-                            <Label htmlFor="price" value="Price" />
+                            <Label htmlFor="price" value="*Price" />
                             <TextInput type="number" step="0.01" id="price" {...register("price")} />
                             {errors.price && <p className="text-red-500 text-sm mt-1">{errors.price.message}</p>}
                         </div>
@@ -174,13 +174,13 @@ export default function EditProduct() {
                         </div>
 
                         <div>
-                            <Label htmlFor="quantityInStock" value="Quantity in Stock" />
+                            <Label htmlFor="quantityInStock" value="*Quantity in Stock" />
                             <TextInput type="number" id="quantityInStock" {...register("quantityInStock")} />
                             {errors.quantityInStock && <p className="text-red-500 text-sm mt-1">{errors.quantityInStock.message}</p>}
                         </div>
 
                         <fieldset className="flex gap-3 items-center">
-                            <legend className="mb-1 text-gray-700 dark:text-gray-200">Is there a Discount?</legend>
+                            <legend className="mb-1 text-gray-700 dark:text-gray-200">*Is there a Discount?</legend>
 
                             <div className="flex items-center gap-2">
                                 <Radio
@@ -207,7 +207,7 @@ export default function EditProduct() {
 
                         {isDiscounted && (
                             <div>
-                                <Label htmlFor="discountedPrice" value="Discounted Price" />
+                                <Label htmlFor="discountedPrice" value="*Discounted Price" />
                                 <TextInput
                                     type="number"
                                     step="0.01"

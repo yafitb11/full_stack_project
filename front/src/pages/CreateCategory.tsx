@@ -99,7 +99,7 @@ const CreateCategory = () => {
 
                         {/* Title */}
                         <div>
-                            <Label htmlFor="title" value="Category Title" />
+                            <Label htmlFor="title" value="*Category Title" />
                             <TextInput id="title" {...register("title")} />
                             {errors.title && (
                                 <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>

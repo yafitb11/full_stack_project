@@ -6,7 +6,7 @@ export type TUserFormData = {
         middle?: string,
         last: string,
     },
-    phone: number,
+    phone: string,
     email: string,
     password: string,
     image: {

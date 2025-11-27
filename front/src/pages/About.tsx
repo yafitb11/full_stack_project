@@ -26,7 +26,7 @@ export default function CreateCard() {
                         &nbsp;&nbsp;– <span className="font-bold">Customers</span> can like products, manage their cart and orders prior to submission,
                         and edit or delete their profile.<br />
                         &nbsp;&nbsp;– <span className="font-bold">Admins</span> can create, read, update, and delete products and categories,
-                        as well as edit or remove user accounts.<br />
+                        as well as edit or remove user accounts and view contact messages from customers.<br />
                         • <span className="font-bold">Personal dashboard</span> where users can view their orders and favorite products.<br />
                         • <span className="font-bold">Responsive, accessible UI</span> including a light/dark mode toggle for an improved user experience.<br /><br />
 

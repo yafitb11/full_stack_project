@@ -42,7 +42,7 @@ export default function EditUser() {
                 middle: "",
                 last: "",
             },
-            phone: 0,
+            phone: "",
             image: {
                 url: "",
                 alt: "",
@@ -168,7 +168,7 @@ export default function EditUser() {
 
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <div>
-                                    <Label htmlFor="firstName" value="First Name" />
+                                    <Label htmlFor="firstName" value="*First Name" />
                                     <TextInput id="firstName" {...register("name.first")} />
                                     {errors.name?.first && (
                                         <p className="text-red-500 text-sm mt-1">{errors.name.first.message}</p>
@@ -184,7 +184,7 @@ export default function EditUser() {
                                 </div>
 
                                 <div>
-                                    <Label htmlFor="lastName" value="Last Name" />
+                                    <Label htmlFor="lastName" value="*Last Name" />
                                     <TextInput id="lastName" {...register("name.last")} />
                                     {errors.name?.last && (
                                         <p className="text-red-500 text-sm mt-1">{errors.name.last.message}</p>
@@ -195,7 +195,7 @@ export default function EditUser() {
 
                         {/* PHONE */}
                         <div>
-                            <Label htmlFor="phone" value="Phone Number" />
+                            <Label htmlFor="phone" value="*Phone Number" />
                             <TextInput id="phone" type="number" {...register("phone")} />
                             {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>}
                         </div>
@@ -241,7 +241,7 @@ export default function EditUser() {
                                 </div>
 
                                 <div>
-                                    <Label htmlFor="country" value="Country" />
+                                    <Label htmlFor="country" value="*Country" />
                                     <TextInput id="country" {...register("address.country")} />
                                     {errors.address?.country && (
                                         <p className="text-red-500 text-sm mt-1">{errors.address.country.message}</p>
@@ -249,7 +249,7 @@ export default function EditUser() {
                                 </div>
 
                                 <div>
-                                    <Label htmlFor="city" value="City" />
+                                    <Label htmlFor="city" value="*City" />
                                     <TextInput id="city" {...register("address.city")} />
                                     {errors.address?.city && (
                                         <p className="text-red-500 text-sm mt-1">{errors.address.city.message}</p>
@@ -257,7 +257,7 @@ export default function EditUser() {
                                 </div>
 
                                 <div>
-                                    <Label htmlFor="street" value="Street" />
+                                    <Label htmlFor="street" value="*Street" />
                                     <TextInput id="street" {...register("address.street")} />
                                     {errors.address?.street && (
                                         <p className="text-red-500 text-sm mt-1">{errors.address.street.message}</p>
@@ -265,7 +265,7 @@ export default function EditUser() {
                                 </div>
 
                                 <div>
-                                    <Label htmlFor="houseNumber" value="House Number" />
+                                    <Label htmlFor="houseNumber" value="*House Number" />
                                     <TextInput id="houseNumber" type="number" {...register("address.houseNumber")} />
                                     {errors.address?.houseNumber && (
                                         <p className="text-red-500 text-sm mt-1">{errors.address.houseNumber.message}</p>
