@@ -71,7 +71,7 @@ const Categories = () => {
                         <Button
                             color="blue"
                             onClick={() => navigate("/create-category")}
-                            className="flex items-center space-x-2"
+                            className="flex items-center space-x-2 dark:!bg-slate-800 dark:text-slate-200"
                         >
                             <span>+</span>
                             <span>Create New Category</span>

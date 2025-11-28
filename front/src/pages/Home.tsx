@@ -104,7 +104,7 @@ const Home = () => {
                         <Button
                             color="blue"
                             onClick={() => nav("/create-product")}
-                            className="flex items-center space-x-2"
+                            className="flex items-center space-x-2 dark:!bg-slate-800 dark:text-slate-200"
                         >
                             <span>+</span>
                             <span>Create New Product</span>
@@ -133,7 +133,6 @@ const Home = () => {
                     const isLiked = user ? product.likes.includes(user._id) : false;
                     return (
                         <Card key={product._id} className="mycard" >
-                            {/* Image Section - Fixed Position */}
                             <div className="imageDiv">
                                 <img
                                     src={product.image.url}
@@ -141,7 +140,6 @@ const Home = () => {
                                 />
                             </div>
 
-                            {/* Text Section - Flexible with Scroll */}
                             <div className="textDiv">
                                 <p className="text-gray-800 dark:text-gray-400 mb-3">
                                     {(product.category_id as TCategory)?.title}
@@ -172,7 +170,6 @@ const Home = () => {
                                 )}
                             </div>
 
-                            {/* Buttons Section - Fixed Position */}
                             <div className="cardButtonsDiv">
                                 <Button
                                     color="blue"
@@ -184,12 +181,12 @@ const Home = () => {
                                     {user && user.isAdmin && (
                                         <>
                                             <MdEdit
-                                                className="text-black cursor-pointer text-2xl hover:text-green-500"
+                                                className="text-black dark:text-white cursor-pointer text-2xl hover:text-green-500 dark:hover:text-green-500"
                                                 onClick={() => nav(`/edit-product/${product._id}`)}
                                                 title="Edit product"
                                             />
                                             <FaTrash
-                                                className="text-black cursor-pointer text-xl hover:text-red-600"
+                                                className="text-black dark:text-white cursor-pointer text-xl hover:text-red-600 dark:hover:text-red-600"
                                                 onClick={() => handleDeleteProduct(product._id)}
                                                 title="Delete product"
                                             />

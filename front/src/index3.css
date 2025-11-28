@@ -13,10 +13,35 @@
 
 .pageDiv{
   @apply container mx-auto px-4 py-8;
-  background: radial-gradient(circle at top, rgba(124, 93, 255, 0.18), transparent 55%),
-              radial-gradient(circle at bottom, rgba(39, 210, 255, 0.15), transparent 50%);
+  background: 
+    radial-gradient(circle at top, rgba(124, 93, 255, 0.22), transparent 52%),
+    radial-gradient(circle at bottom, rgba(39, 210, 255, 0.18), transparent 48%),
+    linear-gradient(135deg, rgba(226, 232, 240, 0.98), rgba(209, 216, 228, 1));
   position: relative;
   isolation: isolate;
+}
+
+@layer utilities {
+  .dark .pageDiv {
+    background: 
+      radial-gradient(ellipse at top left, rgba(79, 70, 229, 0.4), transparent 50%),
+      radial-gradient(ellipse at top right, rgba(139, 92, 246, 0.35), transparent 50%),
+      radial-gradient(ellipse at bottom left, rgba(59, 130, 246, 0.3), transparent 50%),
+      radial-gradient(ellipse at bottom right, rgba(124, 58, 237, 0.35), transparent 50%),
+      linear-gradient(135deg, rgba(30, 41, 59, 0.85), rgba(51, 65, 85, 0.9));
+    position: relative;
+  }
+  
+  .dark .pageDiv::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(124, 93, 255, 0.15), transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.12), transparent 40%);
+    pointer-events: none;
+    z-index: -1;
+  }
 }
 
 .pageTextAndButtonsDiv{
@@ -41,14 +66,6 @@
   @apply flex justify-center;
   gap: 1rem;
 }
-/*grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4
-
-.pageCardsDiv{
-  @apply grid gap-7 justify-center;
-  grid-template-columns: repeat(auto-fit, 280px);
-}
-*/
-/*   xl:w-[23%] lg:w-[30%] md:w-[45%] w-[90%] h-[700px] */
 
 .pageCardsDiv{
   @apply flex flex-wrap gap-7 justify-center items-stretch;
@@ -67,6 +84,15 @@
   position: relative;
   overflow: hidden;
   transition: transform 250ms ease, box-shadow 250ms ease;
+}
+
+@layer utilities {
+  .dark .mycard {
+    background: linear-gradient(145deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.95));
+    border-color: rgba(80, 240, 255, 0.25);
+    box-shadow: 0 10px 35px rgba(2, 6, 23, 0.9), 
+                0 0 0 1px rgba(124, 93, 255, 0.1);
+  }
 }
 
 .mycard::after{
@@ -88,12 +114,6 @@
   opacity: 1;
 }
 
-
-/*
-.mycard{
-  @apply flex flex-col h-full max-h-[532px] hover:shadow-lg transition-shadow duration-300 !p-0;
-}
-*/
 .mycard>div{
   @apply flex gap-0 p-0;
    flex: unset;
@@ -135,18 +155,7 @@
   transform: translateY(-1px);
   box-shadow: 0 12px 32px rgba(39, 210, 255, 0.35);
 }
-/*
-.mycard {
-    width: 270px;
-    height: 500px;
-    padding: 0px;
-    border-radius: 10px;
-   overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
-    transition: transform 0.3s ease-in-out; 
-     @apply bg-lightblue dark:!bg-slate-500;
-  }
-  */
+
 .usersCard{
     width: 270px;
     height: 450px;
@@ -182,30 +191,7 @@
   @apply font-normal m-[4px] text-[15px];
   color: rgba(255, 255, 255, 0.85);
 }
-/*
-.mycard h5{
-  @apply  text-gray-700 dark:text-slate-100 m-[4px] text-[17px] font-semibold;
-}
 
-.mycard h2, .usersCard h2{
-  @apply text-gray-700 dark:text-slate-100 ml-[4px] mt-[6px] text-xl font-bold;
-}
-
-.mycard div{
- gap: 5px!important;
- padding-right: 7px !important;
- padding-left: 7px !important;
- padding-bottom: 2px !important;
- padding-top: 2px !important;
-background-color: lightgray;
-  overflow-y: auto;
-  overflow-x: hidden;      
-  word-wrap: break-word;  
-  white-space: normal;     
-  height:336px;
-  @apply bg-lightblue dark:bg-slate-500;
-}
-*/
 .usersCard div{
  gap: 5px!important;
  padding-right: 7px !important;
@@ -298,5 +284,3 @@ gap:10px!important;
 .buttonsDiv{
   @apply flex space-x-4 !mt-11;
 }
-
-
