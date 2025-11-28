@@ -10,6 +10,7 @@ import { TRootState } from "../store/store";
 import { cartActions } from "../store/cartSlice";
 import axios from "axios";
 import { PaymentDetails } from "../types/moreTypes";
+import PleaseLogin from "../components/PleaseLogin";
 
 const ShoppingCart = () => {
     const [loading, setLoading] = useState(false);
@@ -101,19 +102,7 @@ const ShoppingCart = () => {
 
     if (!user) {
         return (
-            <div className="container mx-auto px-4 py-8">
-                <div className="text-center">
-                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                        Please Login
-                    </h1>
-                    <p className="text-gray-600 dark:text-gray-400 mb-6">
-                        You need to be logged in to view your shopping cart.
-                    </p>
-                    <Link to="/signin">
-                        <Button color="blue">Login</Button>
-                    </Link>
-                </div>
-            </div>
+            <PleaseLogin />
         );
     }
 
@@ -136,23 +125,23 @@ const ShoppingCart = () => {
     }
 
     return (
-        <div className="container mx-auto px-4 py-8">
-            <div className="max-w-6xl mx-auto">
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
+        <div className="pageDiv">
+            <div className="pageTextAndButtonsDiv">
+                <h1 >
                     Shopping Cart
                 </h1>
 
                 {cartItems.length === 0 ? (
-                    <div className="text-center py-12">
-                        <p className="text-gray-600 dark:text-gray-400 text-lg mb-6">
+                    <div className="text-center pt-[75px] pb-[65px]">
+                        <p className="text-gray-600 dark:text-gray-400 text-2xl mb-9">
                             Your cart is empty
                         </p>
                         <Link to="/">
-                            <Button color="blue">Continue Shopping</Button>
+                            <Button color="blue" className="dark:!bg-slate-800 dark:text-slate-200 dark:!border-white m-auto w-[50%]">Continue Shopping</Button>
                         </Link>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-5">
                         <div className="lg:col-span-2 space-y-4">
                             {cartItems.map((item) => (
                                 <Card key={item.product._id} className="p-4">

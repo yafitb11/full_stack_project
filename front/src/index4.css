@@ -13,36 +13,21 @@
 
 .pageDiv{
   @apply container mx-auto px-4 py-8;
-  background: 
-    radial-gradient(circle at top, rgba(124, 93, 255, 0.08), transparent 52%),
-    radial-gradient(circle at bottom, rgba(39, 210, 255, 0.18), transparent 48%),
-    linear-gradient(135deg, rgba(226, 232, 240, 0.98), rgba(209, 216, 228, 1));
-  position: relative;
-  isolation: isolate;
+ background: 
+  radial-gradient(circle at top, rgba(124, 93, 255, 0.12), transparent 53%),
+  radial-gradient(circle at bottom, rgba(39, 210, 255, 0.22), transparent 50%),
+  linear-gradient(135deg, rgba(216, 222, 231, 0.98), rgba(200, 207, 219, 1));
 }
 
-@layer utilities {
   .dark .pageDiv {
-    background: 
-      radial-gradient(ellipse at top left, rgba(79, 70, 229, 0.4), transparent 50%),
-      radial-gradient(ellipse at top right, rgba(139, 92, 246, 0.35), transparent 50%),
-      radial-gradient(ellipse at bottom left, rgba(59, 130, 246, 0.3), transparent 50%),
-      radial-gradient(ellipse at bottom right, rgba(124, 58, 237, 0.35), transparent 50%),
-      linear-gradient(135deg, rgba(30, 41, 59, 0.85), rgba(51, 65, 85, 0.9));
-    position: relative;
+   background:
+  radial-gradient(ellipse at top left, rgba(99, 90, 249, 0.55), transparent 55%),
+  radial-gradient(ellipse at top right, rgba(159, 112, 266, 0.5), transparent 55%),
+  radial-gradient(ellipse at bottom left, rgba(79, 150, 266, 0.45), transparent 55%),
+  radial-gradient(ellipse at bottom right, rgba(144, 78, 257, 0.5), transparent 55%),
+  linear-gradient(135deg, rgba(45, 55, 75, 0.92), rgba(71, 85, 105, 0.95));
+
   }
-  
-  .dark .pageDiv::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: 
-      radial-gradient(circle at 20% 30%, rgba(124, 93, 255, 0.15), transparent 40%),
-      radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.12), transparent 40%);
-    pointer-events: none;
-    z-index: -1;
-  }
-}
 
 .pageTextAndButtonsDiv{
   @apply text-center mb-8;
@@ -51,13 +36,13 @@
 .pageTextAndButtonsDiv>h1{
   @apply text-4xl font-bold text-gray-900 dark:text-gray-900 mb-4;
   background: linear-gradient(120deg, var(--primary-neon), var(--primary-electric), var(--primary-magenta));
-  -webkit-background-clip: text;
+     -webkit-background-clip: text;
   color: transparent;
-  filter: drop-shadow(0 8px 18px rgba(124, 93, 255, 0.35));
+  line-height: 1.25; 
 }
 
 .pageTextAndButtonsDiv>p{
-  @apply text-lg text-gray-600 dark:text-gray-400 mb-6;
+  @apply text-lg text-gray-600 dark:text-slate-300 mb-6;
   color: rgba(30, 41, 59, 0.75);
   text-shadow: 0 1px 12px rgba(39, 210, 255, 0.25);
 }
@@ -144,9 +129,7 @@
   color: white;
   border: none;
   border-radius: 0.45rem;
- 
   font-size: 0.85rem;
-  
   box-shadow: 0 8px 22px rgba(124, 93, 255, 0.35);
   transition: transform 150ms ease, box-shadow 150ms ease;
 }
@@ -154,55 +137,6 @@
 .cardButtonsDiv button:hover{
   transform: translateY(-1px);
   box-shadow: 0 12px 32px rgba(39, 210, 255, 0.35);
-}
-
-.usersCard{
-    width: 270px;
-    height: 450px;
-    padding: 0px;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.18); 
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; 
-    padding-bottom:10px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background: linear-gradient(145deg, rgba(15, 23, 42, 0.8), rgba(55, 65, 81, 0.65));
-    backdrop-filter: blur(16px);
-    color: white;
-  }
-
-   .usersCard:hover {
-    transform: translateY(-5px); 
-    box-shadow: 0 25px 60px rgba(124, 93, 255, 0.45);
-  }
-  
-  .usersCard img {
-    width: 100%;
-    height: 150px;
-    object-fit: cover; 
-  }
-  
-.usersCard img{
-  background-color: rgba(255, 255, 255, 0.65)!important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-}
-
- .usersCard p{
-  @apply font-normal m-[4px] text-[15px];
-  color: rgba(255, 255, 255, 0.85);
-}
-
-.usersCard div{
- gap: 5px!important;
- padding-right: 7px !important;
- padding-left: 7px !important;
- padding-bottom: 2px !important;
- padding-top: 2px !important;
- margin-bottom:0px!important;
-  overflow-y: auto;
-  height:336px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
-  border-radius: 14px;
 }
 
 #iconsdiv{height: 30px!important;
@@ -283,4 +217,19 @@ gap:10px!important;
 
 .buttonsDiv{
   @apply flex space-x-4 !mt-11;
+}
+
+/*bigBox*/
+.bigBox{
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(238, 243, 255, 0.65));
+     border: 1px solid rgba(124, 93, 255, 0.15);
+  border-radius: 18px;
+  box-shadow: 0 10px 35px rgba(15, 23, 42, 0.08);
+}
+
+.dark .bigBox{
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.95));
+    border-color: rgba(80, 240, 255, 0.25);
+    box-shadow: 0 10px 35px rgba(2, 6, 23, 0.9), 
+                0 0 0 1px rgba(124, 93, 255, 0.1);
 }

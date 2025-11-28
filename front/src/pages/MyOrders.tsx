@@ -69,16 +69,16 @@ const MyOrders = () => {
                         <p className="mt-4 text-gray-600">Loading orders...</p>
                     </div>
                 ) : (!orders || !Array.isArray(orders) || orders.length === 0) ? (
-                    <div className="text-center w-[60%] py-[75px] m-auto">
-                        <p className="text-gray-600 dark:text-gray-400 text-lg mb-16">
+                    <div className="text-center w-[50%] pt-[75px] pb-[60px] m-auto">
+                        <p className="text-gray-600 dark:text-gray-400 text-2xl mb-16">
                             You haven't placed any orders yet.
                         </p>
-                        <Button color="blue" href="/">
+                        <Button color="blue" className="dark:!bg-slate-800 dark:text-slate-200 dark:!border-white" href="/">
                             Start Shopping
                         </Button>
                     </div>
                 ) : (
-                    <div className="space-y-6">
+                    <div className="pageCardsDiv">
                         {orders.map((order) => (
                             <Card key={order._id} className="p-6">
                                 <div className="flex justify-between items-start mb-4">

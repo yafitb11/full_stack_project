@@ -150,12 +150,12 @@ const Home = () => {
                                 <h3 className="font-semibold text-gray-900 dark:text-white">
                                     {product.subtitle}
                                 </h3>
-                                <p className="text-gray-600 dark:text-gray-400 mt-1">
+                                <p className="text-gray-600 dark:text-gray-300 mt-1">
                                     {product.description}
                                 </p>
 
                                 <div>
-                                    <span className={`font-bold ${product.isDiscount ? "text-xl text-blue-400 dark:text-blue-300" : "text-2xl text-blue-600 dark:text-blue-400"}`}>
+                                    <span className={`font-bold ${product.isDiscount ? "text-xl text-blue-400 dark:text-blue-700" : "text-2xl text-blue-600 dark:text-blue-400"}`}>
                                         ${product.price}
                                     </span>
                                     <span className="text-sm text-gray-500">
@@ -164,8 +164,8 @@ const Home = () => {
                                 </div>
 
                                 {product.isDiscount && (
-                                    <p className="text-xl font-bold text-blue-600 mt-2 dark:text-blue-400">
-                                        Now in discount ${product.discountedPrice} !
+                                    <p className="text-2xl font-bold text-blue-600 mt-2 dark:text-blue-400">
+                                        In discount ${product.discountedPrice} !
                                     </p>
                                 )}
                             </div>

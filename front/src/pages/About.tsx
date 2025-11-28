@@ -7,7 +7,7 @@ export default function CreateCard() {
                 <h1 className="text-3xl m-1">About the App</h1>
             </div>
             <div className="pageCardsDiv">
-                <div className="w-[70%] xs:w-[89%] p-7 my-4 rounded-[10px] bg-lightblue dark:bg-slate-500">
+                <div className="w-[70%] xs:w-[89%] p-7 my-4 bigBox dark:text-slate-200">
                     <p>
                         <span className="font-bold">
                             Welcome to E-Shop – a full-stack e-commerce web application designed to provide a seamless and intuitive online shopping experience.
