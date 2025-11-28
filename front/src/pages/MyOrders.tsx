@@ -80,8 +80,8 @@ const MyOrders = () => {
                 ) : (
                     <div className="pageCardsDiv">
                         {orders.map((order) => (
-                            <Card key={order._id} className="p-6">
-                                <div className="flex justify-between items-start mb-4">
+                            <Card key={order._id}>
+                                <div className="flex justify-center items-center gap-5 mb-0 p-0">
                                     <div>
                                         <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
                                             Order #{order.orderNumber}
@@ -90,22 +90,22 @@ const MyOrders = () => {
                                             Placed on {formatDate(order.createdAt)}
                                         </p>
                                     </div>
-                                    <div className="text-right">
-                                        <p className="text-lg font-bold text-gray-900 dark:text-white mt-2">
-                                            total items: {order.totalItems}
-                                        </p>
-                                        <p className="text-lg font-bold text-gray-900 dark:text-white mt-2">
+                                    <div className="">
+                                        <p className="text-lg font-bold text-gray-900 dark:text-white">
                                             total price: ${order.totalPrice.toFixed(2)}
+                                        </p>
+                                        <p className="text-lg text-gray-600 dark:text-gray-400">
+                                            total items: {order.totalItems}
                                         </p>
                                     </div>
                                 </div>
 
-                                <div className="space-y-3">
+                                <div className="px-6 py-2 space-y-3">
                                     <h4 className="font-semibold text-gray-900 dark:text-white">
                                         Products:
                                     </h4>
                                     {order.items.map((item, index) => (
-                                        <div key={index} className="flex items-center space-x-4 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                                        <div key={index} className="flex items-center space-x-4 p-3 bg-gray-100 dark:bg-gray-700 rounded-lg">
                                             <img
                                                 src={item.product.image.url}
                                                 alt={item.product.image.alt}

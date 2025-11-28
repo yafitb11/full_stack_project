@@ -144,7 +144,7 @@ const ShoppingCart = () => {
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-5">
                         <div className="lg:col-span-2 space-y-4">
                             {cartItems.map((item) => (
-                                <Card key={item.product._id} className="p-4">
+                                <Card key={item.product._id} className="p-4 dark:bg-slate-800">
                                     <div className="flex items-center space-x-4">
                                         <img
                                             src={item.product.image.url}
@@ -152,7 +152,7 @@ const ShoppingCart = () => {
                                             className="w-20 h-20 object-cover rounded-lg"
                                         />
                                         <div className="flex-1">
-                                            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                                            <h3 className="text-lg font-semibold dark:text-white">
                                                 {item.product.title}
                                             </h3>
                                             <p className="text-gray-600 dark:text-gray-400">
@@ -167,7 +167,7 @@ const ShoppingCart = () => {
                                             >
                                                 <FaMinus />
                                             </Button>
-                                            <span className="w-12 text-center">{item.quantity}</span>
+                                            <span className="w-12 text-center dark:text-gray-300">{item.quantity}</span>
                                             <Button
                                                 size="sm"
                                                 color="gray"
@@ -177,7 +177,7 @@ const ShoppingCart = () => {
                                             </Button>
                                         </div>
                                         <div className="text-right">
-                                            <p className="text-lg font-semibold">
+                                            <p className="text-lg font-semibold dark:text-white">
                                                 ${(item.product.price * item.quantity).toFixed(2)}
                                             </p>
                                             <Button
@@ -196,20 +196,20 @@ const ShoppingCart = () => {
 
                         {/* Order Summary & Checkout */}
                         <div className="space-y-6">
-                            <Card className="p-6">
+                            <Card className="p-6 dark:bg-slate-800">
                                 <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
                                     Order Summary
                                 </h2>
                                 <div className="space-y-2 mb-4">
-                                    <div className="flex justify-between">
+                                    <div className="flex justify-between dark:text-gray-300">
                                         <span>Subtotal:</span>
                                         <span>${totalPrice.toFixed(2)}</span>
                                     </div>
-                                    <div className="flex justify-between">
+                                    <div className="flex justify-between dark:text-gray-300">
                                         <span>Tax:</span>
                                         <span>$0.00</span>
                                     </div>
-                                    <div className="flex justify-between font-bold text-lg">
+                                    <div className="flex justify-between font-bold text-lg dark:text-gray-100">
                                         <span>Total:</span>
                                         <span>${totalPrice.toFixed(2)}</span>
                                     </div>
@@ -217,7 +217,7 @@ const ShoppingCart = () => {
                             </Card>
 
                             {/* Payment Form */}
-                            <Card className="p-6">
+                            <Card className="p-6 dark:bg-slate-800">
                                 <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
                                     Payment Details
                                 </h2>
@@ -262,7 +262,7 @@ const ShoppingCart = () => {
                                     </div>
                                     <Button
                                         color="blue"
-                                        className="w-full"
+                                        className="w-full dark:bg-slate-500"
                                         onClick={handleCheckout}
                                         disabled={loading}
                                     >
