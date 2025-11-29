@@ -80,7 +80,7 @@ const MyOrders = () => {
                 ) : (
                     <div className="pageCardsDiv">
                         {orders.map((order) => (
-                            <Card key={order._id}>
+                            <Card key={order._id} className="w-[370] max-h-[370px]">
                                 <div className="flex justify-center items-center gap-5 mb-0 p-0">
                                     <div>
                                         <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
@@ -100,7 +100,7 @@ const MyOrders = () => {
                                     </div>
                                 </div>
 
-                                <div className="px-6 py-2 space-y-3">
+                                <div className="px-6 py-2 space-y-3 overflow-y-auto">
                                     <h4 className="font-semibold text-gray-900 dark:text-white">
                                         Products:
                                     </h4>
