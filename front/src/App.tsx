@@ -24,7 +24,7 @@ import EditProduct from "./pages/EditProduct";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { useEffect } from "react";
 import useAuth from "./hooks/useAuth";
-import useCartSync from "./hooks/useCartSync";
+import { useCartSync, useCartRestore } from "./hooks/useCartSync";
 import EditCategory from "./pages/EditCategory";
 import ContactMessages from "./pages/ContactMessages";
 
@@ -34,6 +34,7 @@ function App() {
     autoLogIn();
   }, []);
 
+  useCartRestore();
   useCartSync();
 
   return (

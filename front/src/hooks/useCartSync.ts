@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { TRootState } from '../store/store';
+import { TCartItem } from '../types/types';
+import { cartActions } from '../store/cartSlice';
 
 const useCartSync = () => {
     const cartItems = useSelector((state: TRootState) => state.cartSlice.items);
@@ -10,4 +12,21 @@ const useCartSync = () => {
     }, [cartItems]);
 };
 
-export default useCartSync;
+const useCartRestore = () => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        try {
+            const savedCart = localStorage.getItem('cart');
+            if (savedCart) {
+                const cartData: TCartItem[] = JSON.parse(savedCart);
+                dispatch(cartActions.loadCartFromStorage(cartData));
+            }
+        } catch (error) {
+            console.error('Failed to restore cart from localStorage:', error);
+        }
+    }, []);
+};
+
+
+export { useCartSync, useCartRestore };

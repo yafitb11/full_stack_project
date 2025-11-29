@@ -5,7 +5,6 @@ import { FaTrash, FaMinus, FaPlus } from "react-icons/fa";
 import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
 import useAddToCart from "../hooks/useAddToCart";
-import useCartSync from "../hooks/useCartSync";
 import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { paymentSchema } from "../validations/newOrderPayment.joi";
@@ -88,9 +87,6 @@ const EmptyCart = () => (
 const ShoppingCart = () => {
     const { user } = useAuth();
     const { cartItems, totalItems, totalPrice, removeFromCart, updateQuantity, clearCart } = useAddToCart();
-
-    useCartSync();
-
     const [loading, setLoading] = useState(false);
 
     const { register, handleSubmit, reset, formState: { errors, isValid } } = useForm<PaymentDetails>({
