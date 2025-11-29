@@ -12,6 +12,79 @@ import { paymentSchema } from "../validations/newOrderPayment.joi";
 import { PaymentDetails } from "../types/moreTypes";
 import PleaseLogin from "../components/PleaseLogin";
 
+// ✅ הוצא את הקומפוננטות החלקיות מחוץ
+const CartItem = ({ item, updateQuantity, removeFromCart }: any) => (
+    <Card className="p-4 dark:bg-slate-800">
+        <div className="flex items-center space-x-4">
+            <img src={item.product.image.url} alt={item.product.image.alt} className="w-20 h-20 object-cover rounded-lg" />
+            <div className="flex-1">
+                <h3 className="text-lg font-semibold dark:text-white">{item.product.title}</h3>
+                <p className="text-gray-600 dark:text-gray-400">${item.product.price}</p>
+            </div>
+            <div className="flex items-center space-x-2">
+                <Button size="sm" color="gray" onClick={() => updateQuantity(item.product._id, item.quantity - 1)}><FaMinus /></Button>
+                <span className="w-12 text-center dark:text-gray-300">{item.quantity}</span>
+                <Button size="sm" color="gray" onClick={() => updateQuantity(item.product._id, item.quantity + 1)}><FaPlus /></Button>
+            </div>
+            <div className="text-right">
+                <p className="text-lg font-semibold dark:text-white">${(item.product.price * item.quantity).toFixed(2)}</p>
+                <Button size="sm" color="failure" onClick={() => removeFromCart(item.product._id)} className="mt-2"><FaTrash /></Button>
+            </div>
+        </div>
+    </Card>
+);
+
+const CartSummary = ({ totalPrice }: any) => (
+    <Card className="p-6 dark:bg-slate-800">
+        <h2 className="text-xl font-bold dark:text-white mb-4">Order Summary</h2>
+        <div className="space-y-2 mb-4">
+            <div className="flex justify-between dark:text-gray-300"><span>Subtotal:</span><span>${totalPrice.toFixed(2)}</span></div>
+            <div className="flex justify-between dark:text-gray-300"><span>Tax:</span><span>$0.00</span></div>
+            <div className="flex justify-between font-bold text-lg dark:text-gray-100"><span>Total:</span><span>${totalPrice.toFixed(2)}</span></div>
+        </div>
+    </Card>
+);
+
+const PaymentForm = ({ register, handleSubmit, errors, loading, isValid, handleCheckout }: any) => (
+    <Card className="p-6 dark:bg-slate-800">
+        <h2 className="text-xl font-bold dark:text-white mb-4">Payment Details</h2>
+        <form onSubmit={handleSubmit(handleCheckout)} className="space-y-4">
+            <div>
+                <Label htmlFor="cardNumber">Card Number</Label>
+                <TextInput id="cardNumber" placeholder="1234 5678 9012 3456" {...register("cardNumber")} />
+                {errors.cardNumber && <p className="text-red-500 text-sm">{errors.cardNumber.message}</p>}
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+                <div>
+                    <Label htmlFor="expiryDate">Expiry Date</Label>
+                    <TextInput id="expiryDate" placeholder="MM/YY" {...register("expiryDate")} />
+                    {errors.expiryDate && <p className="text-red-500 text-sm">{errors.expiryDate.message}</p>}
+                </div>
+                <div>
+                    <Label htmlFor="cvv">CVV</Label>
+                    <TextInput id="cvv" placeholder="123" {...register("cvv")} />
+                    {errors.cvv && <p className="text-red-500 text-sm">{errors.cvv.message}</p>}
+                </div>
+            </div>
+            <div>
+                <Label htmlFor="cardholderName">Cardholder Name</Label>
+                <TextInput id="cardholderName" placeholder="John Doe" {...register("cardholderName")} />
+                {errors.cardholderName && <p className="text-red-500 text-sm">{errors.cardholderName.message}</p>}
+            </div>
+            <Button type="submit" className="w-full dark:bg-slate-500" disabled={loading || !isValid}>
+                {loading ? "Processing..." : "Place Order"}
+            </Button>
+        </form>
+    </Card>
+);
+
+const EmptyCart = () => (
+    <div className="text-center pt-[75px] pb-[65px]">
+        <p className="text-gray-600 dark:text-gray-400 text-2xl mb-9">Your cart is empty</p>
+        <Link to="/"><Button color="blue" className="dark:!bg-slate-800 dark:text-slate-200 dark:!border-white m-auto w-[50%]">Continue Shopping</Button></Link>
+    </div>
+);
+
 const ShoppingCart = () => {
     const { user } = useAuth();
     const { cartItems, totalItems, totalPrice, removeFromCart, updateQuantity, clearCart } = useAddToCart();
@@ -20,7 +93,8 @@ const ShoppingCart = () => {
 
     const [loading, setLoading] = useState(false);
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<PaymentDetails>({
+    const { register, handleSubmit, reset, formState: { errors, isValid } } = useForm<PaymentDetails>({
+        mode: "onChange",
         resolver: joiResolver(paymentSchema),
     });
 
@@ -61,7 +135,7 @@ const ShoppingCart = () => {
         }
     };
 
-    // ----------------- טיפול משתמשים -----------------
+    // ✅ הסר את ה-console.log
     if (!user) return <PleaseLogin />;
 
     if (user.isAdmin) {
@@ -76,80 +150,6 @@ const ShoppingCart = () => {
         );
     }
 
-    // ----------------- רכיבים פנימיים -----------------
-    const CartItem = ({ item }: any) => (
-        <Card className="p-4 dark:bg-slate-800">
-            <div className="flex items-center space-x-4">
-                <img src={item.product.image.url} alt={item.product.image.alt} className="w-20 h-20 object-cover rounded-lg" />
-                <div className="flex-1">
-                    <h3 className="text-lg font-semibold dark:text-white">{item.product.title}</h3>
-                    <p className="text-gray-600 dark:text-gray-400">${item.product.price}</p>
-                </div>
-                <div className="flex items-center space-x-2">
-                    <Button size="sm" color="gray" onClick={() => updateQuantity(item.product._id, item.quantity - 1)}><FaMinus /></Button>
-                    <span className="w-12 text-center dark:text-gray-300">{item.quantity}</span>
-                    <Button size="sm" color="gray" onClick={() => updateQuantity(item.product._id, item.quantity + 1)}><FaPlus /></Button>
-                </div>
-                <div className="text-right">
-                    <p className="text-lg font-semibold dark:text-white">${(item.product.price * item.quantity).toFixed(2)}</p>
-                    <Button size="sm" color="failure" onClick={() => removeFromCart(item.product._id)} className="mt-2"><FaTrash /></Button>
-                </div>
-            </div>
-        </Card>
-    );
-
-    const CartSummary = () => (
-        <Card className="p-6 dark:bg-slate-800">
-            <h2 className="text-xl font-bold dark:text-white mb-4">Order Summary</h2>
-            <div className="space-y-2 mb-4">
-                <div className="flex justify-between dark:text-gray-300"><span>Subtotal:</span><span>${totalPrice.toFixed(2)}</span></div>
-                <div className="flex justify-between dark:text-gray-300"><span>Tax:</span><span>$0.00</span></div>
-                <div className="flex justify-between font-bold text-lg dark:text-gray-100"><span>Total:</span><span>${totalPrice.toFixed(2)}</span></div>
-            </div>
-        </Card>
-    );
-
-    const PaymentForm = () => (
-        <Card className="p-6 dark:bg-slate-800">
-            <h2 className="text-xl font-bold dark:text-white mb-4">Payment Details</h2>
-            <form onSubmit={handleSubmit(handleCheckout)} className="space-y-4">
-                <div>
-                    <Label htmlFor="cardNumber">Card Number</Label>
-                    <TextInput id="cardNumber" placeholder="1234 5678 9012 3456" {...register("cardNumber")} />
-                    {errors.cardNumber && <p className="text-red-500 text-sm">{errors.cardNumber.message}</p>}
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                    <div>
-                        <Label htmlFor="expiryDate">Expiry Date</Label>
-                        <TextInput id="expiryDate" placeholder="MM/YY" {...register("expiryDate")} />
-                        {errors.expiryDate && <p className="text-red-500 text-sm">{errors.expiryDate.message}</p>}
-                    </div>
-                    <div>
-                        <Label htmlFor="cvv">CVV</Label>
-                        <TextInput id="cvv" placeholder="123" {...register("cvv")} />
-                        {errors.cvv && <p className="text-red-500 text-sm">{errors.cvv.message}</p>}
-                    </div>
-                </div>
-                <div>
-                    <Label htmlFor="cardholderName">Cardholder Name</Label>
-                    <TextInput id="cardholderName" placeholder="John Doe" {...register("cardholderName")} />
-                    {errors.cardholderName && <p className="text-red-500 text-sm">{errors.cardholderName.message}</p>}
-                </div>
-                <Button type="submit" className="w-full dark:bg-slate-500" disabled={loading}>
-                    {loading ? "Processing..." : "Place Order"}
-                </Button>
-            </form>
-        </Card>
-    );
-
-    const EmptyCart = () => (
-        <div className="text-center pt-[75px] pb-[65px]">
-            <p className="text-gray-600 dark:text-gray-400 text-2xl mb-9">Your cart is empty</p>
-            <Link to="/"><Button color="blue" className="dark:!bg-slate-800 dark:text-slate-200 dark:!border-white m-auto w-[50%]">Continue Shopping</Button></Link>
-        </div>
-    );
-
-    // ----------------- JSX ראשי -----------------
     return (
         <div className="pageDiv">
             <div className="pageTextAndButtonsDiv">
@@ -159,11 +159,11 @@ const ShoppingCart = () => {
                 ) : (
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-5">
                         <div className="lg:col-span-2 space-y-4">
-                            {cartItems.map(item => <CartItem key={item.product._id} item={item} />)}
+                            {cartItems.map(item => <CartItem key={item.product._id} item={item} updateQuantity={updateQuantity} removeFromCart={removeFromCart} />)}
                         </div>
                         <div className="space-y-6">
-                            <CartSummary />
-                            <PaymentForm />
+                            <CartSummary totalPrice={totalPrice} />
+                            <PaymentForm register={register} handleSubmit={handleSubmit} errors={errors} loading={loading} isValid={isValid} handleCheckout={handleCheckout} />
                         </div>
                     </div>
                 )}

@@ -4,7 +4,7 @@ import { TCartItem } from './types';
 export interface PaymentDetails {
     cardNumber: string;
     expiryDate: string;
-    cvv: number;
+    cvv: string;
     cardholderName: string;
 }
 

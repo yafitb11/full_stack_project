@@ -17,10 +17,13 @@ export const paymentSchema = Joi.object({
             "string.empty": "Expiry date is required",
         }),
 
-    cvv: Joi.number()
-        .min(100)
-        .max(999)
-        .required(),
+    cvv: Joi.string()
+        .pattern(/^[0-9]{3}$/)
+        .required()
+        .messages({
+            "string.pattern.base": "CVV must be 3 digits",
+            "string.empty": "CVV is required",
+        }),
 
     cardholderName: Joi.string()
         .min(2)
