@@ -127,7 +127,7 @@ const Header = () => {
             {/* ---------- שורה עליונה ---------- */}
             <Navbar
                 fluid
-                className="!px-5 bg-slate-500 dark:bg-slate-900 border-b border-slate-700"
+                className="!px-5 xs:pb-1 bg-slate-500 dark:bg-slate-900 border-b border-slate-700"
             >
                 {/* לוגו */}
                 <Navbar.Brand as={Link} to={"/"} className="text-white">
@@ -142,13 +142,13 @@ const Header = () => {
                     <TextInput
                         rightIcon={IoSearchSharp}
                         type="search"
-                        placeholder="Search products..."
+                        placeholder="Search..."
                         onChange={(e) => dispatch(searchActions.setSearchWord(e.target.value))}
                     />
                 </Navbar.Brand>
 
                 {/* פרופיל, עגלה, המבורגר */}
-                <div className="flex items-center justify-center gap-5 xs:w-[100%]">
+                <div className="flex items-center justify-center gap-5 xs:w-[100%] xs:mt-1 ">
                     <Link to="/profile" className="text-white hover:text-cyan-700 dark:hover:text-cyan-300">
                         <IoPersonSharp className="w-7 h-7" />
                     </Link>
