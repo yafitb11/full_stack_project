@@ -36,24 +36,109 @@ const Header = () => {
         navigate("/");
     };
 
+    // תוכן הלינקים - ישותף בין השורה התחתונה וההמבורגר
+    const renderLinks = () => (
+        <>
+            <Navbar.Link as={Link} to={"/"} className="text-white hover:text-cyan-700">
+                Home
+            </Navbar.Link>
+
+            {/* ✅ Dropdown מעוצב כמו לינק רגיל */}
+            <Dropdown
+                label={
+                    <Link
+                        to="/categories"
+                        className="text-white hover:text-cyan-700 cursor-pointer dark:text-gray-400 dark:hover:text-white"
+                    >
+                        Categories
+                    </Link>
+                }
+                inline
+            >
+                {categories.map((category: any) => (
+                    <Dropdown.Item key={category._id}>
+                        <Link to={`/categories/${category._id}`}>{category.title}</Link>
+                    </Dropdown.Item>
+                ))}
+            </Dropdown>
+
+            {!user && (
+                <>
+                    <Navbar.Link as={Link} to={"/signin"} className="text-white hover:text-cyan-700">
+                        Login
+                    </Navbar.Link>
+                    <Navbar.Link as={Link} to={"/register"} className="text-white hover:text-cyan-700">
+                        Register
+                    </Navbar.Link>
+                </>
+            )}
+
+            {user && (
+                <>
+                    <Navbar.Link as={Link} to={"/profile"} className="text-white hover:text-cyan-700">
+                        Profile
+                    </Navbar.Link>
+                </>)}
+
+            {user && !user.isAdmin && (
+                <>
+                    <Navbar.Link as={Link} to={"/my-orders"} className="text-white hover:text-cyan-700">
+                        My Orders
+                    </Navbar.Link>
+                    <Navbar.Link as={Link} to={"/favorites"} className="text-white hover:text-cyan-700">
+                        My Favorites
+                    </Navbar.Link>
+                </>
+            )}
+
+            {user && user.isAdmin && (
+                <>
+                    <Navbar.Link as={Link} to={"/all-users"} className="text-white hover:text-cyan-700">
+                        All Users
+                    </Navbar.Link>
+
+                    <Navbar.Link as={Link} to={"/contactmessages"} className="text-white hover:text-cyan-700">
+                        Contact Messages
+                    </Navbar.Link>
+                </>
+            )}
+
+            <Navbar.Link as={Link} to={"/about"} className="text-white hover:text-cyan-700">
+                About
+            </Navbar.Link>
+
+            <Navbar.Link as={Link} to={"/contact"} className="text-white hover:text-cyan-700">
+                Contact
+            </Navbar.Link>
+
+            {user && (
+                <Navbar.Link
+                    className="cursor-pointer text-white hover:text-cyan-700"
+                    onClick={handleLogout}
+                >
+                    Sign Out
+                </Navbar.Link>
+            )}
+        </>
+    );
+
     return (
         <div className="bg-slate-500 dark:bg-slate-900">
             {/* ---------- שורה עליונה ---------- */}
             <Navbar
                 fluid
-                rounded
-                className="bg-slate-500 dark:bg-slate-900 border-b border-slate-700"
+                className="!px-5 bg-slate-500 dark:bg-slate-900 border-b border-slate-700"
             >
                 {/* לוגו */}
                 <Navbar.Brand as={Link} to={"/"} className="text-white">
-                    <span className="self-center whitespace-nowrap text-2xl font-semibold hover:text-cyan-700">
+                    <span className="self-center whitespace-nowrap text-2xl font-semibold hover:text-cyan-700 dark:hover:text-cyan-300">
                         E-Shop
                     </span>
                 </Navbar.Brand>
 
                 {/* חיפוש + מצב כהה */}
                 <Navbar.Brand className="flex items-center gap-2 xs:w-[60%]">
-                    <DarkThemeToggle className="mr-2 text-white" />
+                    <DarkThemeToggle className="mr-2 text-white hover:text-slate-500" />
                     <TextInput
                         rightIcon={IoSearchSharp}
                         type="search"
@@ -63,12 +148,12 @@ const Header = () => {
                 </Navbar.Brand>
 
                 {/* פרופיל, עגלה, המבורגר */}
-                <div className="flex items-center gap-5">
-                    <Link to="/profile" className="text-white hover:text-cyan-700">
+                <div className="flex items-center justify-center gap-5 xs:w-[100%]">
+                    <Link to="/profile" className="text-white hover:text-cyan-700 dark:hover:text-cyan-300">
                         <IoPersonSharp className="w-7 h-7" />
                     </Link>
 
-                    <Link to="/cart" className="text-white hover:text-cyan-700 relative">
+                    <Link to="/cart" className="text-white hover:text-cyan-700 dark:hover:text-cyan-300 relative">
                         <IoCartSharp className="w-7 h-7" />
                         {totalItems > 0 && (
                             <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
@@ -77,99 +162,23 @@ const Header = () => {
                         )}
                     </Link>
 
-                    <Navbar.Toggle />
+                    <Navbar.Toggle className="text-white hover:text-slate-500 dark:text-white dark:hover:text-gray-400" />
                 </div>
+
+                {/* Collapse - רק במסכים קטנים */}
+                <Navbar.Collapse className="md:hidden">
+                    {renderLinks()}
+                </Navbar.Collapse>
             </Navbar>
 
-            {/* ---------- שורה תחתונה ---------- */}
+            {/* ---------- שורה תחתונה - רק במסכים גדולים ---------- */}
             <Navbar
                 fluid
                 rounded
-                className="bg-slate-400 dark:bg-slate-800 flex justify-center"
+                className="hidden md:flex bg-slate-400 dark:bg-slate-800 justify-center"
             >
                 <Navbar.Collapse className="flex justify-center space-x-8 text-center">
-                    <Navbar.Link as={Link} to={"/"} className="text-white hover:text-cyan-700">
-                        Home
-                    </Navbar.Link>
-
-                    {/* ✅ Dropdown מעוצב כמו לינק רגיל */}
-                    <Dropdown
-                        label={
-                            <Link
-                                to="/categories"
-                                className="text-white hover:text-cyan-700 cursor-pointer dark:text-gray-400 dark:hover:text-white"
-                            >
-                                Categories
-                            </Link>
-                        }
-                        inline
-                    >
-                        {categories.map((category: any) => (
-                            <Dropdown.Item key={category._id}>
-                                <Link to={`/categories/${category._id}`}>{category.title}</Link>
-                            </Dropdown.Item>
-                        ))}
-                    </Dropdown>
-
-                    {!user && (
-                        <>
-                            <Navbar.Link as={Link} to={"/signin"} className="text-white hover:text-cyan-700">
-                                Login
-                            </Navbar.Link>
-                            <Navbar.Link as={Link} to={"/register"} className="text-white hover:text-cyan-700">
-                                Register
-                            </Navbar.Link>
-                        </>
-                    )}
-
-                    {user && (
-                        <>
-                            <Navbar.Link as={Link} to={"/profile"} className="text-white hover:text-cyan-700">
-                                Profile
-                            </Navbar.Link>
-                        </>)}
-
-                    {user && !user.isAdmin && (
-                        <>
-                            <Navbar.Link as={Link} to={"/my-orders"} className="text-white hover:text-cyan-700">
-                                My Orders
-                            </Navbar.Link>
-                            <Navbar.Link as={Link} to={"/favorites"} className="text-white hover:text-cyan-700">
-                                My Favorites
-                            </Navbar.Link>
-                        </>
-                    )}
-
-                    {user && user.isAdmin && (
-                        <>
-                            <Navbar.Link as={Link} to={"/all-users"} className="text-white hover:text-cyan-700">
-                                All Users
-                            </Navbar.Link>
-
-                            <Navbar.Link as={Link} to={"/contactmessages"} className="text-white hover:text-cyan-700">
-                                Contact Messages
-                            </Navbar.Link>
-                        </>
-                    )}
-
-                    <Navbar.Link as={Link} to={"/about"} className="text-white hover:text-cyan-700">
-                        About
-                    </Navbar.Link>
-
-
-                    <Navbar.Link as={Link} to={"/contact"} className="text-white hover:text-cyan-700">
-                        Contact
-                    </Navbar.Link>
-
-
-                    {user && (
-                        <Navbar.Link
-                            className="cursor-pointer text-white hover:text-cyan-700"
-                            onClick={handleLogout}
-                        >
-                            Sign Out
-                        </Navbar.Link>
-                    )}
+                    {renderLinks()}
                 </Navbar.Collapse>
             </Navbar>
         </div>

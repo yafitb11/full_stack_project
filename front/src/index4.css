@@ -12,7 +12,7 @@
 }
 
 .pageDiv{
-  @apply container mx-auto px-4 py-8;
+  @apply px-4 py-8;
  background: 
   radial-gradient(circle at top, rgba(124, 93, 255, 0.12), transparent 53%),
   radial-gradient(circle at bottom, rgba(39, 210, 255, 0.22), transparent 50%),

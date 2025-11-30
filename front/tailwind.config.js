@@ -12,9 +12,6 @@ export default {
       xl: "1280px",
     },
     extend: {
-      colors: {
-        lightblue: '#ADD8E6',
-      },
     },
   },
   plugins: [flowbite.plugin()],

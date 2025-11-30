@@ -92,11 +92,11 @@ const Favorites = () => {
             )}
 
             {!spinner && user && paginatedProducts.length === 0 && (
-                <div className="text-center w-[50%] m-auto py-12">
-                    <p className="text-gray-600 dark:text-gray-400 text-2xl mb-8">
+                <div className="text-center py-12">
+                    <p className="text-gray-600 dark:text-gray-400 text-2xl mb-9">
                         You haven't liked any products yet.
                     </p>
-                    <Button color="blue" href="/" className="dark:!bg-slate-800 dark:text-slate-200 dark:!border-white">
+                    <Button color="blue" href="/" className=" w-[45%] m-auto dark:!bg-slate-800 dark:text-slate-200 dark:!border-white">
                         Start Shopping
                     </Button>
                 </div>

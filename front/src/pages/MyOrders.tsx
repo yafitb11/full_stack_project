@@ -69,11 +69,11 @@ const MyOrders = () => {
                         <p className="mt-4 text-gray-600">Loading orders...</p>
                     </div>
                 ) : (!orders || !Array.isArray(orders) || orders.length === 0) ? (
-                    <div className="text-center w-[50%] pt-[75px] pb-[60px] m-auto">
+                    <div className="text-center pt-[75px] pb-[60px]">
                         <p className="text-gray-600 dark:text-gray-400 text-2xl mb-16">
                             You haven't placed any orders yet.
                         </p>
-                        <Button color="blue" className="dark:!bg-slate-800 dark:text-slate-200 dark:!border-white" href="/">
+                        <Button color="blue" className=" w-[45%] m-auto dark:!bg-slate-800 dark:text-slate-200 dark:!border-white" href="/">
                             Start Shopping
                         </Button>
                     </div>
