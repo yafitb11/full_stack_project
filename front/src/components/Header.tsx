@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import useAuth from "../hooks/useAuth";
 import { TRootState } from "../store/store";
+import { cartActions } from "../store/cartSlice";
 
 const Header = () => {
     const dispatch = useDispatch();
@@ -32,6 +33,7 @@ const Header = () => {
 
     const handleLogout = () => {
         dispatch(userActions.logout());
+        dispatch(cartActions.clearCart());
         localStorage.setItem("token", "");
         navigate("/");
     };
