@@ -70,7 +70,7 @@ const PaymentForm = ({ register, handleSubmit, errors, loading, isValid, handleC
                 <TextInput id="cardholderName" placeholder="John Doe" {...register("cardholderName")} />
                 {errors.cardholderName && <p className="text-red-500 text-sm">{errors.cardholderName.message}</p>}
             </div>
-            <Button type="submit" className="w-full dark:bg-slate-500" disabled={loading || !isValid}>
+            <Button type="submit" className="w-full dark:bg-slate-400" disabled={loading || !isValid}>
                 {loading ? "Processing..." : "Place Order"}
             </Button>
         </form>
