@@ -38,77 +38,78 @@ function App() {
   useCartSync();
 
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <Header></Header>
 
-      <Routes>
-        <Route path="/" element={<ErrorBoundary>
-          <Home />
-        </ErrorBoundary>} ></Route>
+      <main className="flex-1 flex">
+        <Routes>
+          <Route path="/" element={<ErrorBoundary>
+            <Home />
+          </ErrorBoundary>} ></Route>
 
-        <Route path="/home" element={<Home />}></Route>
+          <Route path="/home" element={<Home />}></Route>
 
-        <Route path="/about" element={<About />}></Route>
-        <Route path="/contact" element={<Contact />}></Route>
+          <Route path="/about" element={<About />}></Route>
+          <Route path="/contact" element={<Contact />}></Route>
 
-        <Route path="/signin" element={<SignIn />}></Route>
-        <Route path="/register" element={<Register />}></Route>
+          <Route path="/signin" element={<SignIn />}></Route>
+          <Route path="/register" element={<Register />}></Route>
 
-        <Route path="/categories" element={<Categories />}></Route>
-        <Route path="/categories/:categoryId" element={<CategoryProducts />}></Route>
+          <Route path="/categories" element={<Categories />}></Route>
+          <Route path="/categories/:categoryId" element={<CategoryProducts />}></Route>
 
-        <Route path="/product/:id" element={<ProductDetails />}></Route>
+          <Route path="/product/:id" element={<ProductDetails />}></Route>
 
-        <Route path="/cart" element={<RouteGuard>
-          <ShoppingCart />
-        </RouteGuard>}></Route>
+          <Route path="/cart" element={<RouteGuard>
+            <ShoppingCart />
+          </RouteGuard>}></Route>
 
-        <Route path="/profile" element={<RouteGuard>
-          <Profile />
-        </RouteGuard>}></Route>
+          <Route path="/profile" element={<RouteGuard>
+            <Profile />
+          </RouteGuard>}></Route>
 
-        <Route path="/favorites" element={<RouteGuard>
-          <Favorites />
-        </RouteGuard>}></Route>
+          <Route path="/favorites" element={<RouteGuard>
+            <Favorites />
+          </RouteGuard>}></Route>
 
-        <Route path="/my-orders" element={<RouteGuard>
-          <MyOrders />
-        </RouteGuard>}></Route>
+          <Route path="/my-orders" element={<RouteGuard>
+            <MyOrders />
+          </RouteGuard>}></Route>
 
-        <Route path="/all-users" element={<RouteGuard isAdmin={true}>
-          <ManageUsers />
-        </RouteGuard>}></Route>
+          <Route path="/all-users" element={<RouteGuard isAdmin={true}>
+            <ManageUsers />
+          </RouteGuard>}></Route>
 
-        <Route path="/edit-user/:id" element={<RouteGuard allowOwnUser={true}>
-          <EditUser />
-        </RouteGuard>}></Route>
+          <Route path="/edit-user/:id" element={<RouteGuard allowOwnUser={true}>
+            <EditUser />
+          </RouteGuard>}></Route>
 
-        <Route path="/create-product" element={<RouteGuard isAdmin={true}>
-          <CreateProduct />
-        </RouteGuard>}></Route>
+          <Route path="/create-product" element={<RouteGuard isAdmin={true}>
+            <CreateProduct />
+          </RouteGuard>}></Route>
 
-        <Route path="/create-category" element={<RouteGuard isAdmin={true}>
-          <CreateCategory />
-        </RouteGuard>}></Route>
+          <Route path="/create-category" element={<RouteGuard isAdmin={true}>
+            <CreateCategory />
+          </RouteGuard>}></Route>
 
-        <Route path="/edit-product/:id" element={<RouteGuard isAdmin={true}>
-          <EditProduct />
-        </RouteGuard>}></Route>
+          <Route path="/edit-product/:id" element={<RouteGuard isAdmin={true}>
+            <EditProduct />
+          </RouteGuard>}></Route>
 
-        <Route path="/edit-category/:id" element={<RouteGuard isAdmin={true}>
-          <EditCategory />
-        </RouteGuard>}></Route>
+          <Route path="/edit-category/:id" element={<RouteGuard isAdmin={true}>
+            <EditCategory />
+          </RouteGuard>}></Route>
 
-        <Route path="/contactmessages" element={<RouteGuard isAdmin={true}>
-          <ContactMessages />
-        </RouteGuard>}></Route>
+          <Route path="/contactmessages" element={<RouteGuard isAdmin={true}>
+            <ContactMessages />
+          </RouteGuard>}></Route>
 
-        <Route path="/not-found" element={<ErrorPage />} />
-        <Route path="/*" element={<ErrorPage />} />
-      </Routes>
-
+          <Route path="/not-found" element={<ErrorPage />} />
+          <Route path="/*" element={<ErrorPage />} />
+        </Routes>
+      </main>
       <Footer></Footer>
-    </>
+    </div>
   );
 }
 
