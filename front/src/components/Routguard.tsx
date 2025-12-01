@@ -1,6 +1,7 @@
-import { Link, Navigate, useLocation, useParams } from "react-router-dom";
+import { Navigate, useLocation, useParams } from "react-router-dom";
 import { ReactNode } from "react";
 import useAuth from "../hooks/useAuth";
+import PleaseLogin from "./PleaseLogin";
 
 type RouteGuardProps = {
     children: ReactNode;
@@ -15,29 +16,16 @@ const RouteGuard = ({ children, isAdmin, allowOwnUser }: RouteGuardProps) => {
 
 
     if (!user) {
-        return (
-            <div className="min-h-[85vh] flex flex-col items-center p-3 gap-2 bg-blue-300 dark:bg-slate-400">
-                <h1 className="text-3xl text-center">
-                    You are not logged in, please log in.
-                </h1>
-                <Link
-                    to="/signin"
-                    state={{ from: location }}
-                    className="cursor-pointer font-bold text-2xl mt-4"
-                >
-                    Log in
-                </Link>
-            </div>
-        );
+        return <PleaseLogin from={location} />;
     }
 
     if (isAdmin && !user.isAdmin) {
-        return <Navigate to="/" replace />;
+        return <Navigate to="/" replace state={{ error: "This page is only accessible to administrators" }} />;
     }
 
 
     if (allowOwnUser && id && user._id) {
-        if (id !== user._id && !user.isAdmin) return <Navigate to="/" replace />;
+        if (id !== user._id && !user.isAdmin) return <Navigate to="/" replace state={{ error: "You can only access your own profile" }} />;
     }
 
     return <>{children}</>;

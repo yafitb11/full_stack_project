@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { Button, Card, TextInput, Label } from "flowbite-react";
 import { FaTrash, FaMinus, FaPlus } from "react-icons/fa";
 import { toast } from "react-toastify";
@@ -131,19 +131,10 @@ const ShoppingCart = () => {
         }
     };
 
-    // ✅ הסר את ה-console.log
     if (!user) return <PleaseLogin />;
 
     if (user.isAdmin) {
-        return (
-            <div className="container mx-auto px-4 py-8">
-                <div className="text-center">
-                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Admin Access</h1>
-                    <p className="text-gray-600 dark:text-gray-400 mb-6">Admins cannot use the shopping cart.</p>
-                    <Link to="/"><Button color="blue">Back to Home</Button></Link>
-                </div>
-            </div>
-        );
+        return <Navigate to="/" replace state={{ error: "Administrators can't make orders and don't have a cart" }} />;
     }
 
     return (
