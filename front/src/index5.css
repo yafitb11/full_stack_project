@@ -179,14 +179,14 @@ gap:10px!important;
 }
 
 .formCard input{
-  @apply bg-slate-300;
+  background-color: rgba(176, 188, 205, 1);
   border: 1px solid rgba(15, 23, 42, 0.08);
   border-radius: 12px;
   transition: border-color 200ms ease, box-shadow 200ms ease;
 }
 
 .formCard textarea{
-  @apply bg-slate-300 dark:text-black;
+   background-color: rgba(176, 188, 205, 1);
   border: 1px solid rgba(15, 23, 42, 0.08);
   border-radius: 12px;
   transition: border-color 200ms ease, box-shadow 200ms ease;
@@ -204,8 +204,20 @@ border-color: rgba(226, 232, 240, 1);
   border-color: rgba(129,105,210,1);
     box-shadow: 0 12px 30px rgba(129,105,210,1);
 }
+/*
+.formCard input:-webkit-autofill,
+.formCard textarea:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px rgba(203, 213, 225, 1) inset !important;
+  -webkit-text-fill-color: #1e293b !important;
+}
+*/
+.dark .formCard input:-webkit-autofill,
+.dark .formCard textarea:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px rgba(203, 213, 225, 1) inset !important;
+  -webkit-text-fill-color: #1e293b !important;
+}
 
-.formCard p{@apply text-red-600 text-sm; } 
+.formCard p{@apply text-red-600 text-sm dark:text-red-700; } 
 
 .buttonsDiv{
   @apply flex space-x-4 !mt-11;
