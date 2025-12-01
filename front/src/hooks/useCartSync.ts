@@ -5,16 +5,12 @@ import { TCartItem } from '../types/types';
 import { cartActions } from '../store/cartSlice';
 import useAuth from '../hooks/useAuth';
 
-
-/* ---------------------------------------------------
-   Restore cart on login (load from cart_<userId>)
---------------------------------------------------- */
 const useCartRestore = () => {
     const dispatch = useDispatch();
     const { user } = useAuth();
 
     useEffect(() => {
-        if (!user) return; // אין משתמש — אין עגלה לטעון
+        if (!user) return;
 
         try {
             const savedCart = localStorage.getItem(`cart_${user._id}`);
@@ -23,7 +19,7 @@ const useCartRestore = () => {
                 const cartData: TCartItem[] = JSON.parse(savedCart);
                 dispatch(cartActions.loadCartFromStorage(cartData));
             } else {
-                dispatch(cartActions.clearCart()); // עגלה ריקה למשתמש חדש
+                dispatch(cartActions.clearCart());
             }
         } catch (error) {
             console.error('Failed to restore cart:', error);
@@ -32,9 +28,6 @@ const useCartRestore = () => {
 };
 
 
-/* ---------------------------------------------------
-   Sync cart to localStorage (save to cart_<userId>)
---------------------------------------------------- */
 const useCartSync = () => {
     const cartItems = useSelector((state: TRootState) => state.cartSlice.items);
     const { user } = useAuth();

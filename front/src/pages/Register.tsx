@@ -63,7 +63,7 @@ export default function Register() {
             <div className="formSecondDiv">
 
                 {/* Title */}
-                <div className="formTitleDiv">
+                <div className="pageTextAndButtonsDiv">
                     <h1>Register</h1>
                     <p>Create your new account</p>
                 </div>

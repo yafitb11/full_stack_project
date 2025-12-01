@@ -34,7 +34,7 @@
 }
 
 .pageTextAndButtonsDiv>h1{
-  @apply text-4xl font-bold text-gray-900 dark:text-gray-900 mb-4;
+  @apply text-4xl font-bold text-gray-900 dark:text-white mb-4;
   background: linear-gradient(120deg, var(--primary-neon), var(--primary-electric), var(--primary-magenta));
      -webkit-background-clip: text;
   color: transparent;
@@ -150,7 +150,7 @@ gap:10px!important;
 .formSecondDiv{
   @apply max-w-2xl mx-auto;
 }
-
+/*
 .formTitleDiv{
   @apply text-center mb-8;
 }
@@ -162,7 +162,7 @@ gap:10px!important;
 .formTitleDiv>p{
   @apply text-gray-600 dark:text-gray-400;
 }
-
+*/
 .formCard{
   @apply p-6 bg-slate-400 dark:bg-slate-600;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(242, 249, 255, 0.85));

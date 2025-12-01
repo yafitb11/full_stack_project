@@ -38,14 +38,13 @@ const Header = () => {
         navigate("/");
     };
 
-    // תוכן הלינקים - ישותף בין השורה התחתונה וההמבורגר
+
     const renderLinks = () => (
         <>
             <Navbar.Link as={Link} to={"/"} className="text-white hover:text-cyan-700">
                 Home
             </Navbar.Link>
 
-            {/* ✅ Dropdown מעוצב כמו לינק רגיל */}
             <Dropdown
                 label={
                     <Link
@@ -126,7 +125,6 @@ const Header = () => {
 
     return (
         <div className="bg-slate-500 dark:bg-slate-900">
-            {/* ---------- שורה עליונה ---------- */}
             <Navbar
                 fluid
                 className="!px-5 xs:pb-1 bg-slate-500 dark:bg-slate-900 border-b border-slate-700"
@@ -138,7 +136,6 @@ const Header = () => {
                     </span>
                 </Navbar.Brand>
 
-                {/* חיפוש + מצב כהה */}
                 <Navbar.Brand className="flex items-center gap-2 xs:w-[60%]">
                     <DarkThemeToggle className="mr-2 text-white hover:text-slate-500" />
                     <TextInput
@@ -149,7 +146,6 @@ const Header = () => {
                     />
                 </Navbar.Brand>
 
-                {/* פרופיל, עגלה, המבורגר */}
                 <div className="flex items-center justify-center gap-5 xs:w-[100%] xs:mt-1 ">
                     <Link to="/profile" className="text-white hover:text-cyan-700 dark:hover:text-cyan-300">
                         <IoPersonSharp className="w-7 h-7" />
@@ -167,13 +163,12 @@ const Header = () => {
                     <Navbar.Toggle className="text-white hover:text-slate-500 dark:text-white dark:hover:text-gray-400" />
                 </div>
 
-                {/* Collapse - רק במסכים קטנים */}
                 <Navbar.Collapse className="md:hidden">
                     {renderLinks()}
                 </Navbar.Collapse>
             </Navbar>
 
-            {/* ---------- שורה תחתונה - רק במסכים גדולים ---------- */}
+
             <Navbar
                 fluid
                 rounded

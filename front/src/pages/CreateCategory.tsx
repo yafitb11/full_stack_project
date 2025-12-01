@@ -89,7 +89,7 @@ const CreateCategory = () => {
     return (
         <div className="pageDiv">
             <div className="formSecondDiv">
-                <div className="formTitleDiv">
+                <div className="pageTextAndButtonsDiv">
                     <h1>Create a New Category</h1>
                     <p>Add a new products category to the store</p>
                 </div>

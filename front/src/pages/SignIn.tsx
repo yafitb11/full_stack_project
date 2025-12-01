@@ -26,7 +26,7 @@ export default function SignIn() {
             <div className="max-w-[32rem] mx-auto">
 
                 {/* Title */}
-                <div className="formTitleDiv">
+                <div className="pageTextAndButtonsDiv">
                     <h1>Sign In</h1>
                     <p>Access your account</p>
                 </div>

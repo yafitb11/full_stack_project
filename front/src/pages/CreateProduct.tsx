@@ -121,7 +121,7 @@ export default function CreateProduct() {
     return (
         <div className="pageDiv">
             <div className="formSecondDiv">
-                <div className="formTitleDiv">
+                <div className="pageTextAndButtonsDiv">
                     <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
                         Create New Product
                     </h1>

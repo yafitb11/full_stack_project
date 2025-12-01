@@ -110,7 +110,7 @@ export default function EditCategory() {
         <div className="pageDiv">
             <div className="formSecondDiv">
 
-                <div className="formTitleDiv">
+                <div className="pageTextAndButtonsDiv">
                     <h1>Edit Category</h1>
                     <p>Edit this category</p>
                 </div>

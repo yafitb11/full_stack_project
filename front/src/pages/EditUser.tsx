@@ -148,7 +148,7 @@ export default function EditUser() {
     return (
         <div className="pageDiv">
             <div className="formSecondDiv">
-                <div className="formTitleDiv">
+                <div className="pageTextAndButtonsDiv">
                     <h1>
                         Edit {targetUser.name.first} {targetUser.name.last}'s Profile
                     </h1>
