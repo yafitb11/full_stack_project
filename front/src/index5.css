@@ -153,7 +153,7 @@ gap:10px!important;
 
 .formCard{
   @apply p-6;
-   background: linear-gradient(145deg, rgba(35, 45, 65, 0.9), rgba(50, 60, 80, 0.9)); 
+ background: linear-gradient(145deg, rgba(50, 60, 80, 0.825), rgba(65, 75, 95, 0.825));
   border-radius: 24px;
   border: 3px solid rgba(124, 93, 255, 0.2); 
   box-shadow: 
@@ -179,15 +179,17 @@ gap:10px!important;
 }
 
 .formCard input{
-  background-color: rgba(176, 188, 205, 1);
-  border: 1px solid rgba(15, 23, 42, 0.08);
+    @apply !text-black;
+  background-color: rgba(176, 188, 205, 1)!important;
+  border: 1px solid rgba(15, 23, 42, 0.08)!important;
   border-radius: 12px;
   transition: border-color 200ms ease, box-shadow 200ms ease;
 }
 
 .formCard textarea{
-   background-color: rgba(176, 188, 205, 1);
-  border: 1px solid rgba(15, 23, 42, 0.08);
+     @apply !text-black;
+   background-color: rgba(176, 188, 205, 1)!important;
+  border: 1px solid rgba(15, 23, 42, 0.08)!important;
   border-radius: 12px;
   transition: border-color 200ms ease, box-shadow 200ms ease;
 }
@@ -213,7 +215,7 @@ border-color: rgba(226, 232, 240, 1);
 */
 .dark .formCard input:-webkit-autofill,
 .dark .formCard textarea:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0px 1000px rgba(203, 213, 225, 1) inset !important;
+  -webkit-box-shadow: 0 0 0px 1000px rgba(215, 225, 235, 1) inset !important;
   -webkit-text-fill-color: #1e293b !important;
 }
 
@@ -224,7 +226,8 @@ border-color: rgba(226, 232, 240, 1);
 }
 
 .buttonsDiv button {
-  @apply flex-1 !bg-blue-500 text-white;
+  @apply flex-1 text-white;
+  background: linear-gradient(120deg, var(--primary-neon), var(--primary-electric));
 }
 
 .buttonsDiv button:hover {

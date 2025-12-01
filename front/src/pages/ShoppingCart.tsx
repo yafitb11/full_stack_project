@@ -11,7 +11,7 @@ import { paymentSchema } from "../validations/newOrderPayment.joi";
 import { PaymentDetails } from "../types/moreTypes";
 import PleaseLogin from "../components/PleaseLogin";
 
-// ✅ הוצא את הקומפוננטות החלקיות מחוץ
+// partial components
 const CartItem = ({ item, updateQuantity, removeFromCart }: any) => (
     <Card className="p-4 dark:bg-slate-800">
         <div className="flex items-center space-x-4">
@@ -84,6 +84,7 @@ const EmptyCart = () => (
     </div>
 );
 
+//the main component
 const ShoppingCart = () => {
     const { user } = useAuth();
     const { cartItems, totalItems, totalPrice, removeFromCart, updateQuantity, clearCart } = useAddToCart();

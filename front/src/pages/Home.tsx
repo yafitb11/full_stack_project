@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Button, Card, Spinner } from "flowbite-react";
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { TRootState } from "../store/store";
 import { TProduct, TCategory } from "../types/types";
@@ -24,6 +24,15 @@ const Home = () => {
     const currentPage = useSelector((state: TRootState) => state.searchSlice.currentPage);
     const { user } = useAuth();
     const { addToCart } = useAddToCart();
+    const { state } = useLocation();
+
+
+    useEffect(() => {
+        if (state?.error) {
+            alert(state.error);
+            window.history.replaceState({}, document.title);
+        }
+    }, [state]);
 
     useEffect(() => {
         const fetchProducts = async () => {
