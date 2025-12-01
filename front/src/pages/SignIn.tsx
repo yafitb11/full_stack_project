@@ -68,8 +68,6 @@ export default function SignIn() {
                         <div className="buttonsDiv">
                             <Button
                                 type="submit"
-                                color="blue"
-                                className="flex-1"
                                 disabled={!isValid}
                             >
                                 Sign In

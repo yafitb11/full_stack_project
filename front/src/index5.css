@@ -155,30 +155,17 @@ gap:10px!important;
   @apply p-6;
    background: linear-gradient(145deg, rgba(35, 45, 65, 0.9), rgba(50, 60, 80, 0.9)); 
   border-radius: 24px;
-  border: 1px solid rgba(124, 93, 255, 0.2); 
+  border: 3px solid rgba(124, 93, 255, 0.2); 
   box-shadow: 
     0 10px 35px rgba(2, 6, 23, 0.65), 
     0 0 0 1px rgba(124, 93, 255, 0.08);
-  position: relative;
-   overflow: hidden;
 }
 
 
 .dark .formCard{
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(242, 249, 255, 0.85));
-  border-color: rgba(124, 93, 255, 0.2);
-  box-shadow: 0 25px 65px rgba(15, 23, 42, 0.08);
-}
-
-.formCard::after{
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  background: radial-gradient(circle at top right, rgba(124, 93, 255, 0.18), transparent 55%),
-              radial-gradient(circle at bottom left, rgba(39, 210, 255, 0.15), transparent 45%);
-  opacity: 0.7;
+  border-color: rgba(124, 93, 255, 0.2)!important;
+  box-shadow: 0 25px 65px rgba(15, 23, 42, 0.8)!important;
 }
 
 .formCard fieldset {@apply xs:flex-col;} 
@@ -207,14 +194,15 @@ gap:10px!important;
 
 .formCard input:focus,
 .formCard textarea:focus{
-border-color: var(--primary-neon)!important;
-  box-shadow: 0 12px 30px rgba(39, 210, 255, 0.25);
+border-color: rgba(226, 232, 240, 1);
+  box-shadow: 0 12px 30px rgba(226, 232, 240, 0.5);
   outline: none;
 }
  
 .dark .formCard input:focus,
 .dark .formCard textarea:focus{
-  border-color: var(--primary-neon)!important;
+  border-color: rgba(129,105,210,1);
+    box-shadow: 0 12px 30px rgba(129,105,210,1);
 }
 
 .formCard p{@apply text-red-600 text-sm; } 
