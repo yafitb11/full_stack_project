@@ -71,7 +71,7 @@ const Categories = () => {
                         <Button
                             color="blue"
                             onClick={() => navigate("/create-category")}
-                            className="flex items-center space-x-2 dark:!bg-slate-800 dark:text-slate-200"
+                            className="flex items-center space-x-2 dark:!bg-slate-800 dark:text-slate-200 border-white"
                         >
                             <span>+</span>
                             <span>Create New Category</span>
@@ -110,12 +110,12 @@ const Categories = () => {
                                 {user && user.isAdmin && (
                                     <>
                                         <MdEdit
-                                            className="text-black cursor-pointer text-2xl hover:text-green-500"
+                                            className="text-black dark:text-white cursor-pointer text-2xl hover:text-green-500 dark:hover:text-green-500"
                                             onClick={() => navigate(`/edit-category/${category._id}`)}
                                             title="Edit category"
                                         />
                                         <FaTrash
-                                            className="text-black cursor-pointer text-xl hover:text-red-600"
+                                            className="text-black dark:text-white cursor-pointer text-xl hover:text-red-600 dark:hover:text-red-600"
                                             onClick={() => deleteCategory(category._id)}
                                             title="Delete category"
                                         />

@@ -123,12 +123,12 @@ const ManageUsers = () => {
                             <div className="cardButtonsDiv">
                                 <div className="flex space-x-2">
                                     <MdEdit
-                                        className="text-black cursor-pointer text-2xl hover:text-green-500"
+                                        className="text-black dark:text-white cursor-pointer text-2xl hover:text-green-500 dark:hover:text-green-500"
                                         onClick={() => navigate(`/edit-user/${user._id}`)}
                                         title="Edit user"
                                     />
                                     <MdDelete
-                                        className="text-black cursor-pointer text-2xl hover:text-red-600"
+                                        className="text-black dark:text-white cursor-pointer text-xl hover:text-red-600 dark:hover:text-red-600"
                                         onClick={() => { deleteUser(user._id) }}
                                         title="Delete user"
                                     />

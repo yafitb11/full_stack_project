@@ -108,7 +108,7 @@ const CategoryProducts = () => {
                 </p>
                 <div className="pageAdminButtonsDiv gap-4 flex-wrap">
                     <Link to="/categories">
-                        <Button color="gray" outline>
+                        <Button className="dark:!bg-slate-200 dark:text-black border-black">
                             ← Back to All Categories
                         </Button>
                     </Link>
@@ -116,7 +116,7 @@ const CategoryProducts = () => {
                         <Button
                             color="blue"
                             onClick={() => nav(`/create-product?category=${category.title}`)}
-                            className="flex items-center space-x-2 dark:!bg-slate-800 dark:text-slate-200"
+                            className="flex items-center space-x-2 dark:!bg-slate-800 dark:text-slate-200 border-white"
                         >
                             <span>+</span>
                             <span>Add Product to {category.title}</span>
@@ -175,12 +175,12 @@ const CategoryProducts = () => {
                                         {user && user.isAdmin && (
                                             <>
                                                 <MdEdit
-                                                    className="text-black cursor-pointer text-2xl hover:text-green-500"
+                                                    className="text-black dark:text-white cursor-pointer text-2xl hover:text-green-500 dark:hover:text-green-500"
                                                     onClick={() => nav(`/edit-product/${product._id}`)}
                                                     title="Edit product"
                                                 />
                                                 <FaTrash
-                                                    className="text-black cursor-pointer text-xl hover:text-red-600"
+                                                    className="text-black dark:text-white cursor-pointer text-xl hover:text-red-600 dark:hover:text-red-600"
                                                     onClick={() => handleDeleteProduct(product._id)}
                                                     title="Delete product"
                                                 />

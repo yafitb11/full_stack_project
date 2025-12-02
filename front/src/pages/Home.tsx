@@ -113,7 +113,7 @@ const Home = () => {
                         <Button
                             color="blue"
                             onClick={() => nav("/create-product")}
-                            className="flex items-center space-x-2 dark:!bg-slate-800 dark:text-slate-200"
+                            className="flex items-center space-x-2 dark:!bg-slate-800 dark:text-slate-200 border-white"
                         >
                             <span>+</span>
                             <span>Create New Product</span>
