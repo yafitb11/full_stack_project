@@ -45,25 +45,22 @@ const Contact = () => {
     return (
         <div className="pageDiv">
             <div className="max-w-6xl mx-auto">
-                {/* Title */}
                 <div className="pageTextAndButtonsDiv">
-                    <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                    <h1>
                         Contact Us
                     </h1>
-                    <p className="text-lg text-gray-600 dark:text-gray-400">
+                    <p>
                         We'd love to hear from you. Send us a message and we'll respond as soon as possible.
                     </p>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-
-                    {/* Contact info */}
                     <div className="space-y-8">
                         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
                             Get in Touch
                         </h2>
 
-                        <p className="text-gray-600 dark:text-gray-400 mb-8">
+                        <p className="text-gray-600 dark:text-slate-300 mb-8">
                             Have a question about our products or need help with your order?
                             We're here to help!
                         </p>
@@ -76,7 +73,7 @@ const Contact = () => {
                                 </div>
                                 <div>
                                     <h3 className="font-semibold text-gray-900 dark:text-white">Phone</h3>
-                                    <p className="text-gray-600 dark:text-gray-400">+1 (555) 123-4567</p>
+                                    <p className="text-gray-600 dark:text-slate-300">+1 (555) 123-4567</p>
                                 </div>
                             </div>
 
@@ -86,7 +83,7 @@ const Contact = () => {
                                 </div>
                                 <div>
                                     <h3 className="font-semibold text-gray-900 dark:text-white">Email</h3>
-                                    <p className="text-gray-600 dark:text-gray-400">support@eshop.com</p>
+                                    <p className="text-gray-600 dark:text-slate-300">support@eshop.com</p>
                                 </div>
                             </div>
 
@@ -96,7 +93,7 @@ const Contact = () => {
                                 </div>
                                 <div>
                                     <h3 className="font-semibold text-gray-900 dark:text-white">Address</h3>
-                                    <p className="text-gray-600 dark:text-gray-400">
+                                    <p className="text-gray-600 dark:text-slate-300">
                                         123 Commerce Street<br />Business District, BD 12345
                                     </p>
                                 </div>
@@ -108,7 +105,7 @@ const Contact = () => {
                                 </div>
                                 <div>
                                     <h3 className="font-semibold text-gray-900 dark:text-white">Business Hours</h3>
-                                    <p className="text-gray-600 dark:text-gray-400">
+                                    <p className="text-gray-600 dark:text-slate-300">
                                         Mon–Fri: 9:00–18:00<br />
                                         Sat: 10:00–16:00<br />
                                         Sun: Closed
@@ -119,7 +116,7 @@ const Contact = () => {
                         </div>
                     </div>
 
-                    {/* Form */}
+
                     <div>
                         <Card className="p-6">
 
@@ -127,9 +124,8 @@ const Contact = () => {
                                 Send us a Message
                             </h2>
 
-                            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 contactForm">
 
-                                {/* Full Name */}
                                 <div>
                                     <Label htmlFor="name" value="*Full Name" />
                                     <TextInput id="name" {...register("fullName")} />
@@ -138,7 +134,6 @@ const Contact = () => {
                                     )}
                                 </div>
 
-                                {/* Email */}
                                 <div>
                                     <Label htmlFor="email" value="*Email Address" />
                                     <TextInput id="email" type="email" {...register("email")} />
@@ -147,7 +142,6 @@ const Contact = () => {
                                     )}
                                 </div>
 
-                                {/* Subject */}
                                 <div>
                                     <Label htmlFor="subject" value="*Subject" />
                                     <TextInput id="subject" {...register("subject")} />
@@ -156,7 +150,6 @@ const Contact = () => {
                                     )}
                                 </div>
 
-                                {/* Message */}
                                 <div>
                                     <Label htmlFor="message" value="*Message" />
                                     <Textarea id="message" rows={5} {...register("message")} />
@@ -165,10 +158,9 @@ const Contact = () => {
                                     )}
                                 </div>
 
-                                <Button
+                                <Button id="submitContact"
                                     type="submit"
-                                    color="blue"
-                                    className="w-full"
+                                    className="w-full "
                                     disabled={!isValid}
                                 >
                                     Send Message
@@ -178,9 +170,6 @@ const Contact = () => {
                         </Card>
                     </div>
                 </div>
-
-                {/* FAQ stays unchanged */}
-                {/* ... */}
             </div>
         </div>
     );
