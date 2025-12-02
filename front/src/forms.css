@@ -1,0 +1,151 @@
+@layer components {
+
+/*main forms*/
+.formSecondDiv{
+  @apply max-w-2xl mx-auto;
+}
+
+.formCard{
+  @apply p-6;
+  background: linear-gradient(135deg, rgba(60,110,230,0.7), rgba(40,90,200,0.7), rgba(25,70,170,0.65));
+  border-radius: 24px;
+  border: 3px solid rgba(124, 93, 255, 0.2); 
+  box-shadow: 
+    0 10px 35px rgba(2, 6, 23, 0.65), 
+    0 0 0 1px rgba(124, 93, 255, 0.08);
+}
+
+.dark .formCard{
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(242, 249, 255, 0.85));
+  border-color: rgba(124, 93, 255, 0.2)!important;
+  box-shadow: 0 25px 65px rgba(15, 23, 42, 0.8)!important;
+}
+
+.formCard fieldset {@apply xs:flex-col;} 
+
+.formCard legend{@apply text-white dark:text-black}
+  .formCard label{
+      @apply !text-slate-200 dark:!text-slate-800;
+  }
+  
+.formCard > h1{
+ @apply text-center;
+}
+
+.formCard input{
+    @apply !text-black;
+  background-color: rgba(241, 245, 249, 1)!important;
+  border: 1px solid rgba(15, 23, 42, 0.08)!important;
+  border-radius: 12px;
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.dark .formCard input{
+     background-color: rgba(176, 188, 205, 1)!important;
+}
+
+.formCard textarea{
+     @apply !text-black;
+   background-color: rgba(241, 245, 249, 1)!important;
+  border: 1px solid rgba(15, 23, 42, 0.08)!important;
+  border-radius: 12px;
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.dark .formCard textarea{
+     background-color: rgba(176, 188, 205, 1)!important;
+}
+
+.formCard input:focus,
+.formCard textarea:focus{
+border-color: rgba(226, 232, 240, 1);
+  box-shadow: 0 12px 30px rgba(226, 232, 240, 0.5);
+  outline: none;
+}
+ 
+.dark .formCard input:focus,
+.dark .formCard textarea:focus{
+  border-color: rgba(129,105,210,1);
+    box-shadow: 0 12px 30px rgba(129,105,210,1);
+}
+
+.formCard input:-webkit-autofill,
+.formCard textarea:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px rgba(241, 245, 249, 1) inset !important;
+  -webkit-text-fill-color: #1e293b !important;
+}
+
+.dark .formCard input:-webkit-autofill,
+.dark .formCard textarea:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px rgba(176, 188, 205, 1) inset !important;
+  -webkit-text-fill-color: #1e293b !important;
+}
+
+.formCard p{@apply text-red-700 text-sm dark:text-red-700; } 
+
+.buttonsDiv{
+  @apply flex space-x-4 !mt-11;
+}
+
+.buttonsDiv button[type="submit"] {
+  @apply flex-1 text-white;
+  background: linear-gradient(135deg, rgba(166,84,214,0.7), rgba(131,58,180,0.75), rgba(88,55,189,0.6));
+  border: 1px solid white;
+}
+
+.buttonsDiv button:hover {
+  @apply !bg-blue-200 dark:!bg-purple-500; 
+}
+
+
+/*bigBox*/
+.bigBox{
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(238, 243, 255, 0.65));
+     border: 1px solid rgba(124, 93, 255, 0.15);
+  border-radius: 18px;
+  box-shadow: 0 10px 35px rgba(15, 23, 42, 0.08);
+}
+
+.dark .bigBox{
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.95));
+    border-color: rgba(80, 240, 255, 0.25);
+    box-shadow: 0 10px 35px rgba(2, 6, 23, 0.9), 
+                0 0 0 1px rgba(124, 93, 255, 0.1);
+}
+
+/*contact and payment forms */
+.contactForm input,
+.contactForm textarea{
+   @apply bg-blue-100;
+}
+
+.dark .contactForm input,
+.dark .contactForm textarea{
+    @apply text-black;
+  background-color:rgba(148, 163, 184, 1)!important;
+}
+
+ .contactForm input:-webkit-autofill,
+ .contactForm textarea:-webkit-autofill{
+  -webkit-box-shadow: 0 0 0px 1000px rgba(219, 234, 254, 1) inset !important;
+}
+
+.dark .contactForm input:-webkit-autofill,
+.dark .contactForm textarea:-webkit-autofill{
+  -webkit-box-shadow: 0 0 0px 1000px rgba(148, 163, 184, 1) inset !important;
+}
+
+.dark .contactForm input::placeholder,
+.dark .contactForm textarea::placeholder{
+    @apply text-slate-200;
+}
+
+#submitContact{
+    background: linear-gradient(120deg, var(--primary-neon), var(--primary-electric));
+}
+
+.dark #submitContact{
+    background: rgba(138, 132, 152, 1)!important;
+    color: black!important;
+}
+}
