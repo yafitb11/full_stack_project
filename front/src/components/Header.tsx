@@ -108,9 +108,11 @@ const Header = () => {
                 About
             </Navbar.Link>
 
-            <Navbar.Link as={Link} to={"/contact"} className="text-white hover:text-cyan-700">
-                Contact
-            </Navbar.Link>
+            {!user?.isAdmin && (
+                <Navbar.Link as={Link} to={"/contact"} className="text-white hover:text-cyan-700">
+                    Contact
+                </Navbar.Link>
+            )}
 
             {user && (
                 <Navbar.Link
