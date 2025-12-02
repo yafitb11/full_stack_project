@@ -263,14 +263,16 @@ border-color: rgba(226, 232, 240, 1);
                 0 0 0 1px rgba(124, 93, 255, 0.1);
 }
 
+/*contact and payment forms */
 .contactForm input,
 .contactForm textarea{
-   @apply bg-blue-100 dark:bg-slate-300 dark:text-black;
+   @apply bg-blue-100;
 }
 
 .dark .contactForm input,
 .dark .contactForm textarea{
-  background-color:rgba(176, 188, 205, 1)!important;
+    @apply text-black;
+  background-color:rgba(148, 163, 184, 1)!important;
 }
 
 
@@ -281,8 +283,12 @@ border-color: rgba(226, 232, 240, 1);
 
 .dark .contactForm input:-webkit-autofill,
 .dark .contactForm textarea:-webkit-autofill{
-  -webkit-box-shadow: 0 0 0px 1000px rgba(176, 188, 205, 1) inset !important;
-  -webkit-text-fill-color: #1e293b !important;
+  -webkit-box-shadow: 0 0 0px 1000px rgba(148, 163, 184, 1) inset !important;
+}
+
+.dark .contactForm input::placeholder,
+.dark .contactForm textarea::placeholder{
+    @apply text-slate-200;
 }
 
 #submitContact{

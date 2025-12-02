@@ -45,7 +45,7 @@ const CartSummary = ({ totalPrice }: any) => (
 );
 
 const PaymentForm = ({ register, handleSubmit, errors, loading, isValid, handleCheckout }: any) => (
-    <Card className="p-6 dark:bg-slate-800">
+    <Card className="p-6 contactForm">
         <h2 className="text-xl font-bold dark:text-white mb-4">Payment Details</h2>
         <form onSubmit={handleSubmit(handleCheckout)} className="space-y-4">
             <div>
@@ -70,7 +70,7 @@ const PaymentForm = ({ register, handleSubmit, errors, loading, isValid, handleC
                 <TextInput id="cardholderName" placeholder="John Doe" {...register("cardholderName")} />
                 {errors.cardholderName && <p className="text-red-500 text-sm">{errors.cardholderName.message}</p>}
             </div>
-            <Button type="submit" className="w-full dark:bg-slate-400" disabled={loading || !isValid}>
+            <Button type="submit" className="w-full" id="submitContact" disabled={loading || !isValid}>
                 {loading ? "Processing..." : "Place Order"}
             </Button>
         </form>
@@ -141,7 +141,8 @@ const ShoppingCart = () => {
     return (
         <div className="pageDiv">
             <div className="pageTextAndButtonsDiv">
-                <h1>Shopping Cart</h1>
+                <h1 className="!mb-8">Shopping Cart</h1>
+
                 {cartItems.length === 0 ? (
                     <EmptyCart />
                 ) : (
