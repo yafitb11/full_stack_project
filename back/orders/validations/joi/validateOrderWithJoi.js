@@ -12,9 +12,9 @@ const validateOrderWithJoi = (order) => {
         totalItems: Joi.number().required(),
         totalPrice: Joi.number().required(),
         paymentDetails: Joi.object({
-            cardNumber: Joi.number().required(),
-            expiryDate: Joi.date().required(),
-            cvv: Joi.number().required(),
+            cardNumber: Joi.string().required(),
+            expiryDate: Joi.string().pattern(/^(0[1-9]|1[0-2])\/\d{2}$/).required(),
+            cvv: Joi.string().required(),
             cardholderName: Joi.string().required(),
         }).required(),
     }).unknown(false);

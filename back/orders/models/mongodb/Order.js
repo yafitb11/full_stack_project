@@ -27,7 +27,7 @@ const orderSchema = new mongoose.Schema({
     totalPrice: { type: Number },
     paymentDetails: {
         cardNumber: { type: String, required: true },
-        expiryDate: { type: Date, required: true },
+        expiryDate: { type: String, required: true },
         cvv: { type: String, required: true },
         cardholderName: { type: String, required: true }
     },

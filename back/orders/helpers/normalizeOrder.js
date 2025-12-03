@@ -4,7 +4,7 @@ const normalizeOrder = async (rawOrder, userId) => {
     const { cardNumber, expiryDate, cvv, cardholderName } = rawOrder.paymentDetails;
     const paymentDetails = {
         cardNumber: cardNumber.toString(),
-        expiryDate: new Date(expiryDate),
+        expiryDate: expiryDate.toString(),
         cvv: cvv.toString(),
         cardholderName
     };
