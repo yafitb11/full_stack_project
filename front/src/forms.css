@@ -92,20 +92,32 @@ border-color: rgba(226, 232, 240, 1);
   background: linear-gradient(135deg, rgba(166,84,214,0.7), rgba(131,58,180,0.75), rgba(88,55,189,0.6));
   border: 1px solid white;
 }
-
+ 
 .buttonsDiv button:hover {
   @apply !bg-blue-200 dark:!bg-purple-500; 
 }
 
-#preSelectedCategory{
-  @apply block w-full rounded-xl border border-gray-300 bg-gray-100 p-2.5 text-sm text-gray-900  cursor-not-allowed
+.preSelectedCategory{
+  @apply block w-full rounded-xl border border-gray-300 bg-gray-100 p-2.5 text-sm text-gray-900  
 }
 
-.dark #preSelectedCategory{
+.dark .preSelectedCategory{
   @apply text-black;
     background-color: rgba(176, 188, 205, 1)!important;
 
 }
+
+.preSelectedCategory:focus{
+border-color: rgba(226, 232, 240, 1);
+  box-shadow: 0 12px 30px rgba(226, 232, 240, 0.5);
+  outline: none;
+}
+
+.dark .preSelectedCategory:focus{
+   border-color: rgba(129,105,210,1);
+    box-shadow: 0 12px 30px rgba(129,105,210,1);
+}
+
 
 /*bigBox*/
 .bigBox{

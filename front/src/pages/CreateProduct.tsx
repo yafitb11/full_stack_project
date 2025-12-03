@@ -159,7 +159,7 @@ export default function CreateProduct() {
                             <Label htmlFor="category_id" value="*Category" />
                             {searchParams.get("category") ? (
                                 <div className="relative">
-                                    <div id="preSelectedCategory">
+                                    <div className="preSelectedCategory cursor-not-allowed">
                                         {categories.find(cat => cat._id === watch("category_id"))?.title || "Loading..."}
                                     </div>
                                     <input
@@ -172,7 +172,7 @@ export default function CreateProduct() {
                                 <select
                                     id="category_id"
                                     {...register("category_id")}
-                                    className="block w-full rounded-lg border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                                    className="preSelectedCategory"
                                     value={watch("category_id")}
                                 >
                                     <option value="" disabled>Select a category</option>
