@@ -10,6 +10,7 @@ import { joiResolver } from "@hookform/resolvers/joi";
 import { paymentSchema } from "../validations/newOrderPayment.joi";
 import { PaymentDetails } from "../types/moreTypes";
 import PleaseLogin from "../components/PleaseLogin";
+import axios from "axios";
 
 // partial components
 const CartItem = ({ item, updateQuantity, removeFromCart }: any) => (
@@ -112,17 +113,11 @@ const ShoppingCart = () => {
             };
 
             const token = localStorage.getItem("token");
-            await fetch("http://localhost:8182/orders", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "x-auth-token": token || ""
-                },
-                body: JSON.stringify(orderData)
-            });
+            axios.defaults.headers.common["x-auth-token"] = token;
+            await axios.post("http://localhost:8182/orders", orderData);
 
-            clearCart();
             toast.success("Order placed successfully!");
+            clearCart();
             reset();
         } catch (err) {
             console.error(err);
