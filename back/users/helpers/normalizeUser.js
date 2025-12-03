@@ -1,3 +1,6 @@
+const config = require("config");
+const port = config.get("PORT");
+
 const normalizeUser = (rawUser) => {
 
     const name = {
@@ -8,8 +11,7 @@ const normalizeUser = (rawUser) => {
     const { url, alt } = rawUser.image;
     const image = {
         url:
-            url ||
-            "https://cdn.pixabay.com/photo/2016/04/20/08/21/entrepreneur-1340649_960_720.jpg",
+            url || `http://localhost:${port}/public/grayUser.jpg`,
         alt: alt || "user image"
     };
 

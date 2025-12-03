@@ -4,7 +4,7 @@ const normalizeCategory = async (rawCategory) => {
     const image = {
         url:
             url ||
-            "https://cdn.pixabay.com/photo/2016/04/20/08/21/entrepreneur-1340649_960_720.jpg",
+            "https://queue-it.com/media/ppcp1twv/product-drop.jpg",
         alt: alt || "category image",
     };
 

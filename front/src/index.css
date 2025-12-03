@@ -97,7 +97,7 @@
 }
 .imageDiv{@apply flex-shrink-0 overflow-hidden rounded-t-lg min-h-0 h-[180px] w-full mb-2;}
 .imageDiv>img{
-  @apply w-full h-full object-cover;
+  @apply w-full h-full object-cover object-center;
   transition: transform 400ms ease;
 }
 

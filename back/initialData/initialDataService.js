@@ -20,7 +20,7 @@ const generateInitialProducts = async () => {
 
         const { categories, products } = data;
 
-        let category = await findCategoryByName("Electronics (initial-data category)");
+        let category = await findCategoryByName("Electronics (initial-data)");
         if (!category) {
             const normalizedCategory = await normalizeCategory(categories[0]);
             category = await createCategory(normalizedCategory);

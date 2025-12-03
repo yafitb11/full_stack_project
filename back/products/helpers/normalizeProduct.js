@@ -4,7 +4,7 @@ const normalizeProduct = async (rawProduct, categoryId) => {
     const image = {
         url:
             url ||
-            "https://cdn.pixabay.com/photo/2016/04/20/08/21/entrepreneur-1340649_960_720.jpg",
+            "https://redbikemarketing.com/wp-content/uploads/2019/06/product.png",
         alt: alt || "Product Image",
     };
 

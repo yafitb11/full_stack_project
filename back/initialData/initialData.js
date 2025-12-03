@@ -19,8 +19,8 @@ module.exports = {
                 "zip": "1234"
             },
             "image": {
-                "url": "",
-                "alt": ""
+                "url": `http://localhost:${port}/public/grayUser.JPG`,
+                "alt": "user-pic"
             }
         },
         {
@@ -40,8 +40,8 @@ module.exports = {
                 "zip": "2233"
             },
             "image": {
-                "url": "",
-                "alt": ""
+                "url": `http://localhost:${port}/public/grayUser.JPG`,
+                "alt": "user-pic"
             }
         },
         {
@@ -61,14 +61,14 @@ module.exports = {
                 "zip": "1122"
             },
             "image": {
-                "url": "",
-                "alt": ""
+                "url": `http://localhost:${port}/public/grayUser.JPG`,
+                "alt": "user-pic"
             }
         }
     ],
     "categories": [
         {
-            "title": "Electronics (initial-data category)",
+            "title": "Electronics (initial-data)",
             "description": "this category is made for the initial-data products, in case there are no other products in store",
             "image": {
                 "url": `http://localhost:${port}/public/electronics.jpg`,
