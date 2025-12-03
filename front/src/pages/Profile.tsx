@@ -20,7 +20,7 @@ const Profile = () => {
                 </div>
                 <div className="w-[100%] flex gap-3 flex-col mt-3 items-center justify-center">
                     <Card className="mycard">
-                        <div className="imageDiv !h-[160px]">
+                        <div className="imageDiv !h-[170px]">
                             <img
                                 src={user.image.url}
                                 alt={user.image.alt}
@@ -28,9 +28,9 @@ const Profile = () => {
                         </div>
                         <div className="textDiv !py-5">
                             <p>Name: {user.name.first} {user.name.middle} {user.name.last}</p>
-                            <p className="my-2">Phone: {user.phone}</p>
+                            <p className="my-3">Phone: {user.phone}</p>
                             <p>Email: {user.email}</p>
-                            <p className="my-2">Address: {user.address.state} {user.address.country} {user.address.city} {user.address.street} {user.address.houseNumber}</p>
+                            <p className="my-3">Address: {user.address.state} {user.address.country} {user.address.city} {user.address.street} {user.address.houseNumber}</p>
                         </div>
                     </Card>
 

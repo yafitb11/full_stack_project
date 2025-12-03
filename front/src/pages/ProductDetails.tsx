@@ -104,14 +104,14 @@ const ProductDetails = () => {
 
 
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className="pageDiv">
             <div className="max-w-4xl mx-auto">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <div className="aspect-w-16 aspect-h-9">
                         <img
                             src={product.image.url}
                             alt={product.image.alt}
-                            className="w-full h-96 object-cover rounded-lg"
+                            className="w-full h-96 object-cover rounded-lg border-2"
                         />
                     </div>
 
@@ -123,10 +123,10 @@ const ProductDetails = () => {
                             <p className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
                                 {product.subtitle}
                             </p>
-                            <p className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-4">
+                            <p className={`font-bold ${product.isDiscount ? "text-xl text-blue-400 dark:text-blue-900" : "text-2xl text-blue-600 dark:text-blue-400"}`}>
                                 ${product.price}
                             </p>
-                            <p className="text-gray-600 dark:text-gray-400 text-lg mb-2">
+                            <p className="text-gray-600 dark:text-slate-200 text-lg mb-2">
                                 {product.description}
                             </p>
                             {user && user.isAdmin && (
@@ -147,10 +147,10 @@ const ProductDetails = () => {
                         </div>
 
                         <div className="flex items-center space-x-4">
-                            <span className="text-sm text-gray-500">
+                            <span className="text-sm text-gray-500 dark:text-slate-200">
                                 {product.likes.length} likes
                             </span>
-                            <span className="text-sm text-gray-500">
+                            <span className="text-sm text-gray-500 dark:text-slate-200">
                                 Category: {categoryName}
                             </span>
                         </div>
@@ -190,15 +190,16 @@ const ProductDetails = () => {
 
                         <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
                             <div className="flex space-x-4">
-                                <Button color="gray" outline onClick={() => navigate(-1)}>
+                                <Button className="dark:!bg-slate-200 dark:text-black border-black"
+                                    onClick={() => navigate(-1)}>
                                     ← Back to Products
                                 </Button>
                                 {user && user.isAdmin && (
                                     <>
-                                        <Button color="blue" onClick={() => navigate(`/edit-product/${product._id}`)}>
+                                        <Button color="blue" className=" dark:!bg-slate-800 dark:text-slate-200 border-white" onClick={() => navigate(`/edit-product/${product._id}`)}>
                                             Edit Product
                                         </Button>
-                                        <Button color="blue" onClick={() => handleDeleteProduct(product._id)}>
+                                        <Button color="blue" className=" dark:!bg-slate-800 dark:text-slate-200 border-white" onClick={() => handleDeleteProduct(product._id)}>
                                             Delete Product
                                         </Button>
                                     </>
