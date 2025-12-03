@@ -6,7 +6,6 @@ const messageSchema = new mongoose.Schema({
     fullName: {
         ...DEFAULT_VALIDATION,
         trim: false,
-        lowercase: false,
     },
     email: {
         type: String,
@@ -18,12 +17,10 @@ const messageSchema = new mongoose.Schema({
     subject: {
         ...DEFAULT_VALIDATION,
         trim: false,
-        lowercase: false,
     },
     message: {
         ...DEFAULT_VALIDATION,
         trim: false,
-        lowercase: false,
         maxLength: 1024,
     },
     createdAt: {
