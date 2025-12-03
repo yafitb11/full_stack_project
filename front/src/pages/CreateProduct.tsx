@@ -218,6 +218,7 @@ export default function CreateProduct() {
                                     value="true"
                                     onChange={() => setValue("isDiscount", true, { shouldValidate: true })}
                                     checked={watch("isDiscount") === true}
+                                    className=" checked:!bg-blue-800"
                                 />
                                 <Label htmlFor="discountYes">Yes</Label>
                             </div>
@@ -229,6 +230,7 @@ export default function CreateProduct() {
                                     value="false"
                                     onChange={() => setValue("isDiscount", false, { shouldValidate: true })}
                                     checked={watch("isDiscount") === false}
+                                    className=" checked:!bg-blue-800"
                                 />
                                 <Label htmlFor="discountNo">No</Label>
                             </div>

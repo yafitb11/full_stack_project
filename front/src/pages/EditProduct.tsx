@@ -70,9 +70,12 @@ export default function EditProduct() {
     const isDiscounted = watch("isDiscount") === true;
 
     useEffect(() => {
+        if (!product) return;
         if (isDiscounted) {
             register("discountedPrice");
-            setValue("discountedPrice", product?.discountedPrice);
+            setValue("discountedPrice", product?.discountedPrice ?? 0, {
+                shouldValidate: true
+            });
         } else {
             unregister("discountedPrice");
         }
@@ -125,13 +128,13 @@ export default function EditProduct() {
     }
 
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className="pageDiv">
             <div className="max-w-2xl mx-auto">
-                <div className="text-center mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+                <div className="pageTextAndButtonsDiv">
+                    <h1>
                         Edit Product
                     </h1>
-                    <p className="text-gray-600 dark:text-gray-400">Add a new product to the store</p>
+                    <p>Add a new product to the store</p>
                 </div>
 
                 <Card className="formCard">
@@ -189,6 +192,7 @@ export default function EditProduct() {
                                     value="true"
                                     onChange={() => setValue("isDiscount", true, { shouldValidate: true })}
                                     checked={watch("isDiscount") === true}
+                                    className=" checked:!bg-blue-800"
                                 />
                                 <Label htmlFor="discountYes">Yes</Label>
                             </div>
@@ -200,6 +204,7 @@ export default function EditProduct() {
                                     value="false"
                                     onChange={() => setValue("isDiscount", false, { shouldValidate: true })}
                                     checked={watch("isDiscount") === false}
+                                    className=" checked:!bg-blue-800"
                                 />
                                 <Label htmlFor="discountNo">No</Label>
                             </div>

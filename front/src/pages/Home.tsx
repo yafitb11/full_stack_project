@@ -153,10 +153,10 @@ const Home = () => {
                                 <p className="text-gray-800 dark:text-gray-400 mb-3">
                                     {(product.category_id as TCategory)?.title}
                                 </p>
-                                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                                <h3 className="!text-xl font-semibold text-gray-900 dark:text-white">
                                     {product.title}
                                 </h3>
-                                <h3 className="font-semibold text-gray-900 dark:text-white">
+                                <h3 className="!text-lg font-semibold text-gray-900 dark:text-white">
                                     {product.subtitle}
                                 </h3>
                                 <p className="text-gray-600 dark:text-gray-300 mt-1">

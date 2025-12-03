@@ -1,4 +1,7 @@
-{
+const config = require("config");
+const port = config.get("PORT");
+
+module.exports = {
     "users": [
         {
             "name": {
@@ -65,50 +68,50 @@
     ],
     "categories": [
         {
-            "title": "initial-data category",
+            "title": "Electronics (initial-data category)",
             "description": "this category is made for the initial-data products, in case there are no other products in store",
             "image": {
-                "url": "",
-                "alt": ""
+                "url": `http://localhost:${port}/public/electronics.jpg`,
+                "alt": "electronics"
             }
         }
     ],
     "products": [
         {
-            "title": "first product",
-            "subtitle": "this is the first product",
-            "description": "this is the first product in the initial-data category in the store",
+            "title": "Laptop",
+            "subtitle": "our premium laptop",
+            "description": "this is the first product in the initial-data category in the storePremiup laptop with very high preformance. 16GB RAM.",
             "image": {
-                "url": "",
-                "alt": ""
+                "url": `http://localhost:${port}/public/laptops.JPG`,
+                "alt": "laptop"
             },
             "quantityInStock": 5,
-            "price": 31,
+            "price": 500,
             "isDiscount": false
         },
         {
-            "title": "second product",
-            "subtitle": "this is the second product",
-            "description": "this is the second product in the initial-data category in the store",
+            "title": "Television",
+            "subtitle": "Our best selling TV",
+            "description": "Experience crystal-clear picture and vibrant colors with this 55-inch Smart LED TV. Perfect for movies, gaming, and streaming your favorite shows.",
             "image": {
-                "url": "",
-                "alt": ""
+                "url": `http://localhost:${port}/public/TVs.JPG`,
+                "alt": "television"
             },
             "quantityInStock": 7,
-            "price": 75,
+            "price": 250,
             "isDiscount": true,
-            "discountedPrice": 55
+            "discountedPrice": 190
         },
         {
-            "title": "third product",
-            "subtitle": "this is the third product",
-            "description": "this is the third product in the initial-data category in the store",
+            "title": "Computer Screen",
+            "subtitle": "27 inch full HD Monitor",
+            "description": "Enhance your productivity with this advanced monitor. Features ultra-sharp display, fast response time, and adjustable stand for comfortable viewing. Ideal for work, gaming, or entertainment.",
             "image": {
-                "url": "",
-                "alt": ""
+                "url": `http://localhost:${port}/public/screen1s.JPG`,
+                "alt": "monitor"
             },
             "quantityInStock": 12,
-            "price": 42,
+            "price": 120,
             "isDiscount": false
         }
     ]

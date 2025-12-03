@@ -1,4 +1,4 @@
-const data = require("./initialData.json");
+const data = require("./initialData");
 const normalizeUser = require("../users/helpers/normalizeUser");
 const normalizeProduct = require("../products/helpers/normalizeProduct");
 const normalizeCategory = require("../categories/helpers/normalizeCategory");
@@ -20,7 +20,7 @@ const generateInitialProducts = async () => {
 
         const { categories, products } = data;
 
-        let category = await findCategoryByName("initial-data category");
+        let category = await findCategoryByName("Electronics (initial-data category)");
         if (!category) {
             const normalizedCategory = await normalizeCategory(categories[0]);
             category = await createCategory(normalizedCategory);
