@@ -8,6 +8,8 @@ const categorieschema = new mongoose.Schema({
     description: {
         ...DEFAULT_VALIDATION,
         maxLength: 1024,
+        minLength: 0,
+        required: false,
     },
     image: imageSchema,
     createdAt: {

@@ -13,17 +13,6 @@ exports.getProducts = async () => {
     }
 };
 
-/*
-exports.getCategoryProducts = async (categoryId) => {
-    try {
-        const categoryProducts = await findCategoryProducts(categoryId);
-        return Promise.resolve(categoryProducts);
-    } catch (error) {
-        return Promise.reject(error);
-    }
-};
-*/
-
 exports.getOneProduct = async (productId) => {
     try {
         const product = await findOneProduct(productId);

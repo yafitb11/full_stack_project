@@ -13,18 +13,6 @@ router.get("/", async (req, res) => {
     }
 });
 
-/*
-//no need for double option to get category items, maybe I will delete it
-router.get("/:categoryId", async (req, res) => {
-    try {
-        const categoryId = req.params.categoryId;
-        const categoryProducts = await getCategoryProducts(categoryId);
-        return res.send(categoryProducts);
-    } catch (error) {
-        return errorhandler(res, error.status || 500, error.message);
-    }
-});
-*/
 
 router.get("/:id", async (req, res) => {
     try {
@@ -36,7 +24,7 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-//צריך לשנות את זה שזה לא יהיה בפאראמז אלא דרך אחרת להעביר את המידע של קטגוריID
+
 router.post("/", auth, async (req, res) => {
     try {
         const { isAdmin } = req.user;

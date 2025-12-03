@@ -159,7 +159,7 @@ export default function CreateProduct() {
                             <Label htmlFor="category_id" value="*Category" />
                             {searchParams.get("category") ? (
                                 <div className="relative">
-                                    <div className="block w-full rounded-lg border border-gray-300 bg-gray-100 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-600 dark:text-white cursor-not-allowed">
+                                    <div id="preSelectedCategory">
                                         {categories.find(cat => cat._id === watch("category_id"))?.title || "Loading..."}
                                     </div>
                                     <input

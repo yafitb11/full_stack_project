@@ -16,22 +16,6 @@ exports.find = async () => {
     return Promise.resolve("Products Not From MONGODB");
 };
 
-/*
-exports.findCategoryProducts = async (categoryId) => {
-    if (DB === "MONGODB") {
-        try {
-            const categoryProducts = await Product.find({ category_id: categoryId }, {});
-            if (categoryProducts.length === 0) { return Promise.resolve("you have no products in this category"); }
-            return Promise.resolve(categoryProducts);
-        } catch (error) {
-            error.status = 404;
-            return handleBadRequest("Mongoose", error);
-        }
-    }
-    return Promise.resolve("Product Not From MONGODB");
-};
-*/
-
 exports.findOneProduct = async (productId) => {
     if (DB === "MONGODB") {
         try {
