@@ -48,7 +48,7 @@ const useAuth = () => {
 
         } catch (error) {
             console.log("error in full signIn:", error);
-            toast.error("Sign In Failed", { autoClose: 2000, });
+            toast.error("Sign In Failed,check your contuct details!", { autoClose: 2000, });
         }
     };
 

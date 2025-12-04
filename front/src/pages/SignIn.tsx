@@ -25,7 +25,6 @@ export default function SignIn() {
         <div className="pageDiv">
             <div className="max-w-[32rem] mx-auto">
 
-                {/* Title */}
                 <div className="pageTextAndButtonsDiv">
                     <h1>Sign In</h1>
                     <p>Access your account</p>
@@ -34,7 +33,6 @@ export default function SignIn() {
                 <Card className="formCard">
                     <form onSubmit={handleSubmit(login)} className="space-y-6">
 
-                        {/* EMAIL */}
                         <div>
                             <Label htmlFor="email" value="Email" />
                             <TextInput
