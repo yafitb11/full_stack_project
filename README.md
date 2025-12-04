@@ -30,10 +30,11 @@ The system is built on a RESTful API using Node.js and MongoDB, with a modern fr
 
 Admins have an enhanced dashboard with full control:
 
-* full CRUD control over categories
-* full CRUD control over products
-* full CRUD control over users
+* Full CRUD control over categories
+* Full CRUD control over products
+* Full CRUD control over users
 * View all contact messages
+* Monitor products: Quantity in stock, Number of likes, Number of orders
 
 ### Admin Restrictions
 
@@ -82,6 +83,7 @@ Admins cannot: Add products to cart, place orders and like products
 
 * Dark/Light mode
 * Responsive design
+* Toggle button to switch between large and compact product cards
 * Pagination & search filters
 * Persistent cart
 * Reusable components & custom hooks

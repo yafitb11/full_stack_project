@@ -26,7 +26,7 @@ export default function CreateCard() {
                         &nbsp;&nbsp;– <span className="font-bold">Customers</span> can like products, manage their cart and orders prior to submission,
                         and edit or delete their profile.<br />
                         &nbsp;&nbsp;– <span className="font-bold">Admins</span> can create, read, update, and delete products and categories,
-                        as well as edit or remove user accounts and view contact messages from customers.<br />
+                        as well as edit or remove user accounts, view contact messages from customers and track products' number of likes, number of orders and quantity .<br />
                         • <span className="font-bold">Personal dashboard</span> where users can view their orders and favorite products.<br />
                         • <span className="font-bold">Responsive, accessible UI</span> including a light/dark mode toggle for an improved user experience.<br /><br />
 
@@ -35,7 +35,7 @@ export default function CreateCard() {
                         <span className="font-bold">Front-End:</span> React, TypeScript, HTML5, CSS3, React Router, Hooks, Global State Management, Joi validations.<br />
                         <span className="font-bold">Back-End:</span> Node.js, Express.js, MongoDB, JWT authentication, Joi & Mongoose validations, RESTful API architecture.<br />
                         <span className="font-bold">Additional Features:</span> Axios for API communication, regex-based form validation with controlled components,
-                        dynamic category and product filtering.<br /><br />
+                        dynamic category and product filtering, light and dark modes and a toggle button to switch between large and compact product cards.<br /><br />
 
                         E-Shop reflects a real-world approach to building scalable, maintainable, and interactive full-stack applications —
                         combining modern React-based UI development with a robust server-side architecture to deliver a complete e-commerce solution.
