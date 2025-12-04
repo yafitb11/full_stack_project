@@ -63,3 +63,17 @@ exports.remove = async (orderId) => {
     }
     return Promise.resolve("Order Not From MONGODB");
 };
+
+exports.findAllOrders = async () => {
+    if (DB === "MONGODB") {
+        try {
+            const orders = await Order.find({}).populate("items.product");
+            if (orders.length === 0) { return Promise.resolve("there are no orders in database"); }
+            return Promise.resolve(orders);
+        } catch (error) {
+            error.status = 404;
+            return handleBadRequest("Mongoose", error);
+        }
+    }
+    return Promise.resolve("Orders Not From MONGODB");
+};

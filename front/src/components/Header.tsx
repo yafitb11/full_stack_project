@@ -102,6 +102,10 @@ const Header = () => {
                     <Navbar.Link as={Link} to={"/contactmessages"} className="text-white hover:text-cyan-700">
                         Contact Messages
                     </Navbar.Link>
+
+                    <Navbar.Link as={Link} to={"/products-management"} className="text-white hover:text-cyan-700">
+                        Products Management
+                    </Navbar.Link>
                 </>
             )}
 

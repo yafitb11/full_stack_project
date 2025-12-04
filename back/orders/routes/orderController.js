@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { getMyOrders, getOneOrder, createOrder, deleteOrder } = require("../services/orderService");
+const { getMyOrders, getOneOrder, createOrder, deleteOrder, getAllOrders } = require("../services/orderService");
 const { errorhandler } = require("../../utils/errorhandler");
 const { auth } = require("../../auth/authService");
 
@@ -50,6 +50,20 @@ router.delete("/:id", auth, async (req, res) => {
         }
         const order = await deleteOrder(orderId);
         res.send(order);
+    } catch (error) {
+        return errorhandler(res, error.status || 500, error.message);
+    }
+});
+
+
+router.get("/", auth, async (req, res) => {
+    try {
+        const { isAdmin } = req.user;
+        if (!isAdmin) {
+            return errorhandler(res, 403, "Authorization Error: Must be the Admin!");
+        }
+        const orders = await getAllOrders();
+        return res.send(orders);
     } catch (error) {
         return errorhandler(res, error.status || 500, error.message);
     }

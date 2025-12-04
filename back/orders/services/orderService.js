@@ -1,4 +1,4 @@
-const { findMyOrders, findOneOrder, create, remove } = require("../models/orderDataAccessService");
+const { findMyOrders, findOneOrder, create, remove, findAllOrders } = require("../models/orderDataAccessService");
 const normalizeOrder = require("../helpers/normalizeOrder");
 const { handleJoiError } = require("../../utils/errorhandler");
 const validateOrder = require("../validations/orderValidationService");
@@ -41,6 +41,16 @@ exports.deleteOrder = async (orderId) => {
     try {
         const order = await remove(orderId);
         return Promise.resolve(order);
+    } catch (error) {
+        return Promise.reject(error);
+    }
+};
+
+
+exports.getAllOrders = async () => {
+    try {
+        const orders = await findAllOrders();
+        return Promise.resolve(orders);
     } catch (error) {
         return Promise.reject(error);
     }

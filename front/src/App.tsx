@@ -27,6 +27,7 @@ import useAuth from "./hooks/useAuth";
 import { useCartSync, useCartRestore } from "./hooks/useCartSync";
 import EditCategory from "./pages/EditCategory";
 import ContactMessages from "./pages/ContactMessages";
+import ProductManagement from "./pages/ProductManagement";
 
 function App() {
   const { autoLogIn } = useAuth();
@@ -102,6 +103,10 @@ function App() {
 
           <Route path="/contactmessages" element={<RouteGuard isAdmin={true}>
             <ContactMessages />
+          </RouteGuard>}></Route>
+
+          <Route path="/products-management" element={<RouteGuard isAdmin={true}>
+            <ProductManagement />
           </RouteGuard>}></Route>
 
           <Route path="/not-found" element={<ErrorPage />} />
