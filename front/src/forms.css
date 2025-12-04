@@ -81,7 +81,7 @@ border-color: rgba(226, 232, 240, 1);
   -webkit-text-fill-color: #1e293b !important;
 }
 
-.formCard p{@apply text-red-700 text-sm dark:text-red-700; } 
+.formCard p{@apply text-red-400 text-sm dark:text-red-700; } 
 
 .buttonsDiv{
   @apply flex space-x-4 !mt-11;

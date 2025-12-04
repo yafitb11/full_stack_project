@@ -131,7 +131,7 @@ const Header = () => {
     );
 
     return (
-        <div className="bg-slate-500 dark:bg-slate-900">
+        <div className="bg-slate-500 dark:bg-slate-900 w-full">
             <Navbar
                 fluid
                 className="!px-5 xs:pb-1 bg-slate-500 dark:bg-slate-900 border-b border-slate-700"

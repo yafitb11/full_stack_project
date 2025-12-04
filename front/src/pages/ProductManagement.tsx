@@ -82,95 +82,98 @@ const ProductManagement = () => {
 
 
     return (
-        <div className="pageDiv">
+        <div className="pageDiv max-w-[100%]">
             <div className="pageTextAndButtonsDiv">
                 <h1>products management</h1>
             </div>
 
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden w-[75%] m-auto">
-                <table className="w-full">
-                    <thead className="bg-gray-100 border-b-2 border-gray-300">
-                        <tr>
-                            <th className="px-6 py-4 text-right text-sm font-semibold text-gray-700">product</th>
-                            <th className="px-6 py-4 text-center text-sm font-semibold text-gray-700">
-                                <div className="flex items-center justify-center gap-2">
-                                    <FaShoppingCart size={18} />
-                                    Number of items orderd
-                                </div>
-                            </th>
-                            <th className="px-6 py-4 text-center text-sm font-semibold text-gray-700">
-                                <div className="flex items-center justify-center gap-2">
-                                    <FaHeart size={18} />
-                                    Likes
-                                </div>
-                            </th>
-                            <th className="px-6 py-4 text-center text-sm font-semibold text-gray-700">
-                                <div className="flex items-center justify-center gap-2">
-                                    <FaBoxOpen size={18} />
-                                    Quantity
-                                </div>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {productStats.length === 0 ? (
+            <div className="bg-white rounded-lg shadow-lg w-[75%] m-auto xs:w-full">
+                <div className="w-full overflow-x-auto">
+                    <table className="w-full">
+                        <thead className="bg-gray-100 border-b-2 border-gray-300">
                             <tr>
-                                <td className="px-6 py-8 text-center text-gray-500">
-                                    No Products to show
-                                </td>
+                                <th className="px-6 py-4 xs:py-1 text-center text-sm font-semibold text-gray-700">product
+                                </th>
+                                <th className="px-6 py-4 text-center text-sm font-semibold text-gray-700 xs:py-1">
+                                    <div className="flex items-center justify-center gap-2">
+                                        <FaShoppingCart className="w-5 h-5 flex-shrink-0" />
+                                        Number of items orderd
+                                    </div>
+                                </th>
+                                <th className="px-6 py-4 xs:py-1 text-center text-sm font-semibold text-gray-700">
+                                    <div className="flex items-center justify-center gap-2">
+                                        <FaHeart size={18} />
+                                        Likes
+                                    </div>
+                                </th>
+                                <th className="px-6 py-4 xs:py-1 text-center text-sm font-semibold text-gray-700">
+                                    <div className="flex items-center justify-center gap-2">
+                                        <FaBoxOpen size={18} />
+                                        Quantity
+                                    </div>
+                                </th>
                             </tr>
-                        ) : (
-                            productStats.map((product, index) => (
-                                <tr
-                                    key={product._id}
-                                    className={`border-b hover:bg-gray-50 transition ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
-                                        }`}
-                                >
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center gap-3">
-                                            <img
-                                                src={product.image.url || 'https://via.placeholder.com/60'}
-                                                alt={product.title}
-                                                className="w-16 h-16 object-cover rounded border-2 border-gray-200"
-                                            />
-                                            <div>
-                                                <div className="font-semibold text-gray-800">{product.title || 'no-name'}</div>
-                                                <div className="text-sm text-gray-500">ID: {product._id}</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4 text-center">
-                                        <span className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 text-blue-800 rounded-full font-bold text-lg">
-                                            {product.orderCount}
-                                        </span>
-                                    </td>
-                                    <td className="px-6 py-4 text-center">
-                                        <span className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 text-pink-800 rounded-full font-bold text-lg">
-                                            {product.likes.length || 0}
-                                        </span>
-                                    </td>
-                                    <td className="px-6 py-4 text-center">
-                                        <span className={`inline-flex items-center justify-center w-12 h-12 rounded-full font-bold text-lg ${product.quantityInStock < 10
-                                            ? 'bg-red-100 text-red-800'
-                                            : product.quantityInStock < 30
-                                                ? 'bg-yellow-100 text-yellow-800'
-                                                : 'bg-green-100 text-green-800'
-                                            }`}>
-                                            {product.quantityInStock || 0}
-                                        </span>
-                                        <span className={product.quantityInStock === 0 ? "text-xl font-bold text-red-600" : ""}>
-                                            {product.quantityInStock === 0 ? "!" : ""}
-                                        </span>
+                        </thead>
+                        <tbody>
+                            {productStats.length === 0 ? (
+                                <tr>
+                                    <td colSpan={4} className="px-6 py-8 text-center text-gray-500">
+                                        No Products to show
                                     </td>
                                 </tr>
-                            ))
-                        )}
-                    </tbody>
-                </table>
+                            ) : (
+                                productStats.map((product, index) => (
+                                    <tr
+                                        key={product._id}
+                                        className={`border-b hover:bg-gray-50 transition ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
+                                            }`}
+                                    >
+                                        <td className="px-6 py-4">
+                                            <div className="flex items-center gap-3">
+                                                <img
+                                                    src={product.image.url || 'https://via.placeholder.com/60'}
+                                                    alt={product.title}
+                                                    className="w-16 h-16 object-cover rounded border-2 border-gray-200 xs:w-11 xs:h-11"
+                                                />
+                                                <div>
+                                                    <div className="font-semibold text-gray-800">{product.title || 'no-name'}</div>
+                                                    <div className="text-sm text-gray-500 xs:text-[12px]">ID: {product._id}</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 text-center">
+                                            <span className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 text-blue-800 rounded-full font-bold text-lg xs:w-7 xs:h-7 xs:text-sm">
+                                                {product.orderCount}
+                                            </span>
+                                        </td>
+                                        <td className="px-6 py-4 text-center">
+                                            <span className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 text-pink-800 rounded-full font-bold text-lg xs:w-7 xs:h-7 xs:text-sm">
+                                                {product.likes.length || 0}
+                                            </span>
+                                        </td>
+                                        <td className="px-6 py-4 text-center">
+                                            <span className={`inline-flex items-center justify-center w-12 h-12 rounded-full font-bold text-lg xs:w-7 xs:h-7 xs:text-sm ${product.quantityInStock < 10
+                                                ? 'bg-red-100 text-red-800'
+                                                : product.quantityInStock < 30
+                                                    ? 'bg-yellow-100 text-yellow-800'
+                                                    : 'bg-green-100 text-green-800'
+                                                }`}>
+                                                {product.quantityInStock || 0}
+                                            </span>
+                                            <span className={product.quantityInStock === 0 ? "text-xl font-bold text-red-600" : ""}>
+                                                {product.quantityInStock === 0 ? "!" : ""}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                ))
+                            )}
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 w-[75%] mt-7 m-auto">
-                <h3 className="font-semibold text-blue-900 mb-2">Color Key for Quantity</h3>
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 w-[75%] mt-7 m-auto xs:w-full">
+                <h3 className="font-semibold text-blue-900 mb-2 xs:text-center">Color Key for Quantity</h3>
                 <div className="flex gap-6 text-sm">
                     <div className="flex items-center gap-2">
                         <div className="w-4 h-4 bg-green-100 border border-green-300 rounded"></div>

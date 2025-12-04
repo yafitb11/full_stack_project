@@ -9,7 +9,7 @@ const Footer = () => {
     const linkToContact = () => { navigate("/contact"); }
 
     return (
-        <div className="p-4 flex items-center justify-around bg-slate-500 text-white dark:bg-slate-900 dark:text-gray-400">
+        <div className="p-4 flex items-center justify-around bg-slate-500 text-white dark:bg-slate-900 dark:text-gray-400 w-full">
 
             <div className="flex gap-1 xs:flex-col xs:items-center">
                 <IoInformationCircleSharp
