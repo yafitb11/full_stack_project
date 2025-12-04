@@ -2,16 +2,18 @@ import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { Button, Spinner } from "flowbite-react";
 import { TProduct, TCategory } from "../types/types";
-import { FaTh, FaThList } from "react-icons/fa";
 import axios from "axios";
 import useAuth from "../hooks/useAuth";
 import useAddToCart from "../hooks/useAddToCart";
 import useLikeProduct from "../hooks/useLikeProduct";
 import deleteProduct from "../hooks/useDeleteProduct";
 import ProductCard from "../components/ProductCard";
-type ViewMode = 'large' | 'compact';
+import ViewButtons from "../components/ViewButtons";
 
 const CategoryProducts = () => {
+    const [viewMode, setViewMode] = useState<"large" | "compact">(
+        () => (localStorage.getItem("viewMode") as "large" | "compact") || "large"
+    );
     const { categoryId } = useParams<{ categoryId: string }>();
     const [products, setProducts] = useState<TProduct[]>([]);
     const [category, setCategory] = useState<TCategory | null>(null);
@@ -20,12 +22,8 @@ const CategoryProducts = () => {
     const { user } = useAuth();
     const { addToCart } = useAddToCart();
     const { toggleLike } = useLikeProduct();
-    const [viewMode, setViewMode] = useState<ViewMode>(() => {
-        const saved = localStorage.getItem("viewMode");
-        return (saved === "large" || saved === "compact") ? saved : "large";
-    });
 
-    const handleViewModeChange = (mode: ViewMode) => {
+    const handleViewModeChange = (mode: "large" | "compact") => {
         setViewMode(mode);
         localStorage.setItem("viewMode", mode);
     };
@@ -110,27 +108,7 @@ const CategoryProducts = () => {
         <div className="pageDiv">
             <div className="pageTextAndButtonsDiv">
                 <div className="relative">
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 flex gap-2">
-                        <Button
-                            color={viewMode === 'large' ? 'blue' : "dark"}
-                            onClick={() => handleViewModeChange('large')}
-                            className={`flex items-center gap-2 ${viewMode === 'large' ? '' : 'dark:!text-slate-200'}`}
-                            size="sm"
-                        >
-                            <FaThList />
-                            <span className="hidden sm:inline">Large</span>
-                        </Button>
-                        <Button
-                            color={viewMode === 'compact' ? 'blue' : "dark"}
-                            onClick={() => handleViewModeChange('compact')}
-                            className={`flex items-center gap-2 ${viewMode === 'compact' ? '' :
-                                'dark:!text-slate-200'}`}
-                            size="sm"
-                        >
-                            <FaTh />
-                            <span className="hidden sm:inline">Compact</span>
-                        </Button>
-                    </div>
+                    <ViewButtons viewMode={viewMode} onChange={handleViewModeChange} ></ViewButtons>
                     <h1>{category.title}</h1>
                 </div>
                 <p>{category.description} </p>

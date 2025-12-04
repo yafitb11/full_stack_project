@@ -15,7 +15,7 @@ import axios from "axios";
 // partial components
 const CartItem = ({ item, updateQuantity, removeFromCart }: any) => (
     <Card className="p-4 dark:bg-slate-800">
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center md:space-x-4 xs:flex-col xs:gap-2">
             <img src={item.product.image.url} alt={item.product.image.alt} className="w-20 h-20 object-cover rounded-lg" />
             <div className="flex-1">
                 <h3 className="text-lg font-semibold dark:text-white">{item.product.title}</h3>
@@ -26,9 +26,9 @@ const CartItem = ({ item, updateQuantity, removeFromCart }: any) => (
                 <span className="w-12 text-center dark:text-gray-300">{item.quantity}</span>
                 <Button size="sm" color="gray" onClick={() => updateQuantity(item.product._id, item.quantity + 1)}><FaPlus /></Button>
             </div>
-            <div className="text-right">
-                <p className="text-lg font-semibold dark:text-white">${(item.product.price * item.quantity).toFixed(2)}</p>
-                <Button size="sm" color="failure" onClick={() => removeFromCart(item.product._id)} className="mt-2"><FaTrash /></Button>
+            <div className="md:!ml-7">
+                <p className="text-lg font-semibold dark:text-white mb-2">${(item.product.price * item.quantity).toFixed(2)}</p>
+                <Button size="sm" onClick={() => removeFromCart(item.product._id)} className="mt-2 m-auto !bg-red-500 hover:!bg-red-600 dark:!bg-red-800 dark:hover:!bg-red-700"><FaTrash /></Button>
             </div>
         </div>
     </Card>

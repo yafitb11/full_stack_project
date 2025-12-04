@@ -5,7 +5,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { TRootState } from "../store/store";
 import { TProduct } from "../types/types";
-import { FaTh, FaThList } from "react-icons/fa";
 import useAuth from "../hooks/useAuth";
 import { Pagination } from "flowbite-react";
 import { useDispatch } from "react-redux";
@@ -14,15 +13,13 @@ import useAddToCart from "../hooks/useAddToCart";
 import useLikeProduct from "../hooks/useLikeProduct";
 import deleteProduct from "../hooks/useDeleteProduct";
 import ProductCard from "../components/ProductCard";
-
-type ViewMode = 'large' | 'compact';
+import ViewButtons from "../components/ViewButtons";
 
 const Home = () => {
+    const [viewMode, setViewMode] = useState<"large" | "compact">(
+        () => (localStorage.getItem("viewMode") as "large" | "compact") || "large"
+    );
     const [products, setProducts] = useState<TProduct[]>([]);
-    const [viewMode, setViewMode] = useState<ViewMode>(() => {
-        const saved = localStorage.getItem("viewMode");
-        return (saved === "large" || saved === "compact") ? saved : "large";
-    });
     const nav = useNavigate();
     const dispatch = useDispatch();
     const [spinner, setSpinner] = useState<boolean>(false);
@@ -32,6 +29,11 @@ const Home = () => {
     const { addToCart } = useAddToCart();
     const { state } = useLocation();
 
+    const handleViewModeChange = (mode: "large" | "compact") => {
+        setViewMode(mode);
+        localStorage.setItem("viewMode", mode);
+    };
+
     useEffect(() => {
         if (state?.error) {
             alert(state.error);
@@ -39,10 +41,6 @@ const Home = () => {
         }
     }, [state]);
 
-    const handleViewModeChange = (mode: ViewMode) => {
-        setViewMode(mode);
-        localStorage.setItem("viewMode", mode);
-    };
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -110,28 +108,8 @@ const Home = () => {
     return (
         <div className="pageDiv">
             <div className="pageTextAndButtonsDiv">
-                <div className="relative">
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 flex gap-2">
-                        <Button
-                            color={viewMode === 'large' ? 'blue' : "dark"}
-                            onClick={() => handleViewModeChange('large')}
-                            className={`flex items-center gap-2 ${viewMode === 'large' ? '' : 'dark:!text-slate-200'}`}
-                            size="sm"
-                        >
-                            <FaThList />
-                            <span className="hidden sm:inline">Large</span>
-                        </Button>
-                        <Button
-                            color={viewMode === 'compact' ? 'blue' : "dark"}
-                            onClick={() => handleViewModeChange('compact')}
-                            className={`flex items-center gap-2 ${viewMode === 'compact' ? '' :
-                                'dark:!text-slate-200'}`}
-                            size="sm"
-                        >
-                            <FaTh />
-                            <span className="hidden sm:inline">Compact</span>
-                        </Button>
-                    </div>
+                <div className="relative ">
+                    <ViewButtons viewMode={viewMode} onChange={handleViewModeChange}></ViewButtons>
                     <h1>Welcome to E-Shop</h1>
                 </div>
 
