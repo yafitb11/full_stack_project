@@ -160,9 +160,9 @@ const ProductDetails = () => {
                                 <Button
                                     color={isLiked ? "failure" : "gray"}
                                     onClick={handleLike}
-                                    className="flex items-center space-x-2"
+                                    className={`flex items-center space-x-2 ${isLiked ? "" : "bg-gray-500 hover:!bg-gray-600 !text-white hover:!text-white dark:!bg-gray-400 dark:!text-white dark:hover:!bg-gray-500"}`}
                                 >
-                                    <FaHeart className={isLiked ? "text-white" : "text-gray-500"} />
+                                    <FaHeart className={isLiked ? "text-white" : "text-white"} />
                                     <span>{isLiked ? "Unlike" : "Like"}</span>
                                 </Button>
                             )}
@@ -171,7 +171,7 @@ const ProductDetails = () => {
                                 <Button
                                     color="blue"
                                     onClick={handleAddToCart}
-                                    className="flex items-center space-x-2"
+                                    className="flex items-center space-x-2 dark:bg-blue-400"
                                 >
                                     <FaShoppingCart />
                                     <span>Add to Cart</span>
