@@ -190,16 +190,16 @@ const ProductDetails = () => {
 
                         <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
                             <div className="flex space-x-4">
-                                <Button className="dark:!bg-slate-200 dark:text-black border-black"
+                                <Button className="dark:!bg-slate-800 dark:text-slate-200 dark:border-white"
                                     onClick={() => navigate(-1)}>
                                     ← Back to Products
                                 </Button>
                                 {user && user.isAdmin && (
                                     <>
-                                        <Button color="blue" className=" dark:!bg-slate-800 dark:text-slate-200 border-white" onClick={() => navigate(`/edit-product/${product._id}`)}>
+                                        <Button color="blue" className="dark:!bg-slate-200 dark:text-black dark:border-black" onClick={() => navigate(`/edit-product/${product._id}`)}>
                                             Edit Product
                                         </Button>
-                                        <Button color="blue" className=" dark:!bg-slate-800 dark:text-slate-200 border-white" onClick={() => handleDeleteProduct(product._id)}>
+                                        <Button color="blue" className="dark:!bg-slate-200 dark:text-black dark:border-black" onClick={() => handleDeleteProduct(product._id)}>
                                             Delete Product
                                         </Button>
                                     </>

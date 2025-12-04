@@ -108,15 +108,14 @@ const CategoryProducts = () => {
                 </p>
                 <div className="pageAdminButtonsDiv gap-4 flex-wrap">
                     <Link to="/categories">
-                        <Button className="dark:!bg-slate-200 dark:text-black border-black">
+                        <Button color="blue" className="dark:!bg-slate-800 dark:text-slate-200 dark:border-white">
                             ← Back to All Categories
                         </Button>
                     </Link>
                     {user && user.isAdmin && (
                         <Button
-                            color="blue"
                             onClick={() => nav(`/create-product?category=${category.title}`)}
-                            className="flex items-center space-x-2 dark:!bg-slate-800 dark:text-slate-200 border-white"
+                            className="flex items-center space-x-2 dark:!bg-slate-200 dark:text-black dark:border-black"
                         >
                             <span>+</span>
                             <span>Add Product to {category.title}</span>
