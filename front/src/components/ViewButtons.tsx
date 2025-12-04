@@ -15,7 +15,7 @@ const ViewButtons = ({ viewMode, onChange }: ViewButtonsProps) => {
             <Button
                 color={viewMode === 'large' ? 'blue' : 'dark'}
                 onClick={() => onChange('large')}
-                className={`flex items-center gap-2 ${viewMode === 'large' ? '' : 'dark:!text-slate-200'}`}
+                className={`flex items-center gap-2 ${viewMode === 'large' ? '' : 'hover:!bg-slate-600 dark:!text-slate-200'}`}
                 size="sm"
             >
                 <FaThList />
@@ -24,7 +24,7 @@ const ViewButtons = ({ viewMode, onChange }: ViewButtonsProps) => {
             <Button
                 color={viewMode === 'compact' ? 'blue' : 'dark'}
                 onClick={() => onChange('compact')}
-                className={`flex items-center gap-2 ${viewMode === 'compact' ? '' : 'dark:!text-slate-200'}`}
+                className={`flex items-center gap-2 ${viewMode === 'compact' ? '' : 'hover:!bg-slate-600 dark:!text-slate-200'}`}
                 size="sm"
             >
                 <FaTh />
