@@ -10,6 +10,7 @@ import axios from "axios";
 import useAuth from "../hooks/useAuth";
 import { TRootState } from "../store/store";
 import { cartActions } from "../store/cartSlice";
+import { GiShop } from "react-icons/gi";
 
 const Header = () => {
     const dispatch = useDispatch();
@@ -132,9 +133,10 @@ const Header = () => {
                 className="!px-5 xs:pb-1 bg-slate-500 dark:bg-slate-900 border-b border-slate-700"
             >
                 {/* לוגו */}
-                <Navbar.Brand as={Link} to={"/"} className="text-white">
-                    <span className="self-center whitespace-nowrap text-2xl font-semibold hover:text-cyan-700 dark:hover:text-cyan-300">
-                        E-Shop
+                <Navbar.Brand as={Link} to={"/"} className="text-white hover:text-cyan-400 dark:hover:text-cyan-500">
+                    <GiShop size={32} className="mr-1" />
+                    <span className="self-center whitespace-nowrap text-2xl font-bold hover:text-cyan-400 dark:hover:text-cyan-500">
+                        E-SHOP
                     </span>
                 </Navbar.Brand>
 
@@ -149,11 +151,11 @@ const Header = () => {
                 </Navbar.Brand>
 
                 <div className="flex items-center justify-center gap-5 xs:w-[100%] xs:mt-1 ">
-                    <Link to="/profile" className="text-white hover:text-cyan-700 dark:hover:text-cyan-300">
+                    <Link to="/profile" className="text-white hover:text-cyan-400 dark:hover:text-cyan-500">
                         <IoPersonSharp className="w-7 h-7" />
                     </Link>
 
-                    <Link to="/cart" className="text-white hover:text-cyan-700 dark:hover:text-cyan-300 relative">
+                    <Link to="/cart" className="text-white hover:text-cyan-400 dark:hover:text-cyan-500 relative">
                         <IoCartSharp className="w-7 h-7" />
                         {totalItems > 0 && (
                             <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">

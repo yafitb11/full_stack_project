@@ -149,3 +149,10 @@ npm run dev
 # 📄 License
 
 This project is for educational and portfolio purposes.
+
+---
+# **Important Notes**:
+
+* The search filter filters products on the Home-page, Favorites page, and ManageUsers page. I didn't add a search filter on the CategoryProducts page.
+
+* To avoid exposing my personal details, I created a dummy file for the production configuration. I will add my username and password when submitting the project.
