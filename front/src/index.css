@@ -27,7 +27,11 @@
   @apply text-center mb-8;
 }
 
-.pageTextAndButtonsDiv>h1{
+.viewButtonsDiv{
+  @apply flex gap-2 mb-4;
+}
+
+.pageTextAndButtonsDiv h1{
   @apply text-4xl font-bold text-gray-900 dark:text-white mb-4;
   background: linear-gradient(120deg, var(--primary-neon), var(--primary-electric), var(--primary-magenta));
      -webkit-background-clip: text;
@@ -105,7 +109,7 @@
   transform: scale(1.05);
 }
 .textDiv{
-  @apply flex-1 overflow-y-auto overflow-x-hidden min-h-0 px-6 py-0 break-words text-slate-900 dark:text-slate-100;
+  @apply flex-1 overflow-y-auto overflow-x-hidden min-h-0 px-6 py-0 text-slate-900 dark:text-slate-100;
 }
 .textDiv>h3{
   @apply text-lg font-semibold text-slate-900 dark:text-slate-100;
@@ -136,3 +140,23 @@ overflow:hidden!important;
 gap:10px!important; 
 }
  
+/*colormix for compact cards*/
+.colorMix{
+   background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(238, 243, 255, 0.65));
+  border: 1px solid rgba(124, 93, 255, 0.15);
+  box-shadow: 0 10px 35px rgba(15, 23, 42, 0.08);
+  transition: transform 250ms ease, box-shadow 250ms ease;
+}
+
+.dark .colorMix {
+    background: linear-gradient(145deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.95));
+    border-color: rgba(80, 240, 255, 0.25);
+    box-shadow: 0 10px 35px rgba(2, 6, 23, 0.9), 
+                0 0 0 1px rgba(124, 93, 255, 0.1);
+  }
+
+  
+.colorMix:hover{
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: var(--shadow-glow);
+}

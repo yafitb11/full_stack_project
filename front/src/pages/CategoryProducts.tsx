@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { Card, Button, Spinner } from "flowbite-react";
+import { Button, Spinner } from "flowbite-react";
 import { TProduct, TCategory } from "../types/types";
-import { FaHeart, FaShoppingCart, FaTrash } from "react-icons/fa";
-import { MdEdit } from "react-icons/md";
+import { FaTh, FaThList } from "react-icons/fa";
 import axios from "axios";
 import useAuth from "../hooks/useAuth";
 import useAddToCart from "../hooks/useAddToCart";
 import useLikeProduct from "../hooks/useLikeProduct";
 import deleteProduct from "../hooks/useDeleteProduct";
+import ProductCard from "../components/ProductCard";
+type ViewMode = 'large' | 'compact';
 
 const CategoryProducts = () => {
     const { categoryId } = useParams<{ categoryId: string }>();
@@ -19,12 +20,20 @@ const CategoryProducts = () => {
     const { user } = useAuth();
     const { addToCart } = useAddToCart();
     const { toggleLike } = useLikeProduct();
+    const [viewMode, setViewMode] = useState<ViewMode>(() => {
+        const saved = localStorage.getItem("viewMode");
+        return (saved === "large" || saved === "compact") ? saved : "large";
+    });
+
+    const handleViewModeChange = (mode: ViewMode) => {
+        setViewMode(mode);
+        localStorage.setItem("viewMode", mode);
+    };
 
     useEffect(() => {
         const fetchCategoryAndProducts = async () => {
             try {
                 setSpinner(true);
-                // Fetch category details
                 const categoryResponse = await axios.get(
                     `http://localhost:8182/categories/${categoryId}?populate=true`
                 );
@@ -100,12 +109,32 @@ const CategoryProducts = () => {
     return (
         <div className="pageDiv">
             <div className="pageTextAndButtonsDiv">
-                <h1>
-                    {category.title}
-                </h1>
-                <p>
-                    {category.description}
-                </p>
+                <div className="relative">
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 flex gap-2">
+                        <Button
+                            color={viewMode === 'large' ? 'blue' : "dark"}
+                            onClick={() => handleViewModeChange('large')}
+                            className={`flex items-center gap-2 ${viewMode === 'large' ? '' : 'dark:!text-slate-200'}`}
+                            size="sm"
+                        >
+                            <FaThList />
+                            <span className="hidden sm:inline">Large</span>
+                        </Button>
+                        <Button
+                            color={viewMode === 'compact' ? 'blue' : "dark"}
+                            onClick={() => handleViewModeChange('compact')}
+                            className={`flex items-center gap-2 ${viewMode === 'compact' ? '' :
+                                'dark:!text-slate-200'}`}
+                            size="sm"
+                        >
+                            <FaTh />
+                            <span className="hidden sm:inline">Compact</span>
+                        </Button>
+                    </div>
+                    <h1>{category.title}</h1>
+                </div>
+                <p>{category.description} </p>
+
                 <div className="pageAdminButtonsDiv gap-4 flex-wrap">
                     <Link to="/categories">
                         <Button color="blue" className="dark:!bg-slate-800 dark:text-slate-200 dark:border-white">
@@ -125,84 +154,21 @@ const CategoryProducts = () => {
             </div>
 
             {products.length > 0 ? (
-                <div className="pageCardsDiv">
-                    {products.map((product) => {
-                        const isLiked = user ? product.likes.includes(user._id) : false;
-                        return (
-                            <Card key={product._id} className="mycard">
-                                <div className="imageDiv">
-                                    <img
-                                        src={product.image.url}
-                                        alt={product.image.alt}
-                                    />
-                                </div>
-
-                                <div className="textDiv">
-                                    <h3 className="!text-2xl font-bold text-gray-900 dark:text-white mt-2">
-                                        {product.title}
-                                    </h3>
-                                    <h3 className="!text-lg font-semibold text-gray-900 dark:text-white">
-                                        {product.subtitle}
-                                    </h3>
-
-                                    <div className="!mt-[6px]">
-                                        <span className={`font-bold ${product.isDiscount ? "text-xl text-blue-400 dark:text-blue-300" : "text-2xl text-blue-600 dark:text-blue-400"}`}>
-                                            ${product.price}
-                                        </span>
-                                        <span className="text-sm text-gray-400">
-                                            {product.likes.length} likes
-                                        </span>
-                                    </div>
-                                    {product.isDiscount && (
-                                        <p className="text-xl font-bold text-blue-600 mt-1 dark:text-blue-400">
-                                            Now in discount ${product.discountedPrice} !
-                                        </p>
-                                    )}
-
-                                    <p className="text-gray-600 dark:text-gray-300 mt-[6px]">
-                                        {product.description}
-                                    </p>
-                                </div>
-
-                                <div className="cardButtonsDiv">
-                                    <Button
-                                        color="blue"
-                                        onClick={() => nav(`/product/${product._id}`)}
-                                    >
-                                        View Details
-                                    </Button>
-                                    <div className="flex space-x-2">
-                                        {user && user.isAdmin && (
-                                            <>
-                                                <MdEdit
-                                                    className="text-black dark:text-white cursor-pointer text-2xl hover:text-green-500 dark:hover:text-green-500"
-                                                    onClick={() => nav(`/edit-product/${product._id}`)}
-                                                    title="Edit product"
-                                                />
-                                                <FaTrash
-                                                    className="text-black dark:text-white cursor-pointer text-xl hover:text-red-600 dark:hover:text-red-600"
-                                                    onClick={() => handleDeleteProduct(product._id)}
-                                                    title="Delete product"
-                                                />
-                                            </>
-                                        )}
-                                        {user && !user.isAdmin && (
-                                            <>
-                                                <FaHeart
-                                                    className={`${isLiked ? "text-red-500" : "text-gray-500"} cursor-pointer text-xl`}
-                                                    onClick={() => handleLike(product._id)}
-                                                />
-                                                <FaShoppingCart
-                                                    className="text-blue-500 cursor-pointer text-xl"
-                                                    onClick={() => addToCart(product)}
-                                                />
-                                            </>
-                                        )}
-                                    </div>
-                                </div>
-                            </Card>
-                        );
-                    })}
+                <div className={viewMode === 'large' ? "pageCardsDiv" : "flex justify-center flex-wrap !gap-7"}>
+                    {products.map((product) => (
+                        <ProductCard
+                            key={product._id}
+                            product={product}
+                            variant={viewMode}
+                            isLiked={user ? product.likes.includes(user._id) : false}
+                            onLike={() => handleLike(product._id)}
+                            onDelete={() => handleDeleteProduct(product._id)}
+                            onAddToCart={() => addToCart(product)}
+                            onEdit={() => nav(`/edit-product/${product._id}`)}
+                            onNavigate={() => nav(`/product/${product._id}`)}
+                            isAdmin={user?.isAdmin || false}
+                        />
+                    ))}
                 </div>
             ) : (
                 <div className="text-center py-12">
