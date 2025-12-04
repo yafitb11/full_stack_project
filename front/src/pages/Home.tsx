@@ -150,33 +150,34 @@ const Home = () => {
                             </div>
 
                             <div className="textDiv">
-                                <p className="text-gray-800 dark:text-gray-400 mb-3">
+                                <p className="text-gray-800 dark:text-gray-400 mb-2">
                                     {(product.category_id as TCategory)?.title}
                                 </p>
-                                <h3 className="!text-xl font-semibold text-gray-900 dark:text-white">
+                                <h3 className="!text-2xl font-bold text-gray-900 dark:text-white">
                                     {product.title}
                                 </h3>
                                 <h3 className="!text-lg font-semibold text-gray-900 dark:text-white">
                                     {product.subtitle}
                                 </h3>
-                                <p className="text-gray-600 dark:text-gray-300 mt-1">
-                                    {product.description}
-                                </p>
 
-                                <div>
+                                <div className="!mt-[6px]">
                                     <span className={`font-bold ${product.isDiscount ? "text-xl text-blue-400 dark:text-blue-700" : "text-2xl text-blue-600 dark:text-blue-400"}`}>
                                         ${product.price}
                                     </span>
-                                    <span className="text-sm text-gray-500">
+                                    <span className="text-sm text-gray-400">
                                         {product.likes.length} likes
                                     </span>
                                 </div>
 
                                 {product.isDiscount && (
-                                    <p className="text-2xl font-bold text-blue-600 mt-2 dark:text-blue-400">
+                                    <p className="text-2xl font-bold text-blue-600 mt-1 dark:text-blue-400">
                                         In discount ${product.discountedPrice} !
                                     </p>
                                 )}
+
+                                <p className="text-gray-600 dark:text-gray-300 mt-[6px]">
+                                    {product.description}
+                                </p>
                             </div>
 
                             <div className="cardButtonsDiv">
