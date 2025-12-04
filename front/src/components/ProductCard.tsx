@@ -8,7 +8,7 @@ interface ProductCardProps {
     variant: 'large' | 'compact';
     isLiked: boolean;
     onLike: () => void;
-    onDelete: () => void;
+    onDelete?: () => void;
     onAddToCart: () => void;
     onEdit: () => void;
     onNavigate: () => void;
@@ -51,7 +51,7 @@ const ProductCard = ({ product, variant, isLiked, onLike, onDelete, onAddToCart,
                                     className="text-black dark:text-white cursor-pointer text-base hover:text-red-600 dark:hover:text-red-600"
                                     onClick={(e) => {
                                         e.stopPropagation();
-                                        onDelete();
+                                        onDelete?.();
                                     }}
                                     title="Delete product"
                                 />

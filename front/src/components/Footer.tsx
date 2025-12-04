@@ -11,7 +11,7 @@ const Footer = () => {
     return (
         <div className="p-4 flex items-center justify-around bg-slate-500 text-white dark:bg-slate-900 dark:text-gray-400">
 
-            <div className="flex gap-1">
+            <div className="flex gap-1 xs:flex-col xs:items-center">
                 <IoInformationCircleSharp
                     onClick={linkToAbout}
                     className="text-2xl cursor-pointer text-white hover:text-cyan-400 transition-colors dark:text-gray-400 dark:hover:text-white"
@@ -24,7 +24,7 @@ const Footer = () => {
                 </h3>
             </div>
 
-            <div className="flex gap-1 items-center">
+            <div className="flex gap-1 xs:flex-col xs:items-center">
                 <AiOutlineCopyrightCircle
                     className="text-2xl text-white hover:text-cyan-400 transition-colors dark:text-gray-400 dark:hover:text-white"
                 />
@@ -34,7 +34,7 @@ const Footer = () => {
                 </div>
             </div>
 
-            <div className="flex gap-1">
+            <div className="flex gap-1 xs:flex-col xs:items-center">
                 <AiOutlineMail
                     onClick={linkToContact}
                     className="text-2xl cursor-pointer text-white hover:text-cyan-400 transition-colors dark:text-gray-400 dark:hover:text-white"

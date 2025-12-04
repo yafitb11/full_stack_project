@@ -161,7 +161,7 @@ const Home = () => {
                 ))}
             </div>
 
-            <div className="flex overflow-x-auto sm:justify-center mt-8">
+            <div className="flex overflow-x-auto justify-center mt-8">
                 <Pagination
                     currentPage={currentPage}
                     totalPages={totalPages}

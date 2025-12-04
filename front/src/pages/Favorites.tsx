@@ -1,19 +1,23 @@
 import axios from "axios";
-import { Button, Card, Spinner } from "flowbite-react";
+import { Button, Spinner } from "flowbite-react";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { TRootState } from "./../store/store";
 import { TProduct } from "../types/types";
 import useAuth from "../hooks/useAuth";
-import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { Pagination } from "flowbite-react";
 import { searchActions } from "../store/searchSlice";
 import { useDispatch } from "react-redux";
 import useLikeProduct from "../hooks/useLikeProduct";
 import useAddToCart from "../hooks/useAddToCart";
+import ViewButtons from "../components/ViewButtons";
+import ProductCard from "../components/ProductCard";
 
 const Favorites = () => {
+    const [viewMode, setViewMode] = useState<"large" | "compact">(
+        () => (localStorage.getItem("viewMode") as "large" | "compact") || "large"
+    );
     const [products, setProducts] = useState<TProduct[]>([]);
     const [spinner, setSpinner] = useState<boolean>(false);
     const nav = useNavigate();
@@ -22,6 +26,11 @@ const Favorites = () => {
     const dispatch = useDispatch();
     const { user } = useAuth();
     const { addToCart } = useAddToCart();
+
+    const handleViewModeChange = (mode: "large" | "compact") => {
+        setViewMode(mode);
+        localStorage.setItem("viewMode", mode);
+    };
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -69,7 +78,10 @@ const Favorites = () => {
     return (
         <div className="pageDiv">
             <div className="pageTextAndButtonsDiv">
-                <h1>My Favorites</h1>
+                <div className="relative ">
+                    <ViewButtons viewMode={viewMode} onChange={handleViewModeChange}></ViewButtons>
+                    <h1>My Favorites</h1>
+                </div>
                 <p>All the items you liked in one curated list.</p>
             </div>
 
@@ -104,64 +116,23 @@ const Favorites = () => {
 
             {!spinner && user && paginatedProducts.length > 0 && (
                 <>
-                    <div className="pageCardsDiv">
-                        {paginatedProducts.map((product) => {
-                            const isLiked = product.likes.includes(user._id);
-                            return (
-                                <Card key={product._id} className="mycard">
-                                    <div className="imageDiv">
-                                        <img
-                                            src={product.image.url}
-                                            alt={product.image.alt}
-                                        />
-                                    </div>
-
-                                    <div className="textDiv !py-4">
-                                        <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                                            {product.title}
-                                        </h3>
-                                        <p className="text-gray-600 dark:text-gray-400 mt-1 line-clamp-2">
-                                            {product.description}
-                                        </p>
-
-                                        <div>
-                                            <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                                                ${product.price}
-                                            </span>
-                                            <span className="text-sm text-gray-500">
-                                                {product.likes.length} likes
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <div className="cardButtonsDiv">
-                                        <Button
-                                            color="blue"
-                                            onClick={() => nav(`/product/${product._id}`)}
-                                        >
-                                            View Details
-                                        </Button>
-                                        {user && (
-                                            <div className="flex space-x-2">
-                                                <FaHeart
-                                                    className={`${isLiked ? "text-red-500" : "text-gray-500"} cursor-pointer text-xl`}
-                                                    onClick={() => unlikeProduct(product._id)}
-                                                />
-                                                {!user.isAdmin && (
-                                                    <FaShoppingCart
-                                                        className="text-blue-500 cursor-pointer text-xl"
-                                                        onClick={() => addToCart(product)}
-                                                    />
-                                                )}
-                                            </div>
-                                        )}
-                                    </div>
-                                </Card>
-                            );
-                        })}
+                    <div className={viewMode === 'large' ? "pageCardsDiv" : "flex justify-center flex-wrap !gap-7"}>
+                        {products && paginatedProducts.map((product) => (
+                            <ProductCard
+                                key={product._id}
+                                product={product}
+                                variant={viewMode}
+                                isLiked={user ? product.likes.includes(user._id) : false}
+                                onLike={() => unlikeProduct(product._id)}
+                                onAddToCart={() => addToCart(product)}
+                                onEdit={() => nav(`/edit-product/${product._id}`)}
+                                onNavigate={() => nav(`/product/${product._id}`)}
+                                isAdmin={user?.isAdmin || false}
+                            />
+                        ))}
                     </div>
 
-                    <div className="flex overflow-x-auto sm:justify-center mt-8">
+                    <div className="flex overflow-x-auto justify-center mt-8">
                         <Pagination
                             currentPage={currentPage}
                             totalPages={totalPages}

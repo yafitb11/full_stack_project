@@ -139,7 +139,7 @@ const ManageUsers = () => {
                 })}
             </div>
 
-            <div className="flex overflow-x-auto sm:justify-center mt-8">
+            <div className="flex overflow-x-auto justify-center mt-8">
                 <Pagination currentPage={currentPage} totalPages={Math.ceil(filteredUsers.length / 12)} onPageChange={(page) => dispatch(searchActions.setCurrentPage(page))} />
             </div>
         </div>
