@@ -109,7 +109,7 @@
   transform: scale(1.05);
 }
 .textDiv{
-  @apply flex-1 overflow-y-auto overflow-x-hidden min-h-0 px-6 py-0 text-slate-900 dark:text-slate-100;
+  @apply flex-1 overflow-y-auto overflow-x-hidden min-h-0 px-6 py-0 break-words text-slate-900 dark:text-slate-100;
 }
 .textDiv>h3{
   @apply text-lg font-semibold text-slate-900 dark:text-slate-100;
