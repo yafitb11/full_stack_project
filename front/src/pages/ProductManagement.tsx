@@ -44,15 +44,17 @@ const ProductManagement = () => {
 
     const calculateOrderCount = (productId: string) => {
         let count = 0;
-        orders.forEach(order => {
-            if (order.items && Array.isArray(order.items)) {
-                order.items.forEach(item => {
-                    if (item.product._id === productId) {
-                        count += item.quantity || 1;
-                    }
-                });
-            }
-        });
+        if (Array.isArray(orders) && orders.length > 0) {
+            orders.forEach(order => {
+                if (order.items && Array.isArray(order.items)) {
+                    order.items.forEach(item => {
+                        if (item.product._id === productId) {
+                            count += item.quantity || 1;
+                        }
+                    });
+                }
+            });
+        };
         return count;
     };
 
