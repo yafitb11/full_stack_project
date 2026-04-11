@@ -1,0 +1,10 @@
+{
+    "NODE_ENV": "NODE_ENV",
+    "PORT": "PORT",
+    "TOKEN_GENERATOR": "TOKEN_GENERATOR",
+    "DB_NAME": "DB_NAME",
+    "DB_PASSWORD": "DB_PASSWORD",
+    "LOGGER": "LOGGER",
+    "DB": "DB",
+    "VALIDATOR": "VALIDATOR"
+}
