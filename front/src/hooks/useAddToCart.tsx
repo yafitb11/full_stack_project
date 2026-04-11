@@ -28,7 +28,6 @@ const useAddToCart = () => {
             toast.success(`${product.title} added to cart`, { autoClose: 2000 });
         }
 
-        // רק עדכון Redux - localStorage יתעדכן אוטומטית
         dispatch(cartActions.addToCart(product));
     };
 

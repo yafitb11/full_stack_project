@@ -3,12 +3,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Button, Card, TextInput, Textarea, Label } from "flowbite-react";
 import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
-import axios from "axios";
+//import axios from "axios";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { useForm } from "react-hook-form";
 import { TCategory } from "../types/types";
 import { newCategorySchema } from "../validations/newCategory.joi";
 import { TCategoryFormData } from "../types/formData";
+import api from "../api/api";
 
 export default function EditCategory() {
     const [category, setCategory] = useState<TCategory>();
@@ -21,8 +22,8 @@ export default function EditCategory() {
     useEffect(() => {
         const fetchCategoryDetails = async () => {
             try {
-                const response = await axios.get(
-                    `http://localhost:8182/categories/${id}`
+                const response = await api.get(
+                    `/categories/${id}`
                 );
                 setCategory(response.data);
             } catch (error) {
@@ -65,8 +66,8 @@ export default function EditCategory() {
         setLoading(true);
 
         try {
-            const token = localStorage.getItem("token");
-            axios.defaults.headers.common["x-auth-token"] = token;
+            // const token = localStorage.getItem("token");
+            // axios.defaults.headers.common["x-auth-token"] = token;
 
             const updatedCategory = {
                 title: data.title,
@@ -77,8 +78,8 @@ export default function EditCategory() {
                 }
             };
 
-            await axios.put(
-                `http://localhost:8182/categories/${category?._id}`,
+            await api.put(
+                `/categories/${category?._id}`,
                 updatedCategory
             );
 

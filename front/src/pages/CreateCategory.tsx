@@ -3,11 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { Button, Card, TextInput, Textarea, Label } from "flowbite-react";
 import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
-import axios from "axios";
+//import axios from "axios";
 import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { newCategorySchema } from "../validations/newCategory.joi";
 import { TCategoryFormData } from "../types/formData";
+import api from "../api/api";
 
 const CreateCategory = () => {
     const { user } = useAuth();
@@ -40,8 +41,8 @@ const CreateCategory = () => {
         setLoading(true);
 
         try {
-            const token = localStorage.getItem("token");
-            axios.defaults.headers.common["x-auth-token"] = token;
+            // const token = localStorage.getItem("token");
+            //  axios.defaults.headers.common["x-auth-token"] = token;
 
             const categoryData = {
                 title: formData.title,
@@ -52,7 +53,7 @@ const CreateCategory = () => {
                 }
             };
 
-            await axios.post("http://localhost:8182/categories", categoryData);
+            await api.post("/categories", categoryData);
 
             toast.success("Category created successfully!", { autoClose: 2000 });
             navigate("/categories");

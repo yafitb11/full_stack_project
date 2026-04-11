@@ -1,4 +1,3 @@
-import axios from "axios";
 import { Button, Spinner } from "flowbite-react";
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -14,6 +13,7 @@ import useLikeProduct from "../hooks/useLikeProduct";
 import deleteProduct from "../hooks/useDeleteProduct";
 import ProductCard from "../components/ProductCard";
 import ViewButtons from "../components/ViewButtons";
+import api from "../api/api";
 
 const Home = () => {
     const [viewMode, setViewMode] = useState<"large" | "compact">(
@@ -46,7 +46,7 @@ const Home = () => {
         const fetchProducts = async () => {
             try {
                 setSpinner(true);
-                const response = await axios.get("http://localhost:8182/products");
+                const response = await api.get("/products");
                 setProducts(response.data);
             } catch (error) {
                 console.error("Error fetching products:", error);

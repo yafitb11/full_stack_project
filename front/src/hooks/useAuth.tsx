@@ -1,10 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import { TRootState } from "../store/store";
-import axios from "axios";
+//import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "react-toastify";
 import { userActions } from "../store/userSlice";
 import { useNavigate } from "react-router-dom";
+import api from "../api/api";
 
 const useAuth = () => {
     const user = useSelector((state: TRootState) => state.userSlice.user);
@@ -18,10 +19,10 @@ const useAuth = () => {
             const parsedToken = jwtDecode(token) as {
                 _id: string;
             };
-            axios.defaults.headers.common["x-auth-token"] = token;
+            //     axios.defaults.headers.common["x-auth-token"] = token;
             try {
-                const response = await axios.get(
-                    "http://localhost:8182/users/" +
+                const response = await api.get(
+                    "/users/" +
                     parsedToken._id,
                 );
 
@@ -36,8 +37,8 @@ const useAuth = () => {
 
     const login = async (form: { email: string, password: string }) => {
         try {
-            const token = await axios.post(
-                "http://localhost:8182/users/login",
+            const token = await api.post(
+                "/users/login",
                 form,
             );
             localStorage.setItem("token", token.data);

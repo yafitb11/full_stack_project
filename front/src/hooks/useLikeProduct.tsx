@@ -1,10 +1,11 @@
-import axios from "axios";
+//import axios from "axios";
 import { toast } from "react-toastify";
 import useAuth from "./useAuth";
+import api from "../api/api";
 
 const useLikeProduct = () => {
     const { user } = useAuth();
-    const token = localStorage.getItem("token");
+    // const token = localStorage.getItem("token");
 
     const toggleLike = async (productId: string, isLiked: boolean): Promise<boolean | null> => {
         if (!user) {
@@ -13,8 +14,8 @@ const useLikeProduct = () => {
         }
 
         try {
-            axios.defaults.headers.common["x-auth-token"] = token;
-            await axios.patch(`http://localhost:8182/products/${productId}`);
+            // axios.defaults.headers.common["x-auth-token"] = token;
+            await api.patch(`/products/${productId}`);
 
             const newLikedState = !isLiked;
 

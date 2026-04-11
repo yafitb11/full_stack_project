@@ -1,4 +1,3 @@
-import axios from "axios";
 import { Button, Spinner } from "flowbite-react";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +12,7 @@ import useLikeProduct from "../hooks/useLikeProduct";
 import useAddToCart from "../hooks/useAddToCart";
 import ViewButtons from "../components/ViewButtons";
 import ProductCard from "../components/ProductCard";
+import api from "../api/api";
 
 const Favorites = () => {
     const [viewMode, setViewMode] = useState<"large" | "compact">(
@@ -36,7 +36,7 @@ const Favorites = () => {
         const fetchProducts = async () => {
             try {
                 setSpinner(true);
-                const response = await axios.get("http://localhost:8182/products");
+                const response = await api.get("/products");
 
                 const likedProducts = response.data.filter((item: TProduct) => {
                     return user ? item.likes.includes(user._id) : false;

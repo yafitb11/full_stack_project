@@ -1,4 +1,4 @@
-import axios from "axios";
+//import axios from "axios";
 import { Card, Spinner } from "flowbite-react";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { searchActions } from "../store/searchSlice";
 import useAuth from "../hooks/useAuth";
+import api from "../api/api";
 
 const ManageUsers = () => {
     const { user } = useAuth();
@@ -22,13 +23,13 @@ const ManageUsers = () => {
     const currentPage = useSelector((state: TRootState) => state.searchSlice.currentPage);
     const [reload, setReload] = useState<boolean>(false);
 
-    const token = localStorage.getItem("token");
+    //const token = localStorage.getItem("token");
     useEffect(() => {
         const getUsers = async () => {
             try {
                 setspiner(true)
-                axios.defaults.headers.common["x-auth-token"] = token;
-                const response = await axios.get("http://localhost:8182/users",);
+                //  axios.defaults.headers.common["x-auth-token"] = token;
+                const response = await api.get("/users",);
                 setUsers(response.data);
 
             } catch (error) {
@@ -60,9 +61,9 @@ const ManageUsers = () => {
 
     const deleteUser = async (id: string) => {
         try {
-            axios.defaults.headers.common["x-auth-token"] = token;
-            const response = await axios.delete(
-                `http://localhost:8182/users/${id}`);
+            //  axios.defaults.headers.common["x-auth-token"] = token;
+            const response = await api.delete(
+                `/users/${id}`);
 
             if (response.status === 200) {
                 toast.success("User deleted successfully", { autoClose: 2000, });

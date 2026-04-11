@@ -2,13 +2,13 @@ import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { Button, Spinner } from "flowbite-react";
 import { TProduct, TCategory } from "../types/types";
-import axios from "axios";
 import useAuth from "../hooks/useAuth";
 import useAddToCart from "../hooks/useAddToCart";
 import useLikeProduct from "../hooks/useLikeProduct";
 import deleteProduct from "../hooks/useDeleteProduct";
 import ProductCard from "../components/ProductCard";
 import ViewButtons from "../components/ViewButtons";
+import api from "../api/api";
 
 const CategoryProducts = () => {
     const [viewMode, setViewMode] = useState<"large" | "compact">(
@@ -32,8 +32,8 @@ const CategoryProducts = () => {
         const fetchCategoryAndProducts = async () => {
             try {
                 setSpinner(true);
-                const categoryResponse = await axios.get(
-                    `http://localhost:8182/categories/${categoryId}?populate=true`
+                const categoryResponse = await api.get(
+                    `/categories/${categoryId}?populate=true`
                 );
                 setCategory(categoryResponse.data);
 

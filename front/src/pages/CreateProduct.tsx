@@ -3,12 +3,13 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button, Card, TextInput, Textarea, Label, Radio } from "flowbite-react";
 import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
-import axios from "axios";
+//import axios from "axios";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { useForm } from "react-hook-form";
 import { newProductSchema } from "../validations/newProduct.joi";
 import { TProductFormData } from "../types/formData";
 import { TCategory } from "../types/types";
+import api from "../api/api";
 
 export default function CreateProduct() {
     const [categories, setCategories] = useState<TCategory[]>([]);
@@ -53,7 +54,7 @@ export default function CreateProduct() {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await axios.get("http://localhost:8182/categories");
+                const response = await api.get("/categories");
                 setCategories(response.data);
 
                 const categoryFromUrl = searchParams.get("category");
@@ -76,8 +77,8 @@ export default function CreateProduct() {
         setLoading(true);
 
         try {
-            const token = localStorage.getItem("token");
-            axios.defaults.headers.common["x-auth-token"] = token;
+            // const token = localStorage.getItem("token");
+            //axios.defaults.headers.common["x-auth-token"] = token;
 
             const productData = {
                 title: data.title,
@@ -96,7 +97,7 @@ export default function CreateProduct() {
                 }),
             };
 
-            await axios.post("http://localhost:8182/products", productData);
+            await api.post("/products", productData);
 
             toast.success("Product created successfully!", { autoClose: 2000 });
             navigate(-1);

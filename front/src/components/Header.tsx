@@ -6,11 +6,11 @@ import { userActions } from "../store/userSlice";
 import { searchActions } from "../store/searchSlice";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import useAuth from "../hooks/useAuth";
 import { TRootState } from "../store/store";
 import { cartActions } from "../store/cartSlice";
 import { GiShop } from "react-icons/gi";
+import api from "../api/api";
 
 const Header = () => {
     const dispatch = useDispatch();
@@ -23,7 +23,7 @@ const Header = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const { data } = await axios.get("http://localhost:8182/categories");
+                const { data } = await api.get("/categories");
                 setCategories(data);
             } catch (error) {
                 console.error("Error fetching categories:", error);

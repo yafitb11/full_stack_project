@@ -1,10 +1,11 @@
-import axios from "axios";
+//import axios from "axios";
 import { Button, Card, Spinner } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { TOrder } from "../types/types";
 import useAuth from "../hooks/useAuth";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import api from "../api/api";
 
 const MyOrders = () => {
     const [orders, setOrders] = useState<TOrder[]>([]);
@@ -17,10 +18,10 @@ const MyOrders = () => {
 
             try {
                 setLoading(true);
-                const token = localStorage.getItem("token");
-                axios.defaults.headers.common["x-auth-token"] = token;
+                // const token = localStorage.getItem("token");
+                //  axios.defaults.headers.common["x-auth-token"] = token;
 
-                const response = await axios.get("http://localhost:8182/orders/my-orders");
+                const response = await api.get("/orders/my-orders");
                 setOrders(Array.isArray(response.data) ? response.data : []);
             } catch (error) {
                 console.error("Error fetching orders:", error);

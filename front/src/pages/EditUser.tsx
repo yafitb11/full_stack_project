@@ -2,13 +2,14 @@ import { joiResolver } from "@hookform/resolvers/joi";
 import { Button, Card, Label, TextInput } from "flowbite-react";
 import { useForm } from "react-hook-form";
 import { editUserSchema } from "../validations/editUser.joi";
-import axios from "axios";
+//import axios from "axios";
 import { TUserFormData } from "../types/formData";
 import { Tuser } from "../types/types";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
+import api from "../api/api";
 
 export default function EditUser() {
     const { user, autoLogIn } = useAuth();
@@ -21,8 +22,8 @@ export default function EditUser() {
         const fetchUserDetails = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get(
-                    `http://localhost:8182/users/${id}`,
+                const response = await api.get(
+                    `/users/${id}`,
                 );
                 setTargetUser(response.data);
             } catch (error) {
@@ -90,19 +91,20 @@ export default function EditUser() {
         if (!targetUser) return;
 
         setLoading(true);
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-            toast.error("User not authenticated");
-            setLoading(false);
-            return;
-        }
-
+        /*
+         const token = localStorage.getItem("token");
+ 
+         if (!token) {
+             toast.error("User not authenticated");
+             setLoading(false);
+             return;
+         }
+ */
         try {
-            axios.defaults.headers.common["x-auth-token"] = token;
+            //  axios.defaults.headers.common["x-auth-token"] = token;
 
-            const response = await axios.put(
-                `http://localhost:8182/users/${targetUser._id}`,
+            const response = await api.put(
+                `/users/${targetUser._id}`,
                 data
             );
 

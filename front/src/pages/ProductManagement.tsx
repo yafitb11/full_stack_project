@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { FaBoxOpen, FaHeart, FaShoppingCart } from 'react-icons/fa';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
-import axios from 'axios';
 import useAuth from "../hooks/useAuth";
 import { TOrder, TProduct } from "../types/types";
+import api from "../api/api";
 
 const ProductManagement = () => {
     const [products, setProducts] = useState<TProduct[]>([]);
@@ -15,7 +15,7 @@ const ProductManagement = () => {
         const fetchProducts = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get("http://localhost:8182/products");
+                const response = await api.get("/products");
                 setProducts(response.data);
             } catch (error) {
                 console.error("Error fetching products:", error);
@@ -31,7 +31,7 @@ const ProductManagement = () => {
         const fetchOrders = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get("http://localhost:8182/orders");
+                const response = await api.get("/orders");
                 setOrders(response.data);
             } catch (error) {
                 console.error("Error fetching products:", error);

@@ -2,10 +2,10 @@ import { joiResolver } from "@hookform/resolvers/joi";
 import { Button, Card, Label, TextInput } from "flowbite-react";
 import { useForm } from "react-hook-form";
 import { registerSchema } from "../validations/register.joi";
-import axios from "axios";
 import { TUserFormData } from "../types/formData";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import api from "../api/api";
 
 export default function Register() {
     const navigate = useNavigate();
@@ -38,13 +38,12 @@ export default function Register() {
         resolver: joiResolver(registerSchema),
     });
 
-    // Watch all form values to ensure validation updates properly
     watch();
 
     const submitForm = async (data: TUserFormData) => {
         try {
-            const response = await axios.post(
-                "http://localhost:8182/users", data);
+            const response = await api.post(
+                "/users", data);
 
             if (response.status === 200) {
                 toast.success("you have registered successfully", { autoClose: 2000, });

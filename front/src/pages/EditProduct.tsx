@@ -3,12 +3,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Button, Card, TextInput, Textarea, Label, Radio } from "flowbite-react";
 import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
-import axios from "axios";
+//import axios from "axios";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { useForm } from "react-hook-form";
 import { newProductSchema } from "../validations/newProduct.joi";
 import { TProductFormData } from "../types/formData";
 import { TProduct } from "../types/types";
+import api from "../api/api";
 
 export default function EditProduct() {
     const [loading, setLoading] = useState(false);
@@ -19,8 +20,8 @@ export default function EditProduct() {
     useEffect(() => {
         const fetchProductDetails = async () => {
             try {
-                const response = await axios.get(
-                    `http://localhost:8182/products/${id}`,
+                const response = await api.get(
+                    `/products/${id}`,
                 );
 
                 setProduct(response.data);
@@ -86,8 +87,8 @@ export default function EditProduct() {
         setLoading(true);
 
         try {
-            const token = localStorage.getItem("token");
-            axios.defaults.headers.common["x-auth-token"] = token;
+            //  const token = localStorage.getItem("token");
+            // axios.defaults.headers.common["x-auth-token"] = token;
 
             const productData = {
                 title: data.title,
@@ -105,7 +106,7 @@ export default function EditProduct() {
                 }),
             };
 
-            await axios.put(`http://localhost:8182/products/${product?._id}`, productData);
+            await api.put(`/products/${product?._id}`, productData);
 
             toast.success("Product updated successfully!", { autoClose: 2000 });
             navigate(-1);

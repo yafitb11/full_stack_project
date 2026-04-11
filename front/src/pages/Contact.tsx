@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { contactMessageSchema } from "../validations/newContactMessage.joi";
 import { TContactFormData } from "../types/formData";
-import axios from "axios";
+import api from "../api/api";
 
 const Contact = () => {
     const {
@@ -33,7 +33,7 @@ const Contact = () => {
                 message: formData.message
             };
 
-            await axios.post("http://localhost:8182/contactMessages", messageData);
+            await api.post("/contactMessages", messageData);
             toast.success("Message sent successfully!", { autoClose: 2000 });
             reset();
         } catch (error) {

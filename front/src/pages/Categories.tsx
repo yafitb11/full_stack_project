@@ -2,11 +2,12 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, Button } from "flowbite-react";
 import { TCategory } from "../types/types";
-import axios from "axios";
+//import axios from "axios";
 import useAuth from "../hooks/useAuth";
 import { FaTrash } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 import { toast } from "react-toastify";
+import api from "../api/api";
 
 const Categories = () => {
     const [categories, setCategories] = useState<TCategory[]>([]);
@@ -17,7 +18,7 @@ const Categories = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await axios.get("http://localhost:8182/categories");
+                const response = await api.get("/categories");
                 setCategories(response.data);
             } catch (error) {
                 console.error("Error fetching categories:", error);
@@ -29,12 +30,12 @@ const Categories = () => {
     }, []);
 
     const deleteCategory = async (categoryId: string) => {
-        const token = localStorage.getItem("token");
+        //   const token = localStorage.getItem("token");
 
         if (window.confirm("Are you sure you want to delete this category?")) {
             try {
-                axios.defaults.headers.common["x-auth-token"] = token;
-                await axios.delete(`http://localhost:8182/categories/${categoryId}`);
+                //   axios.defaults.headers.common["x-auth-token"] = token;
+                await api.delete(`/categories/${categoryId}`);
                 toast.success("Category deleted successfully", { autoClose: 2000 });
                 setCategories(prev => prev.filter(category => category._id !== categoryId));
             } catch (error) {

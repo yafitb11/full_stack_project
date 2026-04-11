@@ -2,21 +2,22 @@
 import { useState, useEffect } from "react";
 import { Card } from "flowbite-react";
 import { TContactMessage } from "../types/types";
-import axios from "axios";
+//import axios from "axios";
 import useAuth from "../hooks/useAuth";
 import { toast } from "react-toastify";
+import api from "../api/api";
 
 const ContactMessages = () => {
     const [messages, setMessages] = useState<TContactMessage[]>([]);
     const [loading, setLoading] = useState(true);
     const { user } = useAuth();
-    const token = localStorage.getItem("token");
+    // const token = localStorage.getItem("token");
     useEffect(() => {
         const getMessages = async () => {
             try {
                 setLoading(true)
-                axios.defaults.headers.common["x-auth-token"] = token;
-                const response = await axios.get("http://localhost:8182/contactMessages",);
+                // axios.defaults.headers.common["x-auth-token"] = token;
+                const response = await api.get("/contactMessages",);
                 setMessages(response.data);
 
             } catch (error) {

@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { TProduct } from "../types/types";
@@ -9,6 +8,7 @@ import useAuth from "../hooks/useAuth";
 import useAddToCart from "../hooks/useAddToCart";
 import useLikeProduct from "../hooks/useLikeProduct";
 import deleteProduct from "../hooks/useDeleteProduct";
+import api from "../api/api";
 
 const ProductDetails = () => {
     const [product, setProduct] = useState<TProduct | null>(null);
@@ -25,7 +25,7 @@ const ProductDetails = () => {
         const fetchProductDetails = async () => {
             try {
                 setLoading(true);
-                const { data: productData } = await axios.get(`http://localhost:8182/products/${id}`);
+                const { data: productData } = await api.get(`/products/${id}`);
                 setProduct(productData);
                 setCategoryName(productData.category_id?.title || "Unknown");
             } catch (error) {
