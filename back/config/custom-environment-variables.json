@@ -6,5 +6,6 @@
     "DB_PASSWORD": "DB_PASSWORD",
     "LOGGER": "LOGGER",
     "DB": "DB",
-    "VALIDATOR": "VALIDATOR"
+    "VALIDATOR": "VALIDATOR",
+    "BASE_URL": "BASE_URL"
 }

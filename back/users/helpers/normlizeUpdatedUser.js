@@ -1,5 +1,5 @@
 const config = require("config");
-const port = config.get("PORT");
+const baseUrl = config.get("BASE_URL");
 
 const normalizeUpdatedUser = (updatedUser) => {
     const normalizedUser = { ...updatedUser };
@@ -14,7 +14,7 @@ const normalizeUpdatedUser = (updatedUser) => {
     if (updatedUser.image) {
         normalizedUser.image = {
             url:
-                updatedUser.image.url || `http://localhost:${port}/public/grayUser.jpg`,
+                updatedUser.image.url || `${baseUrl}/public/grayUser.jpg`,
             alt: updatedUser.image.alt || "normalizedUser image"
         };
     }

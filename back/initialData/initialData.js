@@ -1,5 +1,5 @@
 const config = require("config");
-const port = config.get("PORT");
+const baseUrl = config.get("BASE_URL");
 
 module.exports = {
     "users": [
@@ -19,7 +19,7 @@ module.exports = {
                 "zip": "1234"
             },
             "image": {
-                "url": `http://localhost:${port}/public/grayUser.JPG`,
+                "url": `${baseUrl}/public/grayUser.JPG`,
                 "alt": "user-pic"
             }
         },
@@ -40,7 +40,7 @@ module.exports = {
                 "zip": "2233"
             },
             "image": {
-                "url": `http://localhost:${port}/public/grayUser.JPG`,
+                "url": `${baseUrl}/public/grayUser.JPG`,
                 "alt": "user-pic"
             }
         },
@@ -61,7 +61,7 @@ module.exports = {
                 "zip": "1122"
             },
             "image": {
-                "url": `http://localhost:${port}/public/grayUser.JPG`,
+                "url": `${baseUrl}/public/grayUser.JPG`,
                 "alt": "user-pic"
             }
         }
@@ -71,7 +71,7 @@ module.exports = {
             "title": "Electronics (initial-data)",
             "description": "this category is made for the initial-data products, in case there are no other products in store",
             "image": {
-                "url": `http://localhost:${port}/public/electronics.jpg`,
+                "url": `${baseUrl}/public/electronics.jpg`,
                 "alt": "electronics"
             }
         }
@@ -82,7 +82,7 @@ module.exports = {
             "subtitle": "our premium laptop",
             "description": "this is the first product in the initial-data category in the storePremiup laptop with very high preformance. 16GB RAM.",
             "image": {
-                "url": `http://localhost:${port}/public/laptops.JPG`,
+                "url": `${baseUrl}/public/laptops.JPG`,
                 "alt": "laptop"
             },
             "quantityInStock": 5,
@@ -94,7 +94,7 @@ module.exports = {
             "subtitle": "Our best selling TV",
             "description": "Experience crystal-clear picture and vibrant colors with this 55-inch Smart LED TV. Perfect for movies, gaming, and streaming your favorite shows.",
             "image": {
-                "url": `http://localhost:${port}/public/TVs.JPG`,
+                "url": `${baseUrl}/public/TVs.JPG`,
                 "alt": "television"
             },
             "quantityInStock": 7,
@@ -107,7 +107,7 @@ module.exports = {
             "subtitle": "27 inch full HD Monitor",
             "description": "Enhance your productivity with this advanced monitor. Features ultra-sharp display, fast response time, and adjustable stand for comfortable viewing. Ideal for work, gaming, or entertainment.",
             "image": {
-                "url": `http://localhost:${port}/public/screen1s.JPG`,
+                "url": `${baseUrl}/public/screen1s.JPG`,
                 "alt": "monitor"
             },
             "quantityInStock": 12,
